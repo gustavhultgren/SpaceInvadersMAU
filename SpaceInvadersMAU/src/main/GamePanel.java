@@ -167,7 +167,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private void initImages() {
 		try {
-			heartImage = ImageIO.read(new File("Images/Hjärta.png"));
+			heartImage = ImageIO.read(new File("src/resources/Hjärta.png"));
 			resize(heartImage, 32, 32);
 		} 
 		catch (IOException e1) {
@@ -186,9 +186,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private void initFonts() {
 		try {
-			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/ARCADE_I.TTF")).deriveFont(25f);
+			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/ARCADE_I.TTF")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/ARCADE_I.TTF")));
 		} 
 		catch(IOException e) {
 			e.printStackTrace();
