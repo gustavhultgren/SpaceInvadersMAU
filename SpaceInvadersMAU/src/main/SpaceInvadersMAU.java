@@ -3,7 +3,11 @@ package main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-
+/**
+ * 
+ * @author Tom
+ *
+ */
 public class SpaceInvadersMAU extends JFrame {
 	
 	public static void main(String[] args) {
