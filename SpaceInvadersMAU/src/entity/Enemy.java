@@ -5,6 +5,12 @@ import java.util.Random;
 
 import main.GamePanel;
 
+/**
+ * This class represents a enemy. 
+ * A enemy moves left and right. Each time one enemy hits a "wall" 
+ * all the enemies moves down 15 pixels.
+ * @author Gustav Hultgren
+ */
 public class Enemy {
 
 	//FIELDS
@@ -13,15 +19,21 @@ public class Enemy {
 	private int r;
 
 	private double dx;
-	//	private double rad;
 	private double speed;
 
 	private boolean dead;
 
+	//This variables is used for enemy firing.
 	private boolean firing;
 	private long firingTimer;
 	private long firingDelay;
 
+	/**
+	 * When a Enemy-object is created it gets a x-value and y-value. 
+	 * The firing delay is also set.
+	 * @param x - where the Enemy is created on x-axis.
+	 * @param y - where the Enemy is created on x-axis.
+	 */
 	public Enemy(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -47,20 +59,27 @@ public class Enemy {
 
 	public void hit() { dead = true; }
 
+	//Used to handle player - enemy collision.
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 20, 20);
 	}
 
+	/**
+	 * This method is called in class GamePanel to update the enemy.
+	 * @param direction - sets the direction of enemy. + for right and - for left.
+	 * @param isShooter
+	 */
 	public void act(int direction, boolean isShooter) {
 		this.x += direction;
 
 		if(firing) {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if(elapsed > firingDelay) {
-				
+
 				firingTimer = System.nanoTime();
 				if (isShooter) {
-				GamePanel.bombs.add(new EnemyBomb(270, x, y));
+					//Adding enemy bombs to list which is then drawn onto the panel.
+					GamePanel.bombs.add(new EnemyBomb(270, x, y));
 				}
 			}
 		}

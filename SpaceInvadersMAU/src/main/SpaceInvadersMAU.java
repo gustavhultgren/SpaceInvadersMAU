@@ -1,12 +1,10 @@
 package main;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+
 /**
- * 
- * @author Tom
- *
+ * This class contains the main thread.
+ * @author Gustav Hultgren
  */
 public class SpaceInvadersMAU extends JFrame {
 	

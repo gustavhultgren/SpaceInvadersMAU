@@ -27,6 +27,12 @@ import entity.EnemyBomb;
 import entity.Missile;
 import entity.Player;
 
+/**
+ * This class represents a GamePanel. 
+ * The GamePanel is responsible to update, render and draw game object.
+ * The plan is to handle all game logic in one separate class.
+ * @author Gustav Hultgren
+ */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	private static final long serialVersionUID = 8281174180155475994L;
@@ -67,6 +73,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private BufferedImage heartImage;
 	private BufferedImage dimg;
 
+	/**
+	 * Creates a GamePanel-object. 
+	 */
 	public GamePanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -99,6 +108,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
+		//Adding enemies to the list and sets each enemies X and Y-value so it looks good.
 		for (int i = 0; i < 4; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
@@ -121,7 +131,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		long targetTime = 1000 / FPS;
 
-		// GAME LOOP
+		/**
+		 * This is the game loop. It updates, render and draws all the game objects.
+		 */
 		while (running) {
 
 			startTime = System.nanoTime();
@@ -169,7 +181,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	private void initImages() {
 		try {
-			heartImage = ImageIO.read(new File("src/resources/hjarta.png"));
+			heartImage = ImageIO.read(new File("src/resources/Hjärta.png"));
 			resize(heartImage, 32, 32);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -185,6 +197,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		return dimg;
 	}
 
+	/**
+	 * This method allows the usage of custom fonts.
+	 */
 	private void initFonts() {
 		try {
 			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/ARCADE_I.TTF")).deriveFont(25f);
@@ -198,6 +213,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	}
 
+	/**
+	 * This method is updating all game objects. Basically creates animation.
+	 */
 	private void gameUpdate() {
 
 		// Updating player:
@@ -221,7 +239,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			}
 		}
 
-		
+		/**
+		 * This section is written by Tom Eriksson and Gustav Hultgren.
+		 * This specific section ends where: "-------..." is.
+		 */
 		int biggestRow = 0;
 		for (LinkedList<Enemy> list : enemies) {
 			if (list.size() > biggestRow) {
@@ -230,13 +251,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		}
 
 		int selectedColumn = rand.nextInt(biggestRow);
-		
-		
+
+
 		boolean isShooter = false;
 
 		for (int i = 0; i < enemies.size(); i++) {
 			for (int j = 0; j < enemies.get(i).size(); j++) {
-				
+
 				int counter = 0;
 				for (int h = 0; h < enemies.size(); h++) {
 					for(int g = 0; g < enemies.get(h).size(); g++) {
@@ -245,7 +266,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 						}
 					}
 				}
-				
+
 				if(j == selectedColumn && i == counter) {
 					isShooter = true;
 					enemies.get(i).get(j).act(direction, isShooter);
@@ -253,7 +274,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 				}else {
 					enemies.get(i).get(j).act(direction, isShooter);
 				}
-				
+
 				int x = enemies.get(i).get(j).getX();
 
 				if (x >= WIDTH - 23 && direction != -1) {
@@ -282,6 +303,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 				}
 			}
 		}
+		//----------------------------------------------------
 
 		// Check for player missile - enemy collision:
 		for (int i = 0; i < missiles.size(); i++) {
@@ -328,6 +350,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	}
 
+	/**
+	 * This method is rendering all game objects. Basically it draws the player,
+	 * enemy/enemies, enemy bombs etc. 
+	 */
 	private void gameRender() {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -384,10 +410,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 				g.setColor(Color.GRAY);
 				g.fillRect(elem.getX(), elem.getY(), 20, 20);
 			}
-
 		}
 	}
 
+	/**
+	 * The keyPressed and keyReleased-method is responsible 
+	 * to handle key events to make the player move and fire missiles.
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}

@@ -8,6 +8,12 @@ import java.awt.Rectangle;
 import entity.Missile;
 import main.GamePanel;
 
+/**
+ * This class represents a player.
+ * A player can move left and right. A player can launch missiles to 
+ * shoot down enemies. A player can loose lives and gain score.
+ * @author Gustav Hultgren
+ */
 public class Player {
 
 	//FIELDS
@@ -26,10 +32,17 @@ public class Player {
 	private long firingDelay;
 
 	private Color playerColor;
-	
+
 	private int score;
 	private int lives;
 
+	/**
+	 * Creates a player object.
+	 * Sets the players speed to 3, firing delay to 700 milliseconds,
+	 * color to white, score to 0 and lives to 3.
+	 * @param x - where the player is created on the x-axis.
+	 * @param y - where the player is created on the y-axis.
+	 */
 	public Player(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -43,7 +56,7 @@ public class Player {
 		firingDelay = 700;
 
 		playerColor = Color.WHITE;
-		
+
 		score = 0;
 		lives = 3;
 
@@ -62,32 +75,37 @@ public class Player {
 	public void setFiring(boolean b) {
 		firing = b; 
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
-	
+
 	public void addScore(int increment) {
 		score += increment;
 	}
-	
+
 	public int getLives() {
 		return lives;
 	}
-	
+
 	public void loseLife() {
 		lives--;
 	}
-	
+
 	public boolean isDead() {
 		return lives <= 0;
 	}
-	
+
+	//This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
-		
+
 	}
 
+	/**
+	 * This method is called in class GamePanel. It makes the player move and 
+	 * adding missiles to the list every time the player fires.
+	 */
 	public void update() {
 		if(left) 
 			dx = -speed;
@@ -115,6 +133,7 @@ public class Player {
 		}
 	}
 
+	//This method is called in the class GamePanel. It draws the player.
 	public void draw(Graphics2D g) {
 		g.setColor(playerColor);
 		g.fillRect(x - r, y - r, 2 * r, 2 * r);

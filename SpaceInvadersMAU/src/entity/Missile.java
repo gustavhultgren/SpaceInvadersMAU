@@ -6,6 +6,12 @@ import java.awt.Rectangle;
 
 import main.GamePanel;
 
+/**
+ * This class represents a missile that the player launches to shoot down
+ * enemies. 
+ * @author Gustav Hultgren
+ *
+ */
 public class Missile {
 
 	//FIELDS
@@ -20,6 +26,12 @@ public class Missile {
 
 	private Color bulletColor;
 
+	/**
+	 * Creates a missile.
+	 * @param angle - sets the angle that the bomb is heading.
+	 * @param x - sets where the bomb starts on the x-axis.
+	 * @param y - sets where the bomb starts on the y-axis.
+	 */
 	public Missile(double angle, int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -42,6 +54,7 @@ public class Missile {
 		return new Rectangle((int)x, (int)y, 6, 18);
 	}
 	
+	//This method is called in class GamePanel. It makes the missile move.
 	public boolean update() {
 		x += dx;
 		y += dy;
@@ -52,7 +65,8 @@ public class Missile {
 		return false;
 
 	}
-
+	
+	//This method is called in class GamePanel. It draws the missile.
 	public void draw(Graphics2D g) {
 		g.setColor(bulletColor);
 		g.fillOval((int)(x-r), (int)(y-r), 2 * r, 6 * r);
