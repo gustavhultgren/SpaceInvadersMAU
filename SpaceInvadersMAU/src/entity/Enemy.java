@@ -51,7 +51,7 @@ public class Enemy {
 		return new Rectangle(x, y, 20, 20);
 	}
 
-	public void act(int direction) {
+	public void act(int direction, boolean isShooter) {
 		this.x += direction;
 
 		if(firing) {
@@ -59,7 +59,9 @@ public class Enemy {
 			if(elapsed > firingDelay) {
 				
 				firingTimer = System.nanoTime();
+				if (isShooter) {
 				GamePanel.bombs.add(new EnemyBomb(270, x, y));
+				}
 			}
 		}
 	}
