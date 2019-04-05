@@ -1,6 +1,8 @@
 package server;
 
-public class PlayerScore {
+import java.io.Serializable;
+
+public class PlayerScore implements Serializable, Comparable<PlayerScore>{
 
 	private String playerName;
 	private int score;
@@ -17,5 +19,15 @@ public class PlayerScore {
 	public int getScore() {
 		return score;
 	}
-	
+
+	public int compareTo(PlayerScore other) {
+		if(score > other.getScore()) {
+			return 1;
+		}else if(score < other.getScore()){
+			return -1;
+		}else {
+			return 0;
+		}
+	}
+
 }
