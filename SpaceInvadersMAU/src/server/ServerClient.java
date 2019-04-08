@@ -33,6 +33,7 @@ public class ServerClient {
 			playerScoreMap.put(score, score);
 			oos.writeObject(playerScoreMap);
 			oos.flush();
+			System.out.println("playerscore added and written " + playerScoreMap.size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +43,7 @@ public class ServerClient {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/fil.dat"));) {
 			playerScoreMap = (TreeMap<PlayerScore, PlayerScore>) ois.readObject();
 
+			System.out.println("Scoremap read " + playerScoreMap.size());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -109,6 +111,6 @@ public class ServerClient {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new ServerClient(3465,10);
+		new ServerClient(3500,10);
 	}
 }
