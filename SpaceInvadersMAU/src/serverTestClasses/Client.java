@@ -61,7 +61,7 @@ public class Client extends Thread {
 	
 	public void send() {
 		try {
-			oos.writeObject(new PlayerScore("Hannes", 9000));
+			oos.writeObject(new PlayerScore("hannes", 8990));
 			System.out.println("Score sent");
 		} catch (IOException e) {
 			e.printStackTrace();

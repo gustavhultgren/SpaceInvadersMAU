@@ -2,6 +2,7 @@ package server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LeaderboardUpdateResponse implements Serializable{
 	private ArrayList<PlayerScore> scoreList;
@@ -15,8 +16,11 @@ public class LeaderboardUpdateResponse implements Serializable{
 	}
 	
 	public String toString() {
+		ArrayList<PlayerScore> tempList = scoreList;
+		Collections.reverse(tempList);
+		
 		String m = "";
-		for (PlayerScore elem : scoreList) {
+		for (PlayerScore elem : tempList) {
 			m += (elem.getScore() + " " + elem.getName() + "\n");
 		}
 		return m;
