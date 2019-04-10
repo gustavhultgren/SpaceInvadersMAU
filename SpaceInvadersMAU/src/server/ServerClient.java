@@ -17,7 +17,7 @@ public class ServerClient {
 	private ServerSocket serverSocket;
 	private RunOnThreadN pool;
 	
-	private MapWrapper playerScoreMap = 
+	private MapWrapper playerScoreMap;
 
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
 		pool = new RunOnThreadN(nbrOfThreads);
@@ -29,20 +29,21 @@ public class ServerClient {
 	
 	public synchronized void writeScoreToFile(PlayerScore score) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
-			playerScoreMap.put(score, score);
+			playerScoreMap.put(score);
 			oos.writeObject(playerScoreMap);
 			oos.flush();
-			System.out.println("playerscore added and written " + playerScoreMap.size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("rekord skrivet till fil");
 	}
 	
-	public synchronized void readScoreFromFile() {
+	public void readScoreFromFile() {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
-			playerScoreMap = (TreeMap<PlayerScore, PlayerScore>) ois.readObject();
 
-			System.out.println("Scoremap read " + playerScoreMap.size());
+			playerScoreMap = (MapWrapper) ois.readObject();
+
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -50,15 +51,12 @@ public class ServerClient {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public synchronized ArrayList<PlayerScore> playerScoreMapToArray(){
-		return new ArrayList<PlayerScore>(playerScoreMap.values());
+		System.out.println("Fil inläst");
 	}
 	
 	private class Connection extends Thread {
 		public void run() {
-			System.out.println("ServerF running, port: " + serverSocket.getLocalPort());
+			System.out.println("Server running, port: " + serverSocket.getLocalPort());
 			while(true) {
 				try  {
 					Socket socket = serverSocket.accept();
@@ -81,8 +79,6 @@ public class ServerClient {
 			System.out.println("Klient uppkopplad, servas av " + Thread.currentThread());
 			try (ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
 					ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())	) {
-				
-				
 				PlayerScore request;
 				try {
 					request = (PlayerScore) dis.readObject();
@@ -93,12 +89,8 @@ public class ServerClient {
 				}
 				
 				
-				LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(playerScoreMapToArray());
-				
-				// stoppa in request
-				// skriv tillbaka till filen
-				// Skicka tillbaka en kopia
-				
+				LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(playerScoreMap.getScoreList());
+
 				dos.writeObject(response);
 				dos.flush();
 			} catch(IOException e) {}

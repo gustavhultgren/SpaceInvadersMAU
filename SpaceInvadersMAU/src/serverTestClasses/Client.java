@@ -33,7 +33,7 @@ public class Client extends Thread {
 
 	public void run() {
 		try {
-			while (true) {
+		
 				Object o = ois.readObject();
 				if (o instanceof LeaderboardUpdateResponse) {
 					System.out.println("Leaderboard received");
@@ -41,7 +41,6 @@ public class Client extends Thread {
 					System.out.println(l.toString());
 				}
 
-			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +60,7 @@ public class Client extends Thread {
 	
 	public void send() {
 		try {
-			oos.writeObject(new PlayerScore("hannes", 8990));
+			oos.writeObject(new PlayerScore("hannes", 350));
 			System.out.println("Score sent");
 		} catch (IOException e) {
 			e.printStackTrace();

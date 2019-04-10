@@ -12,10 +12,10 @@ import java.util.Random;
 import java.util.TreeMap;
 
 public class ServerTest {
-	
-	private MapWrapper playerScoreMap = new MapWrapper();
 
-	
+	private MapWrapper playerScoreMap;
+	int number;
+
 	public void writeScoreToFile(PlayerScore score) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
 			playerScoreMap.put(score);
@@ -30,8 +30,9 @@ public class ServerTest {
 	public ArrayList<PlayerScore> readScoreFromFile() {
 		ArrayList<PlayerScore> tempList = new ArrayList();
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
+
 			playerScoreMap = (MapWrapper) ois.readObject();
-			
+
 			tempList = playerScoreMap.getScoreList();
 
 		} catch (FileNotFoundException e) {
@@ -41,25 +42,31 @@ public class ServerTest {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		return tempList;
+	}
+
+	public void load() {
+		readScoreFromFile();
 	}
 
 	public static void main(String[] args) {
 		ServerTest test = new ServerTest();
-		List<PlayerScore> readList = test.readScoreFromFile();
+
+		ArrayList<PlayerScore> list = test.readScoreFromFile();
+//		test.writeScoreToFile(new PlayerScore("Tom", 400));
+
+		for (PlayerScore elem : list) {
+			System.out.println(elem.getScore());
+		}
 
 //		Random rand = new Random();
 //		int number;
 //		for (int i = 0; i < 3; i++) {
 //			number = rand.nextInt(100);
-//			PlayerScore ps = new PlayerScore("b", 1000);
+//			PlayerScore ps = new PlayerScore("Karlsson", 500);
 //			test.writeScoreToFile(ps);
 //		}
-		
-		for (PlayerScore elem : readList) {
-			System.out.println(elem.getScore());
-		}
 
 	}
 }
