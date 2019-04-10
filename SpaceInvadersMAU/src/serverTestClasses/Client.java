@@ -33,19 +33,19 @@ public class Client extends Thread {
 
 	public void run() {
 		try {
-		
-				Object o = ois.readObject();
-				if (o instanceof LeaderboardUpdateResponse) {
-					System.out.println("Leaderboard received");
-					LeaderboardUpdateResponse l = (LeaderboardUpdateResponse)o;
-					System.out.println(l.toString());
-				}
+
+			Object o = ois.readObject();
+			if (o instanceof LeaderboardUpdateResponse) {
+				System.out.println("Leaderboard received");
+				LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
+				System.out.println(l.toString());
+			}
 
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void connect() {
 		try {
 			socket = new Socket(ip, port);
@@ -57,7 +57,7 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void send() {
 		try {
 			oos.writeObject(new PlayerScore("hannes", 350));

@@ -16,7 +16,7 @@ public class ServerClient {
 	private Connection connection = new Connection();
 	private ServerSocket serverSocket;
 	private RunOnThreadN pool;
-	
+
 	private MapWrapper playerScoreMap;
 
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
@@ -26,7 +26,6 @@ public class ServerClient {
 		connection.start();
 	}
 
-	
 	public synchronized void writeScoreToFile(PlayerScore score) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
 			playerScoreMap.put(score);
@@ -37,12 +36,11 @@ public class ServerClient {
 		}
 		System.out.println("rekord skrivet till fil");
 	}
-	
+
 	public void readScoreFromFile() {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
 
 			playerScoreMap = (MapWrapper) ois.readObject();
-
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -53,15 +51,15 @@ public class ServerClient {
 		}
 		System.out.println("Fil inläst");
 	}
-	
+
 	private class Connection extends Thread {
 		public void run() {
 			System.out.println("Server running, port: " + serverSocket.getLocalPort());
-			while(true) {
-				try  {
+			while (true) {
+				try {
 					Socket socket = serverSocket.accept();
 					pool.execute(new ClientHandler(socket));
-				} catch(IOException e) { 
+				} catch (IOException e) {
 					System.err.println(e);
 				}
 			}
@@ -78,7 +76,7 @@ public class ServerClient {
 		public void run() {
 			System.out.println("Klient uppkopplad, servas av " + Thread.currentThread());
 			try (ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
-					ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())	) {
+					ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())) {
 				PlayerScore request;
 				try {
 					request = (PlayerScore) dis.readObject();
@@ -87,21 +85,22 @@ public class ServerClient {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-				
-				
+
 				LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(playerScoreMap.getScoreList());
 
 				dos.writeObject(response);
 				dos.flush();
-			} catch(IOException e) {}
+			} catch (IOException e) {
+			}
 			try {
 				socket.close();
-			} catch(Exception e) {}
+			} catch (Exception e) {
+			}
 			System.out.println("Klient nerkopplad, " + Thread.currentThread() + " återvänder till buffert");
 		}
 	}
 
 	public static void main(String[] args) throws IOException {
-		new ServerClient(3500,10);
+		new ServerClient(3500, 10);
 	}
 }
