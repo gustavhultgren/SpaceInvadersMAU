@@ -17,8 +17,7 @@ public class ServerClient {
 	private ServerSocket serverSocket;
 	private RunOnThreadN pool;
 	
-	private TreeMap<PlayerScore, PlayerScore> playerScoreMap = new TreeMap<PlayerScore, PlayerScore>();
-
+	private MapWrapper playerScoreMap = 
 
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
 		pool = new RunOnThreadN(nbrOfThreads);
@@ -29,7 +28,7 @@ public class ServerClient {
 
 	
 	public synchronized void writeScoreToFile(PlayerScore score) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/fil.dat"));) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
 			playerScoreMap.put(score, score);
 			oos.writeObject(playerScoreMap);
 			oos.flush();
@@ -40,7 +39,7 @@ public class ServerClient {
 	}
 	
 	public synchronized void readScoreFromFile() {
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/fil.dat"));) {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
 			playerScoreMap = (TreeMap<PlayerScore, PlayerScore>) ois.readObject();
 
 			System.out.println("Scoremap read " + playerScoreMap.size());

@@ -13,12 +13,12 @@ import java.util.TreeMap;
 
 public class ServerTest {
 	
-	private TreeMap<PlayerScore, PlayerScore> playerScoreMap = new TreeMap<PlayerScore, PlayerScore>();
+	private MapWrapper playerScoreMap = new MapWrapper();
 
 	
 	public void writeScoreToFile(PlayerScore score) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/fil.dat"));) {
-			playerScoreMap.put(score, score);
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
+			playerScoreMap.put(score);
 			oos.writeObject(playerScoreMap);
 			oos.flush();
 		} catch (IOException e) {
@@ -29,10 +29,10 @@ public class ServerTest {
 
 	public ArrayList<PlayerScore> readScoreFromFile() {
 		ArrayList<PlayerScore> tempList = new ArrayList();
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/fil.dat"));) {
-			playerScoreMap = (TreeMap<PlayerScore, PlayerScore>) ois.readObject();
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
+			playerScoreMap = (MapWrapper) ois.readObject();
 			
-			tempList = new ArrayList<PlayerScore>(playerScoreMap.values());
+			tempList = playerScoreMap.getScoreList();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -46,19 +46,17 @@ public class ServerTest {
 	}
 
 	public static void main(String[] args) {
-////		
 		ServerTest test = new ServerTest();
 		List<PlayerScore> readList = test.readScoreFromFile();
-//
-////		Random rand = new Random();
-////		int number;
-////		for (int i = 0; i < 30; i++) {
-////			number = rand.nextInt(100);
-//			PlayerScore ps = new PlayerScore("b", 700);
-////			test.writeScoreToFile(ps);
-////		}
-//		test.writeScoreToFile(ps);
-//		
+
+//		Random rand = new Random();
+//		int number;
+//		for (int i = 0; i < 3; i++) {
+//			number = rand.nextInt(100);
+//			PlayerScore ps = new PlayerScore("b", 1000);
+//			test.writeScoreToFile(ps);
+//		}
+		
 		for (PlayerScore elem : readList) {
 			System.out.println(elem.getScore());
 		}
