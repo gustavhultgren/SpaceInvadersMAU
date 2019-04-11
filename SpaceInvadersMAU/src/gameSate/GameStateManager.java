@@ -1,4 +1,7 @@
 package gameSate;
+/**
+*@author Gustav Georgsson
+**/
 
 import java.util.ArrayList;
 
@@ -15,7 +18,7 @@ public class GameStateManager {
 	gameStates = new ArrayList<GameState>();
 	
 	currentState = MENUSTATE;
-	gameStates.add(new ManuState(this));
+	gameStates.add(new MenuState(this));
 	
 	}
 	

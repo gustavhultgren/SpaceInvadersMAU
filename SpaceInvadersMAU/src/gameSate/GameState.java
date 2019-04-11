@@ -1,5 +1,9 @@
 package gameSate;
 
+/**
+*@author Gustav Georgsson
+**/
+
 public abstract class GameState {
 
 	protected GameStateManager gsm;
