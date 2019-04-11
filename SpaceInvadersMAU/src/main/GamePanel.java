@@ -181,7 +181,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	private void initImages() {
 		try {
-			heartImage = ImageIO.read(new File("src/resources/Hjärta.png"));
+			heartImage = ImageIO.read(new File("src/resources/heart.png"));
 			resize(heartImage, 32, 32);
 		} catch (IOException e1) {
 			e1.printStackTrace();
