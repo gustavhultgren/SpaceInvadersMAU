@@ -17,5 +17,4 @@ public class SpaceInvadersMAU extends JFrame {
 //		window.setResizable(false);
 		window.setVisible(true);
 	}
-
 }
