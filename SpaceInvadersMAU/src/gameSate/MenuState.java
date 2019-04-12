@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -27,22 +28,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Bättre och förkortad version av MainPanel
+ * Bï¿½ttre och fï¿½rkortad version av MainPanel
  * 
  * @author hannesgranberg
  *
  */
 
-public class MenuState extends JPanel implements MouseListener, KeyListener, MouseMotionListener {
+public class MenuState extends GameState implements MouseListener, KeyListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 
 	// Dimensions
 
+	private JPanel panel = new JPanel();
 	private static final int WIDTH = 700;
 	private static final int HEIGHT = 700;
 
-	// Text på skärmen
+	// Text pï¿½ skï¿½rmen
 
 	private JLabel title = new JLabel("Space Invaders MAU");
 	private JLabel[] mainMenuLabels = new JLabel[4];
@@ -80,13 +82,12 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		mainMenuLabels[2] = new JLabel("Exit");
 		mainMenuLabels[3] = new JLabel("Help");
 
-		// instansierar och lägger till bakgrunden som en gif
+		// instansierar och lï¿½gger till bakgrunden som en gif
 
-		url = new URL("file:///Users\\gusta\\Desktop\\Javaprgm skola/shipsshooting.gif");
-		gif = new ImageIcon(url);
+		gif = new ImageIcon("images/shipsshooting.gif");
 		background = new JLabel(gif);
 
-		// Fönster
+		// Fï¿½nster
 
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setLayout(null);
@@ -94,7 +95,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		setBackground(Color.BLACK);
 
 		/*
-		 * Lägger till huvudtiteln
+		 * Lï¿½gger till huvudtiteln
 		 */
 
 		add(title);
@@ -103,7 +104,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		title.setForeground(Color.GREEN);
 
 		/**
-		 * Lägger till new game-knappen
+		 * Lï¿½gger till new game-knappen
 		 */
 
 		add(mainMenuLabels[0]);
@@ -114,7 +115,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		mainMenuLabels[0].setFocusable(true);
 
 		/*
-		 * Lägger till leaderboard-knappen
+		 * Lï¿½gger till leaderboard-knappen
 		 */
 
 		add(mainMenuLabels[1]);
@@ -124,7 +125,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		mainMenuLabels[1].setFocusable(true);
 
 		/*
-		 * Lägger till exit-knappen
+		 * Lï¿½gger till exit-knappen
 		 */
 
 		add(mainMenuLabels[2]);
@@ -134,7 +135,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		mainMenuLabels[2].setFocusable(true);
 
 		/*
-		 * Lägger till help-knappen
+		 * Lï¿½gger till help-knappen
 		 */
 
 		add(mainMenuLabels[3]);
@@ -144,7 +145,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 		mainMenuLabels[3].setFocusable(true);
 
 		/*
-		 * Lägger till en bakgrund som en gif
+		 * Lï¿½gger till en bakgrund som en gif
 		 */
 
 		add(background);
@@ -157,7 +158,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Lägger till lyssnare
+	 * Lï¿½gger till lyssnare
 	 */
 
 	public void addListeners() {
@@ -199,7 +200,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall man klickar på musen
+	 * Metod som lyssnar ifall man klickar pï¿½ musen
 	 * 
 	 * @param e ett MouseEvent objekt
 	 */
@@ -234,7 +235,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall man klickar på en mus
+	 * Metod som lyssnar ifall man klickar pï¿½ en mus
 	 * 
 	 * @param e MouseEvent objekt
 	 */
@@ -244,7 +245,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall man släpper ett musklick
+	 * Metod som lyssnar ifall man slï¿½pper ett musklick
 	 * 
 	 * @param e MouseEvent objekt
 	 */
@@ -254,7 +255,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall musen rör sig in i ett objekt
+	 * Metod som lyssnar ifall musen rï¿½r sig in i ett objekt
 	 * 
 	 * @param e MouseEvent objekt
 	 */
@@ -274,7 +275,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall musen lämnar ett objekt
+	 * Metod som lyssnar ifall musen lï¿½mnar ett objekt
 	 * 
 	 * @param e ett MouseEvent objekt
 	 */
@@ -299,7 +300,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall man skriver in något med tangentbordet
+	 * Metod som lyssnar ifall man skriver in nï¿½got med tangentbordet
 	 * 
 	 * @param e
 	 */
@@ -309,14 +310,14 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som körs ifall man klickar på en tangent på tangentbordet
+	 * Metod som kï¿½rs ifall man klickar pï¿½ en tangent pï¿½ tangentbordet
 	 */
 
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
 
-		// Om man tittar på piltangenten - Ner
+		// Om man tittar pï¿½ piltangenten - Ner
 
 		if (key == KeyEvent.VK_DOWN) {
 
@@ -332,11 +333,11 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 
 		}
 
-		// Om man klickar på piltangenten - Upp
+		// Om man klickar pï¿½ piltangenten - Upp
 
 		if (key == KeyEvent.VK_UP) {
 
-			setCursor(blankCursor); // döljer muspekaren och gör så att man inte kan använda den
+			setCursor(blankCursor); // dï¿½ljer muspekaren och gï¿½r sï¿½ att man inte kan anvï¿½nda den
 			cursorWorking = false;
 
 			operation--;
@@ -349,12 +350,13 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 
 		}
 
-		// Om man klickar på Space-tangenten
+		// Om man klickar pï¿½ Space-tangenten
 
 		if (key == KeyEvent.VK_SPACE) {
 
 			if (getOperation() == 0) {
 				System.out.println("New Game");
+				GameState
 			}
 
 			if (getOperation() == 1) {
@@ -371,7 +373,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 
 		}
 
-		// Om man klickarp på Enter-tangenten
+		// Om man klickarp pï¿½ Enter-tangenten
 
 		if (key == KeyEvent.VK_ENTER) {
 
@@ -380,7 +382,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 
 		}
 
-		// Om man klickar på Shift-tangenten
+		// Om man klickar pï¿½ Shift-tangenten
 
 		if (key == KeyEvent.VK_SHIFT) {
 			setCursor(Cursor.getDefaultCursor());
@@ -400,7 +402,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Hämtar den nuvarande operationen som motsvarar markeringen i menyn
+	 * Hï¿½mtar den nuvarande operationen som motsvarar markeringen i menyn
 	 * 
 	 * @return en integer som fungerar som "state"
 	 */
@@ -410,7 +412,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Bestämmer operationen
+	 * Bestï¿½mmer operationen
 	 * 
 	 * @param operation en integer
 	 */
@@ -434,6 +436,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 
 			} else {
 				mainMenuLabels[i].setForeground(Color.WHITE);
+//				mainMenuLabels[i].setText(mainMenuLabels[i].getText().substring(1, mainMenuLabels[i].getText().length()-2));
 
 			}
 		}
@@ -441,7 +444,7 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	}
 
 	/**
-	 * Metod som lyssnar ifall man drar musen samtidigt som man håller ner en knapp
+	 * Metod som lyssnar ifall man drar musen samtidigt som man hï¿½ller ner en knapp
 	 * 
 	 * @param e MouseEvent objekt
 	 */
@@ -457,11 +460,41 @@ public class MenuState extends JPanel implements MouseListener, KeyListener, Mou
 	 */
 	public void mouseMoved(MouseEvent e) {
 
-		// Sätter muspekaren tillbaka till default-muspekaren
+		// Sï¿½tter muspekaren tillbaka till default-muspekaren
 
 		setCursor(Cursor.getDefaultCursor());
 		cursorWorking = true;
 
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(int k) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(int k) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

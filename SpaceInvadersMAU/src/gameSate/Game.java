@@ -1,4 +1,4 @@
-package main;
+package gameSate;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,7 +33,7 @@ import entity.Player;
  * The plan is to handle all game logic in one separate class.
  * @author Gustav Hultgren
  */
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class Game extends JPanel implements Runnable, KeyListener {
 
 	private static final long serialVersionUID = 8281174180155475994L;
 
@@ -76,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	/**
 	 * Creates a GamePanel-object. 
 	 */
-	public GamePanel() {
+	public Game() {
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
@@ -85,7 +85,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		setFocusable(true);
 		requestFocus();
-
 	}
 
 	// FUNCTIONS
@@ -383,7 +382,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		// Draw Score:
 		g.setColor(Color.WHITE);
 		g.setFont(HUD_FONT);
-		g.drawString("SCORE:", GamePanel.WIDTH / 8, 50);
+		g.drawString("SCORE:", Game.WIDTH / 8, 50);
 		g.setColor(Color.GREEN);
 		g.drawString("" + player.getScore(), 230, 50);
 

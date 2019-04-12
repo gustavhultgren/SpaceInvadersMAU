@@ -119,8 +119,8 @@ public class Player {
 		if(y < r) 
 			y = r;
 
-		if(x > GamePanel.WIDTH - r) 
-			x = GamePanel.WIDTH - r;
+		if(x > Game.WIDTH - r) 
+			x = Game.WIDTH - r;
 
 		dx = 0;
 
@@ -128,7 +128,7 @@ public class Player {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if(elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
-				GamePanel.missiles.add(new Missile(270, x, y));
+				Game.missiles.add(new Missile(270, x, y));
 			}
 		}
 	}
