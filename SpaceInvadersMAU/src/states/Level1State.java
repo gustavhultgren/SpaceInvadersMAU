@@ -65,16 +65,16 @@ public class Level1State extends GameState {
 		bombs = new LinkedList<EnemyBomb>();
 
 		try {
-			heartImage = ImageIO.read(new File("src/resources/Hjärta.png"));
+			heartImage = ImageIO.read(new File("res/images/Hjärta.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
 		// Initializing fonts. 
 		try {
-			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/ARCADE_I.TTF")).deriveFont(25f);
+			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/ARCADE_I.TTF")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
