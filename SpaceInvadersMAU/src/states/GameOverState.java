@@ -3,13 +3,11 @@ package states;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import entity.Player;
 
 public class GameOverState extends GameState {
 	
 	public GameOverState(GameStateManager gsm) {
 		this.gsm = gsm;
-		
 	}
 
 	@Override
@@ -26,7 +24,6 @@ public class GameOverState extends GameState {
 
 	@Override
 	public void draw(Graphics2D g) {
-		String score = player.getScore() + "";
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
@@ -37,7 +34,7 @@ public class GameOverState extends GameState {
 		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
 		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
 		g.setColor(Color.GREEN);
-		g.drawString(score, 490, (700 / 2));
+		g.drawString("" + player.getScore(), 490, (700 / 2));
 	}
 
 	@Override

@@ -70,6 +70,7 @@ public class Level1State extends GameState {
 			e1.printStackTrace();
 		}
 
+		// Initializing fonts. 
 		try {
 			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
