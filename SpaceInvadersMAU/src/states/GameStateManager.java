@@ -6,6 +6,7 @@ public class GameStateManager {
 	
 	private GameState[] gameStates;
 	private int currentState;
+	private int difficulty = 1000;
 	
 	public static final int NUMGAMESTATES = 5;
 	public static final int MENUSTATE = 0;
@@ -19,6 +20,14 @@ public class GameStateManager {
 		currentState = MENUSTATE;
 		loadState(currentState);
 		
+	}
+	
+	public void setHigherDifficulty() {
+		difficulty-=200;
+	}
+	
+	public int getDifficulty() {
+		return difficulty;
 	}
 	
 	private void loadState(int state) {

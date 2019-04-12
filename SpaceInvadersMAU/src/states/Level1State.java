@@ -29,11 +29,13 @@ public class Level1State extends GameState {
 	private Graphics2D g;
 	private Font HUD_FONT;
 	private Random rand = new Random();
+	private int nbr = 0;
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
 	public static ArrayList<Missile> missiles;
-	public static LinkedList<EnemyBomb> bombs; // ToDo: Ta bort denna listan och fï¿½r varje enemy lï¿½ngst ut: rita bomb.
+	public static LinkedList<EnemyBomb> bombs; 
+	// ToDo: Ta bort denna listan och fï¿½r varje enemy lï¿½ngst ut: rita bomb.
 
 	// Images
 	private BufferedImage heartImage;
@@ -52,11 +54,11 @@ public class Level1State extends GameState {
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
 		//Adding enemies to the list and sets each enemies X and Y-value so it looks good.
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 2; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
-			for (int j = 0; j < 8; j++) {
-				Enemy enemy = new Enemy(ENEMY_INIT_X + 40 * j, ENEMY_INIT_Y + 40 * i);
+			for (int j = 0; j < 4; j++) {
+				Enemy enemy = new Enemy(ENEMY_INIT_X + 40 * j, ENEMY_INIT_Y + 40 * i, gsm.getDifficulty());
 				row.add(enemy);
 			}
 		}
@@ -65,7 +67,7 @@ public class Level1State extends GameState {
 		bombs = new LinkedList<EnemyBomb>();
 
 		try {
-			heartImage = ImageIO.read(new File("src/resources/Hjärta.png"));
+			heartImage = ImageIO.read(new File("src/resources/Heart.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -80,6 +82,7 @@ public class Level1State extends GameState {
 			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public void update() {
@@ -181,6 +184,7 @@ public class Level1State extends GameState {
 						temp.remove(h);
 						enemies.set(j, temp);
 						player.addScore(10);
+						nbr++;
 					}
 				}
 			}
@@ -198,18 +202,24 @@ public class Level1State extends GameState {
 		// Check for dead enemies:
 		for (int i = 0; i < enemies.size(); i++) {
 			for (int j = 0; j < enemies.get(i).size(); j++) {
-				if (enemies.get(i).get(j).isDead()) {
-					LinkedList<Enemy> temp = enemies.get(i);
-					temp.remove(j);
-					enemies.set(i, temp);
-					j--;
-				}
+					if (enemies.get(i).get(j).isDead()) {
+						LinkedList<Enemy> temp = enemies.get(i);
+						temp.remove(j);
+						enemies.set(i, temp);
+						j--;
+					}
 			}
 		}
 
 		// Check for dead player:
 		if (player.isDead()) {
-			gsm.setState(2);
+			gsm.setState(1);
+		}
+		
+		if (nbr == 8) {
+			gsm.setHigherDifficulty();
+			gsm.setState(1);
+			
 		}
 	}
 
