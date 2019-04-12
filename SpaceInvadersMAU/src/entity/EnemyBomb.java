@@ -59,7 +59,7 @@ public class EnemyBomb {
 		x -= dx;
 		y -= dy;
 
-		if(x < -r || x > Game.WIDTH + r || y < -r || y > Game.HEIGHT + r) {
+		if(x < -r || x > GamePanel.WIDTH + r || y < -r || y > GamePanel.HEIGHT + r) {
 			return true;
 		}
 		return false;
