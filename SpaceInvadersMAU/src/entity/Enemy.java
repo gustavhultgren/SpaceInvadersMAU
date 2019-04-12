@@ -79,7 +79,7 @@ public class Enemy {
 				firingTimer = System.nanoTime();
 				if (isShooter) {
 					//Adding enemy bombs to list which is then drawn onto the panel.
-					GamePanel.bombs.add(new EnemyBomb(270, x, y));
+					Game.bombs.add(new EnemyBomb(270, x, y));
 				}
 			}
 		}
