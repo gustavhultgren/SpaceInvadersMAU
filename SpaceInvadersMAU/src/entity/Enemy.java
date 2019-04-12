@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.Random;
 
 import main.GamePanel;
+import states.Level1State;
 
 /**
  * This class represents a enemy. 
@@ -79,7 +80,7 @@ public class Enemy {
 				firingTimer = System.nanoTime();
 				if (isShooter) {
 					//Adding enemy bombs to list which is then drawn onto the panel.
-					GamePanel.bombs.add(new EnemyBomb(270, x, y));
+					Level1State.bombs.add(new EnemyBomb(270, x, y));
 				}
 			}
 		}

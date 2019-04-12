@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 
 import entity.Missile;
 import main.GamePanel;
+import states.Level1State;
 
 /**
  * This class represents a player.
@@ -53,12 +54,12 @@ public class Player {
 
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 700;
+		firingDelay = 100;
 
 		playerColor = Color.WHITE;
 
 		score = 0;
-		lives = 3;
+		lives = 1;
 
 	}
 
@@ -128,7 +129,7 @@ public class Player {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if(elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
-				GamePanel.missiles.add(new Missile(270, x, y));
+				Level1State.missiles.add(new Missile(270, x, y));
 			}
 		}
 	}
