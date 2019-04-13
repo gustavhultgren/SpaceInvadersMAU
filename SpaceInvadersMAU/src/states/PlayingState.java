@@ -23,13 +23,14 @@ import entity.Missile;
 import entity.Player;
 import main.GamePanel;
 
-public class Level1State extends GameState {
+public class PlayingState extends GameState {
 
 	private BufferedImage image;
 	private Graphics2D g;
 	private Font HUD_FONT;
 	private Random rand = new Random();
 	private int nbr = 0;
+	private boolean paused;
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
@@ -40,7 +41,7 @@ public class Level1State extends GameState {
 	// Images
 	private BufferedImage heartImage;
 
-	public Level1State(GameStateManager gsm) {
+	public PlayingState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
 	}
@@ -86,6 +87,14 @@ public class Level1State extends GameState {
 
 	@Override
 	public void update() {
+		
+		while(paused) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		// Updating player:
 		player.update();
 
@@ -271,6 +280,14 @@ public class Level1State extends GameState {
 		}
 
 	}
+	
+	public void pause() {
+		if (!paused) {
+			paused = true;
+		}else {
+			paused = false;
+		}
+	}
 
 	/**
 	 * The keyPressed and keyReleased-method is responsible 
@@ -283,6 +300,8 @@ public class Level1State extends GameState {
 			player.setRight(true);
 		if (key == KeyEvent.VK_Z)
 			player.setFiring(true);
+		if(key == KeyEvent.VK_ESCAPE)
+			pause();
 	}
 
 	public void keyReleased(int key) {

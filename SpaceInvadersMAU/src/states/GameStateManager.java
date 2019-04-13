@@ -34,7 +34,7 @@ public class GameStateManager {
 		if(state == MENUSTATE)
 			gameStates[state] = new MenuState(this);
 		if(state == LEVEL1STATE)
-			gameStates[state] = new Level1State(this);
+			gameStates[state] = new PlayingState(this);
 		if(state == GAMEOVERSTATE)
 			gameStates[state] = new GameOverState(this);
 	}
@@ -47,7 +47,6 @@ public class GameStateManager {
 		unloadState(currentState);
 		currentState = state;
 		loadState(currentState);
-		//gameStates[currentState].init();
 	}
 	
 	public void update() {
