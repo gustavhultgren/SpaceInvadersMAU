@@ -35,7 +35,7 @@ public class PlayingState extends GameState {
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
 	public static ArrayList<Missile> missiles;
-	public static LinkedList<EnemyBomb> bombs; 
+	public static LinkedList<EnemyBomb> bombs;
 	// ToDo: Ta bort denna listan och f�r varje enemy l�ngst ut: rita bomb.
 
 	// Images
@@ -54,7 +54,8 @@ public class PlayingState extends GameState {
 		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
-		//Adding enemies to the list and sets each enemies X and Y-value so it looks good.
+		// Adding enemies to the list and sets each enemies X and Y-value so it looks
+		// good.
 		for (int i = 0; i < 2; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
@@ -84,11 +85,10 @@ public class PlayingState extends GameState {
 		}
 	}
 
-
 	@Override
 	public void update() {
-		
-		while(paused) {
+
+		while (paused) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -117,8 +117,8 @@ public class PlayingState extends GameState {
 		}
 
 		/**
-		 * This section is written by Tom Eriksson and Gustav Hultgren.
-		 * This specific section ends where: "-------..." is.
+		 * This section is written by Tom Eriksson and Gustav Hultgren. This specific
+		 * section ends where: "-------..." is.
 		 */
 		int biggestRow = 0;
 		for (LinkedList<Enemy> list : enemies) {
@@ -136,18 +136,18 @@ public class PlayingState extends GameState {
 
 				int counter = 0;
 				for (int h = 0; h < enemies.size(); h++) {
-					for(int g = 0; g < enemies.get(h).size(); g++) {
+					for (int g = 0; g < enemies.get(h).size(); g++) {
 						if (h > counter && g == selectedColumn) {
 							counter = h;
 						}
 					}
 				}
 
-				if(j == selectedColumn && i == counter) {
+				if (j == selectedColumn && i == counter) {
 					isShooter = true;
 					enemies.get(i).get(j).act(ENEMY_DIRECTION, isShooter);
 					isShooter = false;
-				}else {
+				} else {
 					enemies.get(i).get(j).act(ENEMY_DIRECTION, isShooter);
 				}
 
@@ -179,7 +179,7 @@ public class PlayingState extends GameState {
 				}
 			}
 		}
-		//----------------------------------------------------
+		// ----------------------------------------------------
 
 		// Check for player missile - enemy collision:
 		for (int i = 0; i < missiles.size(); i++) {
@@ -211,12 +211,12 @@ public class PlayingState extends GameState {
 		// Check for dead enemies:
 		for (int i = 0; i < enemies.size(); i++) {
 			for (int j = 0; j < enemies.get(i).size(); j++) {
-					if (enemies.get(i).get(j).isDead()) {
-						LinkedList<Enemy> temp = enemies.get(i);
-						temp.remove(j);
-						enemies.set(i, temp);
-						j--;
-					}
+				if (enemies.get(i).get(j).isDead()) {
+					LinkedList<Enemy> temp = enemies.get(i);
+					temp.remove(j);
+					enemies.set(i, temp);
+					j--;
+				}
 			}
 		}
 
@@ -224,11 +224,11 @@ public class PlayingState extends GameState {
 		if (player.isDead()) {
 			gsm.setState(1);
 		}
-		
+
 		if (nbr == 8) {
 			gsm.setHigherDifficulty();
 			gsm.setState(1);
-			
+
 		}
 	}
 
@@ -279,19 +279,44 @@ public class PlayingState extends GameState {
 			g.drawImage(heartImage, 545 + (40 * i), 25, null);
 		}
 
+		if (paused) {
+			drawPausedMenu(g);
+		}
+
 	}
-	
+
+	public void drawPausedMenu(Graphics2D g) {
+		String score = player.getScore() + "";
+		String instruction = "Press ESC to resume";
+		g.setColor(new Color(0, 0, 0, 70));
+		g.fillRect(0, 0, 700, 700);
+		g.setColor(Color.WHITE);
+		String gameOver = "GAME PAUSED";
+		int length = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
+		g.drawString(gameOver, (700 - length) / 2, (700 / 2) - 150);
+		String finalScore = "CURRENT SCORE: ";
+		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
+		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
+		g.setColor(Color.GREEN);
+		g.drawString(score, 510, (700 / 2));
+
+		length = (int) g.getFontMetrics().getStringBounds(instruction, g).getWidth();
+		g.drawString(instruction, (700 - length) / 2, (900 / 2));
+
+	}
+
 	public void pause() {
 		if (!paused) {
 			paused = true;
-		}else {
+
+		} else {
 			paused = false;
 		}
 	}
 
 	/**
-	 * The keyPressed and keyReleased-method is responsible 
-	 * to handle key events to make the player move and fire missiles.
+	 * The keyPressed and keyReleased-method is responsible to handle key events to
+	 * make the player move and fire missiles.
 	 */
 	public void keyPressed(int key) {
 		if (key == KeyEvent.VK_LEFT)
@@ -300,8 +325,10 @@ public class PlayingState extends GameState {
 			player.setRight(true);
 		if (key == KeyEvent.VK_Z)
 			player.setFiring(true);
-		if(key == KeyEvent.VK_ESCAPE)
+		if (key == KeyEvent.VK_ESCAPE)
 			pause();
+		if(key == KeyEvent.VK_E && paused)
+			gsm.setState(GameStateManager.MENUSTATE);
 	}
 
 	public void keyReleased(int key) {
