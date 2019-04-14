@@ -1,5 +1,7 @@
 package main;
 
+import java.net.MalformedURLException;
+
 import javax.swing.JFrame;
 
 /**
@@ -7,10 +9,8 @@ import javax.swing.JFrame;
  * @author Gustav Hultgren
  */
 public class SpaceInvadersMAU extends JFrame {
-	
-	private static final long serialVersionUID = 6204380470911376365L;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedURLException {
 		JFrame window = new JFrame("SpaceInvaders MAU");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setContentPane(new GamePanel());

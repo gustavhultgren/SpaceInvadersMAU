@@ -32,6 +32,10 @@ public class MenuState extends GameState {
 	@Override
 	public void draw(Graphics2D g) {
 		// draw menu options
+		
+		g.setColor(Color.black);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
 		for(int i = 0; i < options.length; i++) {
 			if(i == currentChoice) {
 				g.setColor(Color.WHITE);
@@ -39,7 +43,7 @@ public class MenuState extends GameState {
 			else {
 				g.setColor(Color.RED);
 			}
-			g.drawString(options[i], 145, 140 + i * 15);
+			g.drawString(options[i], 145, 140 + i * 30);
 		}
 	}
 
