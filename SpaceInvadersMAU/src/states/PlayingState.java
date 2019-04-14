@@ -282,7 +282,6 @@ public class PlayingState extends GameState {
 		if (paused) {
 			drawPausedMenu(g);
 		}
-
 	}
 
 	public void drawPausedMenu(Graphics2D g) {
