@@ -185,7 +185,7 @@ public class PlayingState extends GameState {
 						LinkedList<Enemy> temp = enemies.get(j);
 						temp.remove(h);
 						enemies.set(j, temp);
-						player.addScore(100000);
+						player.addScore(10);
 						nbr++;
 					}
 				}
