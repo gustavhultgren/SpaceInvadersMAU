@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 
 import entity.Missile;
 import main.GamePanel;
+import states.PlayingState;
 
 /**
  * This class represents a player.
@@ -58,7 +59,7 @@ public class Player {
 		playerColor = Color.WHITE;
 
 		score = 0;
-		lives = 3;
+		lives = 1;
 
 	}
 
@@ -128,7 +129,8 @@ public class Player {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if(elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
-				GamePanel.missiles.add(new Missile(270, x, y));
+
+				PlayingState.missiles.add(new Missile(270, x, y));
 			}
 		}
 	}

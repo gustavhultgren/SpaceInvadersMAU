@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.Random;
 
 import main.GamePanel;
+import states.PlayingState;
 
 /**
  * This class represents a enemy. 
@@ -34,7 +35,7 @@ public class Enemy {
 	 * @param x - where the Enemy is created on x-axis.
 	 * @param y - where the Enemy is created on x-axis.
 	 */
-	public Enemy(int x, int y) {
+	public Enemy(int x, int y, int firingDelay) {
 		this.x = x;
 		this.y = y;
 		r = 15;
@@ -45,7 +46,7 @@ public class Enemy {
 
 		firing = true;
 		firingTimer = System.nanoTime();
-		firingDelay = 2500;
+		this.firingDelay = firingDelay;
 	}
 
 	//FUNCTIONS
@@ -78,8 +79,9 @@ public class Enemy {
 
 				firingTimer = System.nanoTime();
 				if (isShooter) {
-					//Adding enemy bombs to list which is then drawn onto the panel.
-					GamePanel.bombs.add(new EnemyBomb(270, x, y));
+					//Adding enemy bombs to list which is then  onto the panel.
+
+					PlayingState.bombs.add(new EnemyBomb(270, x, y));
 				}
 			}
 		}

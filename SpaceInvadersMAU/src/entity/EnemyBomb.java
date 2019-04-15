@@ -38,7 +38,7 @@ public class EnemyBomb {
 		r = 3;
 
 		rad = Math.toRadians(angle);
-		speed = 5;
+		speed = 7;
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 
@@ -69,6 +69,6 @@ public class EnemyBomb {
 	//This method is called in class GamePanel. It draws the bomb.
 	public void draw(Graphics2D g) {
 		g.setColor(bulletColor);
-		g.fillOval((int)(x-r), (int)(y-r), 2 * r, 6 * r);
+		g.fillOval((int)(x-r) + 10, (int)(y-r) + 10, 2 * r, 6 * r);
 	}
 }
