@@ -1,5 +1,9 @@
 package states;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
 import entity.Player;
 
 public abstract class GameState {
@@ -15,6 +19,7 @@ public abstract class GameState {
 	protected static int ENEMY_INIT_Y = 80;
 	protected static int ENEMY_DIRECTION = -1;
 	protected static int GROUND = 650;
+	protected static Font font;
 
 	
 	protected GameStateManager gsm;
@@ -25,4 +30,5 @@ public abstract class GameState {
 	public abstract void draw(java.awt.Graphics2D g);
 	public abstract void keyPressed(int k);
 	public abstract void keyReleased(int k);
+	
 }

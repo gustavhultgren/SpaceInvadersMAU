@@ -27,10 +27,13 @@ public class PlayingState extends GameState {
 
 	private BufferedImage image;
 	private Graphics2D g;
-	private Font HUD_FONT;
 	private Random rand = new Random();
 	private int nbr = 0;
 	private boolean paused;
+	private String score;
+	private String instruction = "Press ESC to resume";
+	private String gameOver = "GAME PAUSED";
+	private int textLength;
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
@@ -72,17 +75,6 @@ public class PlayingState extends GameState {
 			heartImage = ImageIO.read(new File("res/images/Heart.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
-
-		// Initializing fonts. 
-		try {
-			HUD_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(25f);
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (FontFormatException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -267,7 +259,7 @@ public class PlayingState extends GameState {
 
 		// Draw Score:
 		g.setColor(Color.WHITE);
-		g.setFont(HUD_FONT);
+		g.setFont(font);
 		g.drawString("SCORE:", GamePanel.WIDTH / 8, 50);
 		g.setColor(Color.GREEN);
 		g.drawString("" + player.getScore(), 230, 50);
@@ -281,28 +273,24 @@ public class PlayingState extends GameState {
 		}
 
 		if (paused) {
-			drawPausedMenu(g);
+			drawMenu(g);
 		}
 	}
-
-	public void drawPausedMenu(Graphics2D g) {
-		String score = player.getScore() + "";
-		String instruction = "Press ESC to resume";
+	
+	public void drawMenu(Graphics2D g) {
+		score = player.getScore() + "";
 		g.setColor(new Color(0, 0, 0, 70));
 		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
-		String gameOver = "GAME PAUSED";
-		int length = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
-		g.drawString(gameOver, (700 - length) / 2, (700 / 2) - 150);
+		textLength = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
+		g.drawString(gameOver, (700 - textLength) / 2, (700 / 2) - 150);
 		String finalScore = "CURRENT SCORE: ";
-		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
-		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
+		textLength = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
+		g.drawString(finalScore, (700 - textLength) / 2, (700 / 2));
 		g.setColor(Color.GREEN);
 		g.drawString(score, 510, (700 / 2));
-
-		length = (int) g.getFontMetrics().getStringBounds(instruction, g).getWidth();
-		g.drawString(instruction, (700 - length) / 2, (900 / 2));
-
+		textLength = (int) g.getFontMetrics().getStringBounds(instruction, g).getWidth();
+		g.drawString(instruction, (700 - textLength) / 2, (900 / 2));
 	}
 
 	public void pause() {
@@ -327,7 +315,7 @@ public class PlayingState extends GameState {
 			player.setFiring(true);
 		if (key == KeyEvent.VK_ESCAPE)
 			pause();
-		if(key == KeyEvent.VK_E && paused)
+		if (key == KeyEvent.VK_E && paused)
 			gsm.setState(GameStateManager.MENUSTATE);
 	}
 
