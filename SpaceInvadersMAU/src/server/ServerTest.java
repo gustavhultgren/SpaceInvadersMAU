@@ -54,11 +54,11 @@ public class ServerTest {
 		ServerTest test = new ServerTest();
 
 		ArrayList<PlayerScore> list = test.readScoreFromFile();
-//		test.writeScoreToFile(new PlayerScore("Tom", 400));
-
-		for (PlayerScore elem : list) {
-			System.out.println(elem.getScore());
-		}
+//		test.writeScoreToFile(new PlayerScore("Berit", 23000));
+//
+//		for (PlayerScore elem : list) {
+//			System.out.println(elem.getScore());
+//		}
 
 //		Random rand = new Random();
 //		int number;

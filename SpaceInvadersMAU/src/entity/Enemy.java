@@ -12,15 +12,10 @@ import states.PlayingState;
  * all the enemies moves down 15 pixels.
  * @author Gustav Hultgren
  */
-public class Enemy {
+public class Enemy extends Entity {
 
 	//FIELDS
-	private int x;
-	private int y;
-	private int r;
-
 	private double dx;
-	private double speed;
 
 	private boolean dead;
 
@@ -35,10 +30,8 @@ public class Enemy {
 	 * @param x - where the Enemy is created on x-axis.
 	 * @param y - where the Enemy is created on x-axis.
 	 */
-	public Enemy(int x, int y, int firingDelay) {
-		this.x = x;
-		this.y = y;
-		r = 15;
+	public Enemy(int x, int y, int r, double speed, int firingDelay) {
+		super(x, y, r, speed);
 
 		dx = speed;
 
@@ -70,7 +63,7 @@ public class Enemy {
 	 * @param direction - sets the direction of enemy. + for right and - for left.
 	 * @param isShooter
 	 */
-	public void act(int direction, boolean isShooter) {
+	public void update(int direction, boolean isShooter) {
 		this.x += direction;
 
 		if(firing) {
@@ -79,9 +72,9 @@ public class Enemy {
 
 				firingTimer = System.nanoTime();
 				if (isShooter) {
-					//Adding enemy bombs to list which is then  onto the panel.
+					//Adding enemy bombs to list which is then drawn onto the panel.
 
-					PlayingState.bombs.add(new EnemyBomb(270, x, y));
+					PlayingState.bombs.add(new EnemyBomb(270, x, y, 3, 6));
 				}
 			}
 		}

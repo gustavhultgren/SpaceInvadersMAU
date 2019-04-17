@@ -54,7 +54,7 @@ public class PlayingState extends GameState {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
-		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y);
+		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 20, 3);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
 		// Adding enemies to the list and sets each enemies X and Y-value so it looks
@@ -63,7 +63,7 @@ public class PlayingState extends GameState {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
 			for (int j = 0; j < 4; j++) {
-				Enemy enemy = new Enemy(ENEMY_INIT_X + 40 * j, ENEMY_INIT_Y + 40 * i, gsm.getDifficulty());
+				Enemy enemy = new Enemy(ENEMY_INIT_X + 40 * j, ENEMY_INIT_Y + 40 * i, 1, 1, gsm.getDifficulty());
 				row.add(enemy);
 			}
 		}
@@ -138,10 +138,10 @@ public class PlayingState extends GameState {
 
 				if (j == selectedColumn && i == counter) {
 					isShooter = true;
-					enemies.get(i).get(j).act(ENEMY_DIRECTION, isShooter);
+					enemies.get(i).get(j).update(ENEMY_DIRECTION, isShooter);
 					isShooter = false;
 				} else {
-					enemies.get(i).get(j).act(ENEMY_DIRECTION, isShooter);
+					enemies.get(i).get(j).update(ENEMY_DIRECTION, isShooter);
 				}
 
 				int x = enemies.get(i).get(j).getX();

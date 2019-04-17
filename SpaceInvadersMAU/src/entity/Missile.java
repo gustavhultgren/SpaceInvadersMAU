@@ -10,19 +10,14 @@ import main.GamePanel;
  * This class represents a missile that the player launches to shoot down
  * enemies. 
  * @author Gustav Hultgren
- *
  */
-public class Missile {
+public class Missile extends Entity {
 
 	//FIELDS
-	private double x;
-	private double y;
-	private int r;
 
 	private double dx;
 	private double dy;
 	private double rad;
-	private double speed;
 
 	private Color bulletColor;
 
@@ -32,13 +27,10 @@ public class Missile {
 	 * @param x - sets where the bomb starts on the x-axis.
 	 * @param y - sets where the bomb starts on the y-axis.
 	 */
-	public Missile(double angle, int x, int y) {
-		this.x = x;
-		this.y = y;
-		r = 3;
+	public Missile(double angle, int x, int y, int r, double speed) {
+		super(x, y, r, speed);
 
 		rad = Math.toRadians(angle);
-		speed = 7;
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 
@@ -46,9 +38,9 @@ public class Missile {
 
 	}
 	//FUNCTIONS
-	public double getX() { return x; }
-	public double getY() { return y; }
-	public double getR() { return r; }
+	public int getX() { return x; }
+	public int getY() { return y; }
+	public int getR() { return r; }
 	
 	public Rectangle getBounds() {
 		return new Rectangle((int)x, (int)y, 6, 18);

@@ -15,15 +15,11 @@ import states.PlayingState;
  * shoot down enemies. A player can loose lives and gain score.
  * @author Gustav Hultgren
  */
-public class Player {
+public class Player extends Entity {
 
 	//FIELDS
-	private int x;
-	private int y;
-	private int r;
 
-	private int dx;
-	private int speed;
+	private double dx;
 
 	private boolean left;
 	private boolean right;
@@ -44,13 +40,10 @@ public class Player {
 	 * @param x - where the player is created on the x-axis.
 	 * @param y - where the player is created on the y-axis.
 	 */
-	public Player(int x, int y) {
-		this.x = x;
-		this.y = y;
-		r = 15;
+	public Player(int x, int y, int r, double speed) {
+		super(x, y, r, speed);
 
 		dx = 0;
-		speed = 3;
 
 		firing = false;
 		firingTimer = System.nanoTime();
@@ -100,7 +93,6 @@ public class Player {
 	//This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
-
 	}
 
 	/**
@@ -130,7 +122,7 @@ public class Player {
 			if(elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
 
-				PlayingState.missiles.add(new Missile(270, x, y));
+				PlayingState.missiles.add(new Missile(270, x, y, 3, 7));
 			}
 		}
 	}
