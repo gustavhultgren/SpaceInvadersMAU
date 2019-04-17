@@ -14,9 +14,6 @@ import states.PlayingState;
  */
 public class Enemy extends Entity {
 
-	//FIELDS
-	private double dx;
-
 	private boolean dead;
 
 	//This variables is used for enemy firing.
@@ -32,8 +29,6 @@ public class Enemy extends Entity {
 	 */
 	public Enemy(int x, int y, int r, double speed, int firingDelay) {
 		super(x, y, r, speed);
-
-		dx = speed;
 
 		dead = false;
 

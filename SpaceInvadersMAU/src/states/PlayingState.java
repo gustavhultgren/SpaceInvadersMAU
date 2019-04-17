@@ -54,7 +54,7 @@ public class PlayingState extends GameState {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
-		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 20, 3);
+		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
 		// Adding enemies to the list and sets each enemies X and Y-value so it looks
@@ -215,7 +215,7 @@ public class PlayingState extends GameState {
 
 		// Check for dead player:
 		if (player.isDead()) {
-			gsm.setState(1);
+			gsm.setState(2);
 		}
 
 		if (nbr == 8) {
@@ -269,7 +269,7 @@ public class PlayingState extends GameState {
 		g.drawString("LIVES:", 400, 50);
 		g.setColor(Color.GREEN);
 		for (int i = 0; i < player.getLives(); i++) {
-			g.drawImage(heartImage, 545 + (40 * i), 25, null);
+			g.drawImage(heartImage, 545 + (40 * i), 25, 32, 32, null);
 		}
 
 		if (paused) {

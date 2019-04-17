@@ -13,8 +13,6 @@ import main.GamePanel;
  */
 public class Missile extends Entity {
 
-	//FIELDS
-
 	private double dx;
 	private double dy;
 	private double rad;

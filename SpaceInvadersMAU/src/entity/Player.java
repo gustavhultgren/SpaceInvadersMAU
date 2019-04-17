@@ -17,8 +17,6 @@ import states.PlayingState;
  */
 public class Player extends Entity {
 
-	//FIELDS
-
 	private double dx;
 
 	private boolean left;
@@ -52,7 +50,7 @@ public class Player extends Entity {
 		playerColor = Color.WHITE;
 
 		score = 0;
-		lives = 1;
+		lives = 3;
 
 	}
 

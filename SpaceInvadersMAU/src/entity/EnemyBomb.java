@@ -14,8 +14,6 @@ import main.GamePanel;
  */
 public class EnemyBomb extends Entity {
 
-	//FIELDS
-
 	private double dx;
 	private double dy;
 	private double rad;
