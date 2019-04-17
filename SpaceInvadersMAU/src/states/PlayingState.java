@@ -72,7 +72,7 @@ public class PlayingState extends GameState {
 		bombs = new LinkedList<EnemyBomb>();
 
 		try {
-			heartImage = ImageIO.read(new File("res/images/Heart.png"));
+			heartImage = ImageIO.read(new File("resources/images/Heart.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

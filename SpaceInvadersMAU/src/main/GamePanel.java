@@ -1,5 +1,6 @@
 package main;
 
+import tileMap.MenuBackground;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,6 +13,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import entity.Player;
+import javafx.scene.transform.Scale;
 import states.GameStateManager;
 
 /**
@@ -27,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// Dimensions.s
 	public static int WIDTH = 700;
 	public static int HEIGHT = 700;
+	public static final int  SCALE = 2;
 
 	// Game thread.
 	private Thread thread;
@@ -41,6 +44,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Random rand = new Random();
 
 	private Player player;
+	
+	private MenuBackground bg;
 
 	// Game state manager.
 	private GameStateManager gsm;
@@ -50,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 */
 	public GamePanel() {
 		super();
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setPreferredSize(new Dimension(WIDTH , HEIGHT));
 
 		setFocusable(true);
 		requestFocus();
@@ -126,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	private void drawToScreen() {
 		Graphics g2 = this.getGraphics();
-		g2.drawImage(image, 0, 0, null);
+		g2.drawImage(image, 0, 0, WIDTH , HEIGHT, null);
 		g2.dispose();
 	}
 

@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -13,15 +14,20 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
+import javafx.scene.layout.Background;
+import tileMap.MenuBackground;
+
+
 public class MenuState extends GameState {
 
 	private int currentChoice = 0;
 	private int textLength;
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
-
+	
+	private MenuBackground bg;
+	
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
-
 		// Initializing variables.
 		init();
 	}
@@ -31,9 +37,12 @@ public class MenuState extends GameState {
 
 	
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(25f);
+			
+			bg = new MenuBackground("/images/menuBG.gif", 1);
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -43,17 +52,20 @@ public class MenuState extends GameState {
 
 	@Override
 	public void update() {
+		bg.update();
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
+		bg.draw(g);
 		// draw menu options
-
+		
+		
 		g.setFont(font);
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		//g.setColor(Color.BLACK);
+//		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		for (int i = 0; i < options.length; i++) {
 			if (i == currentChoice) {
@@ -63,8 +75,9 @@ public class MenuState extends GameState {
 			}
 			textLength = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
 			g.drawString(options[i], (700 - textLength) / 2, (700 / 2) - 60 + 60 * i);
-
+			
 		}
+		
 	}
 
 	private void select() {
