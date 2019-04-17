@@ -28,6 +28,7 @@ public class LeaderBoardState extends GameState {
 	private String[] options = { "MAU", "WORLD WIDE" };
 	private Font headerFont;
 
+	private int yViewCord = 0;
 	public LeaderBoardState(GameStateManager gsm) {
 		this.gsm = gsm;
 
@@ -50,8 +51,7 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	private void select() {
@@ -65,20 +65,35 @@ public class LeaderBoardState extends GameState {
 			System.exit(0);
 		}
 	}
-
-	@Override
-	public void draw(Graphics2D g) {
+	
+	private boolean selectionInFrame(int currentChoiceInTable, int yViewCord) {
+		if ( yViewCord + 220 + currentChoiceInTable  * 40 < yViewCord + HEIGHT && isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
+		if ((yViewCord + 220 + currentChoiceInTable  * 40 -20) >= yViewCord + HEIGHT) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private void drawBackground(Graphics2D g, int y) {
 		g.setFont(headerFont);
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
-		g.drawLine(10, 75, WIDTH - 10, 75);
+		g.drawLine(10, y + 75, WIDTH - 10, y + 75);
 		g.setStroke(new BasicStroke(1));
 
 		g.setColor(Color.RED);
-		g.drawString(header, 20, 50);
+		g.drawString(header, 20, y + 50);
 		g.setFont(font);
 
 		g.setColor(Color.WHITE);
@@ -89,22 +104,29 @@ public class LeaderBoardState extends GameState {
 			} else {
 				g.setColor(Color.WHITE);
 			}
-			g.drawString(options[i], 120 + i * 250, 115);
+			g.drawString(options[i], 120 + i * 250, y + 115);
 		}
 
 		g.setColor(Color.WHITE);
 
 		for (int i = 0; i < subHeader.length; i++) {
-			g.drawString(subHeader[i], 40 + i * 240, 170);
+			g.drawString(subHeader[i], 40 + i * 240, y + 170);
 		}
 
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
-		g.drawLine(10, 130, WIDTH - 10, 130);
+		g.drawLine(10, y + 130, WIDTH - 10, y + 130);
 		g.setStroke(new BasicStroke(1));
 		g.setColor(Color.WHITE);
+	}
 
+	@Override
+	public void draw(Graphics2D g) {
+		
+		drawBackground(g, yViewCord);
+		
 		for (int i = 0; i < testCases.length; i++) {
+			
 			for (int j = 0; j < testCases[i].length; j++) {
 
 				if (i == currentChoiceInTable) {
@@ -112,21 +134,12 @@ public class LeaderBoardState extends GameState {
 				} else {
 					g.setColor(Color.WHITE);
 				}
-				g.drawString(testCases[i][j], 40 + j * 240, 220 + i * 40);
+				g.drawString(testCases[i][j], 40 + j * 240, yViewCord + 220 + i * 40);
 			}
 		}
 
-//		
-//		for (int i = 0; i < options.length; i++) {
-//			if (i == currentChoice) {
-//				g.setColor(Color.WHITE);
-//			} else {
-//				g.setColor(Color.GREEN);
-//			}
-//			textLength = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
-//			g.drawString(options[i], (700 - textLength) / 2, (700 / 2) - 60 + 60 * i);
-//		}
-
+		
+		
 	}
 
 	@Override
@@ -156,6 +169,9 @@ public class LeaderBoardState extends GameState {
 			currentChoiceInTable++;
 			if (currentChoiceInTable == testCases.length) {
 				currentChoiceInTable = testCases.length-1;
+			}
+			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
+				yViewCord -= 40;
 			}
 		}
 	}
