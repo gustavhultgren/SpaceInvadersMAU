@@ -174,7 +174,7 @@ public class LeaderBoardState extends GameState {
 			if (currentChoiceInTable == testCases.length) {
 				currentChoiceInTable = testCases.length-1;
 			}
-			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
+			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord) && !(currentChoiceInTable == testCases.length-1)) {
 				yViewCord -= 40;
 			}
 		}
