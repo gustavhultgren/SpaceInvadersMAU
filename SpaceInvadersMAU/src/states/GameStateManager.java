@@ -10,8 +10,9 @@ public class GameStateManager {
 	
 	public static final int NUMGAMESTATES = 5;
 	public static final int MENUSTATE = 0;
-	public static final int LEVEL1STATE = 1;
+	public static final int PLAYINGSTATE = 1;
 	public static final int GAMEOVERSTATE = 2;
+	public static final int LEADERBOARDSTATE = 3;
 	
 	public GameStateManager() {
 		
@@ -33,10 +34,12 @@ public class GameStateManager {
 	private void loadState(int state) {
 		if(state == MENUSTATE)
 			gameStates[state] = new MenuState(this);
-		if(state == LEVEL1STATE)
+		if(state == PLAYINGSTATE)
 			gameStates[state] = new PlayingState(this);
 		if(state == GAMEOVERSTATE)
 			gameStates[state] = new GameOverState(this);
+		if(state == LEADERBOARDSTATE)
+			gameStates[state] = new LeaderBoardState(this);
 	}
 	
 	private void unloadState(int state) {
