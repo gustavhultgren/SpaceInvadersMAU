@@ -66,16 +66,17 @@ public class LeaderBoardState extends GameState {
 		}
 	}
 	
-	private boolean selectionInFrame(int currentChoiceInTable, int yViewCord) {
-		if ( yViewCord + 220 + currentChoiceInTable  * 40 < yViewCord + HEIGHT && isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
+	
+	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
+		if ((-yViewCord + 220 + currentChoiceInTable  * 40 -20) >= -yViewCord + HEIGHT) {
 			return true;
 		}else {
 			return false;
 		}
 	}
 	
-	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
-		if ((yViewCord + 220 + currentChoiceInTable  * 40 -20) >= yViewCord + HEIGHT) {
+	private boolean isFirstSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
+		if ((currentChoiceInTable  * 40) <= -yViewCord -20) {
 			return true;
 		}else {
 			return false;
@@ -163,6 +164,9 @@ public class LeaderBoardState extends GameState {
 			currentChoiceInTable--;
 			if (currentChoiceInTable == -1) {
 				currentChoiceInTable = 0;
+			}
+			if (isFirstSelectionInFrame(currentChoiceInTable, yViewCord)) {
+				yViewCord += 40;
 			}
 		}
 		if (k == KeyEvent.VK_DOWN) {
