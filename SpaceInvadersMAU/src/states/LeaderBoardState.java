@@ -10,23 +10,18 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import server.PlayerScore;
+
 public class LeaderBoardState extends GameState {
 
 	private int currentChoiceOfTable = 0;
 	private int currentChoiceInTable = 0;
-	private String[][] testCases = { { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" } ,{ "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" } };
+
 	private String header = "HIGHSCORE TOP 100";
 	private String[] subHeader = { "RANK", "NAME", "SCORE" };
 	private String[] options = { "MAU", "WORLD WIDE" };
 	private Font headerFont;
+	private PlayerScore[] scoreList = new PlayerScore[100];
 
 	private int yViewCord = 0;
 	public LeaderBoardState(GameStateManager gsm) {
@@ -38,6 +33,11 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void init() {
+		for (int i = 0; i < scoreList.length; i++) {
+			scoreList[i] = new PlayerScore("Tom", 10000);
+		}
+		
+		
 		try {
 			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -126,16 +126,22 @@ public class LeaderBoardState extends GameState {
 		
 		drawBackground(g, yViewCord);
 		
-		for (int i = 0; i < testCases.length; i++) {
+		for (int i = 0; i < scoreList.length; i++) {
 			
-			for (int j = 0; j < testCases[i].length; j++) {
+			for (int j = 0; j < 3; j++) {
 
 				if (i == currentChoiceInTable) {
 					g.setColor(Color.YELLOW);
 				} else {
 					g.setColor(Color.WHITE);
 				}
-				g.drawString(testCases[i][j], 40 + j * 240, yViewCord + 220 + i * 40);
+				if (j == 0) {
+					g.drawString(i+1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
+				}else if(j == 1){
+					g.drawString(scoreList[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
+				}else {
+					g.drawString(scoreList[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+				}
 			}
 		}
 
@@ -171,10 +177,10 @@ public class LeaderBoardState extends GameState {
 		}
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoiceInTable++;
-			if (currentChoiceInTable == testCases.length) {
-				currentChoiceInTable = testCases.length-1;
+			if (currentChoiceInTable == scoreList.length) {
+				currentChoiceInTable = scoreList.length-1;
 			}
-			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord) && !(currentChoiceInTable == testCases.length-1)) {
+			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord) && !(currentChoiceInTable == scoreList.length-1)) {
 				yViewCord -= 40;
 			}
 		}

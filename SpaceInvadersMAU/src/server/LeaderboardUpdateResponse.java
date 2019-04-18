@@ -5,25 +5,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class LeaderboardUpdateResponse implements Serializable{
-	private ArrayList<PlayerScore> scoreList;
+	private PlayerScore[] scoreList;
 	
-	public LeaderboardUpdateResponse(ArrayList<PlayerScore> scoreList) {
+	public LeaderboardUpdateResponse(PlayerScore[] scoreList) {
 		this.scoreList = scoreList;
 	}
 	
-	public ArrayList<PlayerScore> getScore(){
+	public PlayerScore[] getScoreList(){
 		return scoreList;
-	}
-	
-	public String toString() {
-		ArrayList<PlayerScore> tempList = scoreList;
-		Collections.reverse(tempList);
-		
-		String m = "";
-		for (PlayerScore elem : tempList) {
-			m += (elem.getScore() + " " + elem.getName() + "\n");
-		}
-		return m;
 	}
 	
 }

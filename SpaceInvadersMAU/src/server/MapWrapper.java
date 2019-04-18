@@ -11,7 +11,7 @@ public class MapWrapper implements Serializable{
 		playerScoreMap.put(score, score);
 	}
 	
-	public ArrayList<PlayerScore> getScoreList() {
-		return new ArrayList<PlayerScore>(playerScoreMap.values());
+	public PlayerScore[] getScoreList() {
+		return (PlayerScore[])playerScoreMap.values().toArray();
 	}
 }
