@@ -102,5 +102,6 @@ public class ServerClient {
 
 	public static void main(String[] args) throws IOException {
 		new ServerClient(3500, 10);
+
 	}
 }

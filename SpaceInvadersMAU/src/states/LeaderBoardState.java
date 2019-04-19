@@ -9,13 +9,18 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
+import server.MapWrapper;
 import server.PlayerScore;
 
 public class LeaderBoardState extends GameState {
 
 	private int currentChoiceOfTable = 0;
 	private int currentChoiceInTable = 0;
+	private Thread readingThread;
 
 	private String header = "HIGHSCORE TOP 100";
 	private String[] subHeader = { "RANK", "NAME", "SCORE" };
@@ -24,6 +29,7 @@ public class LeaderBoardState extends GameState {
 	private PlayerScore[] scoreList = new PlayerScore[100];
 
 	private int yViewCord = 0;
+
 	public LeaderBoardState(GameStateManager gsm) {
 		this.gsm = gsm;
 
@@ -31,13 +37,44 @@ public class LeaderBoardState extends GameState {
 		init();
 	}
 
+	public PlayerScore[] readPS(String ip, int port) {	
+		MapWrapper map = new MapWrapper();
+
+		try (Socket socket = new Socket(ip, port);
+				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+		) {
+			oos.writeObject(new Object());
+			oos.flush();
+			map = (MapWrapper)ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map.getScoreList();
+	}
+	
+	public void startReadThread() {
+		Runnable r = new Runnable() {
+			public void run(){
+				scoreList = readPS("127.0.0.1", 3500);
+			}
+		};
+		readingThread = new Thread(r);
+		readingThread.start();
+	}
+
 	@Override
 	public void init() {
+		
+		startReadThread();
+		
 		for (int i = 0; i < scoreList.length; i++) {
 			scoreList[i] = new PlayerScore("Tom", 10000);
 		}
-		
-		
+
 		try {
 			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -51,7 +88,7 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void update() {
-		
+
 	}
 
 	private void select() {
@@ -65,24 +102,23 @@ public class LeaderBoardState extends GameState {
 			System.exit(0);
 		}
 	}
-	
-	
-	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
-		if ((-yViewCord + 220 + currentChoiceInTable  * 40 -20) >= -yViewCord + HEIGHT) {
+
+	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord) {
+		if ((-yViewCord + 220 + currentChoiceInTable * 40 - 20) >= -yViewCord + HEIGHT) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
-	private boolean isFirstSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
-		if ((currentChoiceInTable  * 40) <= -yViewCord -20) {
+
+	private boolean isFirstSelectionInFrame(int currentChoiceInTable, int yViewCord) {
+		if ((currentChoiceInTable * 40) <= -yViewCord - 20) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	private void drawBackground(Graphics2D g, int y) {
 		g.setFont(headerFont);
 		g.setColor(Color.BLACK);
@@ -123,11 +159,11 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void draw(Graphics2D g) {
-		
+
 		drawBackground(g, yViewCord);
-		
+
 		for (int i = 0; i < scoreList.length; i++) {
-			
+
 			for (int j = 0; j < 3; j++) {
 
 				if (i == currentChoiceInTable) {
@@ -136,17 +172,15 @@ public class LeaderBoardState extends GameState {
 					g.setColor(Color.WHITE);
 				}
 				if (j == 0) {
-					g.drawString(i+1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
-				}else if(j == 1){
+					g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
+				} else if (j == 1) {
 					g.drawString(scoreList[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
-				}else {
+				} else {
 					g.drawString(scoreList[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
 				}
 			}
 		}
 
-		
-		
 	}
 
 	@Override
@@ -178,9 +212,10 @@ public class LeaderBoardState extends GameState {
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoiceInTable++;
 			if (currentChoiceInTable == scoreList.length) {
-				currentChoiceInTable = scoreList.length-1;
+				currentChoiceInTable = scoreList.length - 1;
 			}
-			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord) && !(currentChoiceInTable == scoreList.length-1)) {
+			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)
+					&& !(currentChoiceInTable == scoreList.length - 1)) {
 				yViewCord -= 40;
 			}
 		}
