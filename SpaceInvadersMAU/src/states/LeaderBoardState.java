@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import server.LeaderboardUpdateResponse;
 import server.MapWrapper;
 import server.PlayerScore;
 
@@ -38,22 +39,22 @@ public class LeaderBoardState extends GameState {
 	}
 
 	public PlayerScore[] readPS(String ip, int port) {	
-		MapWrapper map = new MapWrapper();
-
+		
+		LeaderboardUpdateResponse lbur = null;
 		try (Socket socket = new Socket(ip, port);
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 		) {
 			oos.writeObject(new Object());
 			oos.flush();
-			map = (MapWrapper)ois.readObject();
+			lbur = (LeaderboardUpdateResponse)ois.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return map.getScoreList();
+		return lbur.getScoreList();
 	}
 	
 	public void startReadThread() {

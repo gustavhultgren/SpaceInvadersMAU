@@ -8,16 +8,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.LinkedList;
 
 public class ServerClient {
 	private Connection connection = new Connection();
 	private ServerSocket serverSocket;
 	private RunOnThreadN pool;
+	private LinkedList<PlayerScore> list = new LinkedList<PlayerScore>();
 
-	private MapWrapper playerScoreMap;
 
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
 		pool = new RunOnThreadN(nbrOfThreads);
@@ -26,10 +24,9 @@ public class ServerClient {
 		connection.start();
 	}
 
-	public synchronized void writeScoreToFile(PlayerScore score) {
+	public synchronized void writeScoresToFile(LinkedList<PlayerScore> list) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
-			playerScoreMap.put(score);
-			oos.writeObject(playerScoreMap);
+			oos.writeObject(list);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -40,7 +37,7 @@ public class ServerClient {
 	public void readScoreFromFile() {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
 
-			playerScoreMap = (MapWrapper) ois.readObject();
+			list = (LinkedList<PlayerScore>) ois.readObject();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
