@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 */
 	public GamePanel() {
 		super();
-		setPreferredSize(new Dimension(WIDTH , HEIGHT));
+		setPreferredSize(new Dimension(WIDTH  , HEIGHT));
 
 		setFocusable(true);
 		requestFocus();
@@ -131,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	private void drawToScreen() {
 		Graphics g2 = this.getGraphics();
-		g2.drawImage(image, 0, 0, WIDTH , HEIGHT, null);
+		g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
 		g2.dispose();
 	}
 
