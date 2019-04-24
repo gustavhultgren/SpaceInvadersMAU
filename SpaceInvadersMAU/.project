@@ -14,26 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>Libs/jl1.0.1.jar</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/AppData/Local/Temp/Rar$DRa15016.11183/Dragon%20Tale%20Tutorial%20P08/Libs/jl1.0.1.jar</locationURI>
-		</link>
-		<link>
-			<name>Libs/mp3spi1.9.5.jar</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/AppData/Local/Temp/Rar$DRa15016.11183/Dragon%20Tale%20Tutorial%20P08/Libs/mp3spi1.9.5.jar</locationURI>
-		</link>
-		<link>
-			<name>Libs/tritonus_share.jar</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/AppData/Local/Temp/Rar$DRa15016.11183/Dragon%20Tale%20Tutorial%20P08/Libs/tritonus_share.jar</locationURI>
-		</link>
-		<link>
-			<name>resources/music/si.mp3</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Downloads/si.mp3</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

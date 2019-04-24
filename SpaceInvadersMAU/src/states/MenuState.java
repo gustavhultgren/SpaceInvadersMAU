@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import tileMap.*;
@@ -26,12 +27,19 @@ public class MenuState extends GameState {
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
 	
 	private AudioPlayer bgMusic;
+	private HashMap<String, AudioPlayer> soundFX;
+	
 	private MenuBackground bg;
+	
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
 		
 		bgMusic = new AudioPlayer("/music/si.mp3");
 		bgMusic.play();
+		
+		soundFX = new HashMap<String, AudioPlayer>();
+		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
+		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 		
 		// Initializing variables.
 		init();
@@ -39,11 +47,8 @@ public class MenuState extends GameState {
 
 	@Override
 	public void init() {
-
 	
 		try {
-			
-			
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
@@ -108,18 +113,21 @@ public class MenuState extends GameState {
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
 			select();
+			soundFX.get("enter").play();
 		}
 		if (k == KeyEvent.VK_UP) {
 			currentChoice--;
 			if (currentChoice == -1) {
 				currentChoice = options.length - 1;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoice++;
 			if (currentChoice == options.length) {
 				currentChoice = 0;
 			}
+			soundFX.get("click").play();
 		}
 	}
 
