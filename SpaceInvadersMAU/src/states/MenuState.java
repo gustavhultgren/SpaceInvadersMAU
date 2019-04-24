@@ -27,7 +27,6 @@ public class MenuState extends GameState {
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
 	
 	private AudioPlayer bgMusic;
-	private HashMap<String, AudioPlayer> soundFX;
 	
 	private MenuBackground bg;
 	
@@ -37,7 +36,6 @@ public class MenuState extends GameState {
 		bgMusic = new AudioPlayer("/music/si.mp3");
 		bgMusic.play();
 		
-		soundFX = new HashMap<String, AudioPlayer>();
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 		

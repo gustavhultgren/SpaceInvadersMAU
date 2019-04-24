@@ -2,9 +2,15 @@ package states;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.HashMap;
 
+import audio.AudioPlayer;
 import entity.Player;
 
+/**
+ * 
+ * @author Gustav Hultgren & Tom Eriksson
+ */
 public abstract class GameState {
 	
 	//Dimensions.
@@ -20,6 +26,7 @@ public abstract class GameState {
 	protected static int GROUND = 650;
 	protected static Font font;
 
+	protected static HashMap<String, AudioPlayer> soundFX = new HashMap<String, AudioPlayer>();
 	
 	protected GameStateManager gsm;
 	protected static Player player;

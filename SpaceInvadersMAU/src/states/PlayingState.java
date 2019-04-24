@@ -11,12 +11,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import audio.AudioPlayer;
 import entity.Enemy;
 import entity.EnemyBomb;
 import entity.Missile;
@@ -31,6 +33,7 @@ public class PlayingState extends GameState {
 	private Random rand = new Random();
 	private int nbr = 0;
 	private boolean paused;
+	
 	private String score;
 	private String instruction = "Press ESC to resume";
 	private String gameOver = "GAME PAUSED";
@@ -40,12 +43,10 @@ public class PlayingState extends GameState {
 	public static LinkedList<LinkedList<Enemy>> enemies;
 	public static ArrayList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
-	// ToDo: Ta bort denna listan och f�r varje enemy l�ngst ut: rita bomb.
 
 	// Images
 	private BufferedImage heartImage;
 	private MenuBackground bg;
-	
 	
 	public PlayingState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -54,21 +55,21 @@ public class PlayingState extends GameState {
 
 	@Override
 	public void init() {
-		
-		
 		try {
 			bg = new MenuBackground("/images/retrospaces.png", 1.0);
 			bg.setVector(-0.5, 0);
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
+		
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
 		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
+		
 		// Adding enemies to the list and sets each enemies X and Y-value so it looks
 		// good.
 		for (int i = 0; i < 4; i++) {
@@ -88,6 +89,13 @@ public class PlayingState extends GameState {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
+		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
+		soundFX.put("win", new AudioPlayer("/music/sfx_win.mp3"));
+		soundFX.put("gameOver", new AudioPlayer("/music/sfx_gameOver.mp3"));
+		soundFX.put("enemyHit", new AudioPlayer("/music/sfx_enemyHit.mp3"));
+		
 	}
 
 	@Override
@@ -101,6 +109,7 @@ public class PlayingState extends GameState {
 				e.printStackTrace();
 			}
 		}
+		
 		// Updating player:
 		player.update();
 
@@ -229,6 +238,7 @@ public class PlayingState extends GameState {
 		// Check for dead player:
 		if (player.isDead()) {
 			gsm.setState(2);
+			soundFX.get("gameOver").play();
 		}
 
 		if (nbr == 8) {
@@ -327,10 +337,14 @@ public class PlayingState extends GameState {
 			player.setRight(true);
 		if (key == KeyEvent.VK_Z)
 			player.setFiring(true);
-		if (key == KeyEvent.VK_ESCAPE)
+		if (key == KeyEvent.VK_ESCAPE) {
 			pause();
-		if (key == KeyEvent.VK_E && paused)
+			soundFX.get("click").play();
+		}
+		if (key == KeyEvent.VK_E && paused) {
+			soundFX.get("enter").play();
 			gsm.setState(GameStateManager.MENUSTATE);
+		}
 	}
 
 	public void keyReleased(int key) {
