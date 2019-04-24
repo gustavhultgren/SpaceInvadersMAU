@@ -1,5 +1,5 @@
 package states;
-
+import tileMap.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -22,6 +22,7 @@ import entity.EnemyBomb;
 import entity.Missile;
 import entity.Player;
 import main.GamePanel;
+import tileMap.MenuBackground;
 
 public class PlayingState extends GameState {
 
@@ -34,7 +35,7 @@ public class PlayingState extends GameState {
 	private String instruction = "Press ESC to resume";
 	private String gameOver = "GAME PAUSED";
 	private int textLength;
-
+	
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
 	public static ArrayList<Missile> missiles;
@@ -43,7 +44,9 @@ public class PlayingState extends GameState {
 
 	// Images
 	private BufferedImage heartImage;
-
+	private MenuBackground bg;
+	
+	
 	public PlayingState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
@@ -51,6 +54,15 @@ public class PlayingState extends GameState {
 
 	@Override
 	public void init() {
+		
+		
+		try {
+			bg = new MenuBackground("/images/retrospaces.png", 1.0);
+			bg.setVector(-0.5, 0);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
@@ -72,7 +84,7 @@ public class PlayingState extends GameState {
 		bombs = new LinkedList<EnemyBomb>();
 
 		try {
-			heartImage = ImageIO.read(new File("resources/images/Heart.png"));
+			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -80,7 +92,8 @@ public class PlayingState extends GameState {
 
 	@Override
 	public void update() {
-
+		bg.update();
+		
 		while (paused) {
 			try {
 				wait();
@@ -227,8 +240,9 @@ public class PlayingState extends GameState {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.black);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		bg.draw(g);
+//		g.setColor(Color.black);
+//		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));

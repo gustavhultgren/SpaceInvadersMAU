@@ -2,6 +2,8 @@ package states;
 
 import java.awt.Color;
 
+
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -13,10 +15,9 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
-
+import tileMap.*;
 import javafx.scene.layout.Background;
-import tileMap.MenuBackground;
-
+import audio.AudioPlayer;
 
 public class MenuState extends GameState {
 
@@ -24,10 +25,14 @@ public class MenuState extends GameState {
 	private int textLength;
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
 	
+	private AudioPlayer bgMusic;
 	private MenuBackground bg;
-	
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
+		
+		bgMusic = new AudioPlayer("/music/si.mp3");
+		bgMusic.play();
+		
 		// Initializing variables.
 		init();
 	}
@@ -38,11 +43,14 @@ public class MenuState extends GameState {
 	
 		try {
 			
-			bg = new MenuBackground("/images/menuBG.gif", 1);
+			
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
-		
+			bg = new MenuBackground("/images/BackgroundTest.png", 2.0);
+			bg.setVector(-0.2, 0);
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -53,6 +61,7 @@ public class MenuState extends GameState {
 	@Override
 	public void update() {
 		bg.update();
+		
 		// TODO Auto-generated method stub
 
 	}
@@ -60,6 +69,7 @@ public class MenuState extends GameState {
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
+		
 		// draw menu options
 		
 		
