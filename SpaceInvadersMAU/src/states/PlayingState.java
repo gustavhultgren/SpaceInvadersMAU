@@ -59,10 +59,10 @@ public class PlayingState extends GameState {
 		enemies = new LinkedList<LinkedList<Enemy>>();
 		// Adding enemies to the list and sets each enemies X and Y-value so it looks
 		// good.
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 8; j++) {
 				Enemy enemy = new Enemy(ENEMY_INIT_X + 40 * j, ENEMY_INIT_Y + 40 * i, 1, 1, gsm.getDifficulty());
 				row.add(enemy);
 			}
