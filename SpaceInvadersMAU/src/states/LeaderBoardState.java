@@ -20,6 +20,7 @@ import java.util.LinkedList;
 
 import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
+import serverTestClasses.Client;
 
 public class LeaderBoardState extends GameState {
 
@@ -31,64 +32,74 @@ public class LeaderBoardState extends GameState {
 	private String[] subHeader = { "RANK", "NAME", "SCORE" };
 	private String[] options = { "MAU", "WORLD WIDE" };
 	private Font headerFont;
-	private LinkedList<PlayerScore> scoreList;
+	private PlayerScore[] scoreList;
+	
+	private Client client = new Client("127.0.0.1", 3500);;
 
 	private int yViewCord = 0;
 
 	public LeaderBoardState(GameStateManager gsm) {
 		this.gsm = gsm;
-
+		startClient();
+		getScore();
 		// Initializing variables.
 		init();
 	}
-
-	public PlayerScore[] readPS(String ip, int port) {
-
-		LeaderboardUpdateResponse lbur = null;
-		try (Socket socket = new Socket(ip, port);
-				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());) {
-			oos.writeObject(new Object());
-			oos.flush();
-			lbur = (LeaderboardUpdateResponse) ois.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lbur.getScoreList();
+	
+	public synchronized void startClient() {
+		client.run();
+	}
+	public synchronized void getScore() {
+		scoreList = client.getScoreList();
 	}
 
-	public void readScoreFromFile() {
-//		LinkedList<PlayerScore> list = null;
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
+//	public PlayerScore[] readPS(String ip, int port) {
+//
+//		LeaderboardUpdateResponse lbur = null;
+//		try (Socket socket = new Socket(ip, port);
+//				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+//				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());) {
+//			oos.writeObject(new Object());
+//			oos.flush();
+//			lbur = (LeaderboardUpdateResponse) ois.readObject();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return lbur.getScoreList();
+//	}
 
-			scoreList = (LinkedList<PlayerScore>) ois.readObject();
+//	public void readScoreFromFile() {
+////		LinkedList<PlayerScore> list = null;
+//		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
+//
+//			scoreList = (LinkedList<PlayerScore>) ois.readObject();
+//
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+////		return list;
+//	}
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-//		return list;
-	}
+//	public void writeListToFile() {
+//		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
+//			oos.writeObject(scoreList);
+//			oos.flush();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
-	public void writeListToFile() {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
-			oos.writeObject(scoreList);
-			oos.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void add(PlayerScore p) {
-		scoreList.add(p);
-		Collections.sort(scoreList);
-	}
+//	public void add(PlayerScore p) {
+//		scoreList.add(p);
+//		Collections.sort(scoreList);
+//	}
 //
 //	public void startReadThread() {
 //		Runnable r = new Runnable() {
@@ -104,13 +115,10 @@ public class LeaderBoardState extends GameState {
 	public void init() {
 
 //		startReadThread();
-
+//		
 //		for (int i = 0; i < scoreList.length; i++) {
 //			scoreList[i] = new PlayerScore("Tom", 10000);
 //		}
-		
-		readScoreFromFile();
-
 		try {
 			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -198,7 +206,7 @@ public class LeaderBoardState extends GameState {
 
 		drawBackground(g, yViewCord);
 
-		for (int i = 0; i < scoreList.size(); i++) {
+		for (int i = 0; i < scoreList.length; i++) {
 
 			for (int j = 0; j < 3; j++) {
 
@@ -210,9 +218,9 @@ public class LeaderBoardState extends GameState {
 				if (j == 0) {
 					g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
 				} else if (j == 1) {
-					g.drawString(scoreList.get(i).getName(), 40 + j * 240, yViewCord + 220 + i * 40);
+					g.drawString(scoreList[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
 				} else {
-					g.drawString(scoreList.get(i).getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+					g.drawString(scoreList[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
 				}
 			}
 		}
@@ -247,11 +255,11 @@ public class LeaderBoardState extends GameState {
 		}
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoiceInTable++;
-			if (currentChoiceInTable == scoreList.size()) {
-				currentChoiceInTable = scoreList.size() - 1;
+			if (currentChoiceInTable == scoreList.length) {
+				currentChoiceInTable = scoreList.length - 1;
 			}
 			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)
-					&& !(currentChoiceInTable == scoreList.size() - 1)) {
+					&& !(currentChoiceInTable == scoreList.length - 1)) {
 				yViewCord -= 40;
 			}
 		}
