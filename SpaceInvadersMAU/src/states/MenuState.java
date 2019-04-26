@@ -31,9 +31,10 @@ public class MenuState extends GameState {
 
 	
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(25f);
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")));
+			
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
+//			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -75,7 +76,7 @@ public class MenuState extends GameState {
 			// help
 		}
 		if (currentChoice == 2) {
-			System.exit(0);
+			gsm.setState(GameStateManager.GAMEOVERSTATE);
 		}
 	}
 

@@ -54,7 +54,7 @@ public class Player {
 
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 700;
+		firingDelay = 100;
 
 		playerColor = Color.WHITE;
 
