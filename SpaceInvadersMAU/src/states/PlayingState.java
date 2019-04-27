@@ -219,9 +219,10 @@ public class PlayingState extends GameState {
 		}
 
 		if (nbr == 8) {
+			int score = player.getScore();
 			gsm.setHigherDifficulty();
 			gsm.setState(1);
-
+			player.setScore(score);
 		}
 	}
 

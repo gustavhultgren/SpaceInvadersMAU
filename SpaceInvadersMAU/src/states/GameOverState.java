@@ -72,7 +72,6 @@ public class GameOverState extends GameState {
 		}
 		
 		
-		
 		for (int i = 0; i < options.length; i++) {
 			if (i == currentChoice) {
 				g.setColor(Color.YELLOW);
@@ -88,20 +87,22 @@ public class GameOverState extends GameState {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-
 		}
-
-		
-//		g.setColor(Color.WHITE);
-//		
-		
-		
+	}
+	
+	private void select() {
+		if (currentChoice == 0) {
+			gsm.setState(GameStateManager.MENUSTATE);
+		}
+		if (currentChoice == 1) {
+			gsm.setState(GameStateManager.MENUSTATE);		}
 	}
 
 	@Override
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
+			select();
+			
 		} else if (k == KeyEvent.VK_LEFT) {
 			currentChoice--;
 			if (currentChoice == -1) {
