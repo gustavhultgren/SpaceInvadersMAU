@@ -1,5 +1,8 @@
 package server;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,39 +11,58 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.Collections;
+import java.util.LinkedList;
+
+import javax.swing.JFrame;
 
 public class ServerClient {
 	private Connection connection = new Connection();
 	private ServerSocket serverSocket;
 	private RunOnThreadN pool;
-
-	private MapWrapper playerScoreMap;
+	private LinkedList<PlayerScore> list;
+	private JFrame frame;
 
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
 		pool = new RunOnThreadN(nbrOfThreads);
+		list = readScoreFromFile();
 		serverSocket = new ServerSocket(port);
 		pool.start();
 		connection.start();
 	}
-
-	public synchronized void writeScoreToFile(PlayerScore score) {
+	
+	public void start() {
+		frame = new JFrame();
+		frame.setBounds(0, 0, 400, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(null);
+		frame.setTitle("Server");
+		frame.setVisible(true);
+		frame.setResizable(false); // Prevent user from change size
+		frame.setLocationRelativeTo(null); // Start middle screen
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				writeListToFile();
+				e.getWindow().dispose();
+			}
+		});
+	}
+	
+	private void writeListToFile() {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
-			playerScoreMap.put(score);
-			oos.writeObject(playerScoreMap);
+			oos.writeObject(this.list);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("rekord skrivet till fil");
 	}
 
-	public void readScoreFromFile() {
+
+	private LinkedList<PlayerScore> readScoreFromFile() {
+		LinkedList<PlayerScore> list = null;
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
 
-			playerScoreMap = (MapWrapper) ois.readObject();
+			list = (LinkedList<PlayerScore>) ois.readObject();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -49,7 +71,23 @@ public class ServerClient {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Fil inläst");
+		return list;
+	}
+	
+	private synchronized LinkedList<PlayerScore> getList(){
+		return list;
+	}
+	
+	private synchronized void addAndSort(PlayerScore p) {
+		list.add(p);
+		Collections.sort(list);
+		System.out.println("score tillagd och sorterad");
+	}
+	
+	private void printScores() {
+		for(PlayerScore elem : list) {
+			System.out.println(elem.getName() + " " + elem.getScore());
+		}
 	}
 
 	private class Connection extends Thread {
@@ -78,16 +116,17 @@ public class ServerClient {
 			try (ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
 					ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())) {
 				PlayerScore request;
+				LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList());
 				try {
+					dos.writeObject(response);
+					dos.flush();
 					request = (PlayerScore) dis.readObject();
-					readScoreFromFile();
-					writeScoreToFile(request);
+					addAndSort(request);
+					printScores();
+					response = new LeaderboardUpdateResponse(getList());
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-
-				LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(playerScoreMap.getScoreList());
-
 				dos.writeObject(response);
 				dos.flush();
 			} catch (IOException e) {
@@ -99,8 +138,12 @@ public class ServerClient {
 			System.out.println("Klient nerkopplad, " + Thread.currentThread() + " återvänder till buffert");
 		}
 	}
-
-	public static void main(String[] args) throws IOException {
-		new ServerClient(3500, 10);
+	public static void main (String[]args) {
+		try {
+			new ServerClient(3500, 10).start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+	
 }

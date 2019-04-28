@@ -6,34 +6,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class ServerTest {
 
-	private MapWrapper playerScoreMap;
-	int number;
+	private LinkedList<PlayerScore> list = new LinkedList<PlayerScore>();
 
-	public void writeScoreToFile(PlayerScore score) {
+	public void writeListToFile() {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
-			playerScoreMap.put(score);
-			oos.writeObject(playerScoreMap);
+			oos.writeObject(this.list);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public void add(PlayerScore p) {
+		list.add(p);
+		Collections.sort(list);
 	}
 
-	public ArrayList<PlayerScore> readScoreFromFile() {
-		ArrayList<PlayerScore> tempList = new ArrayList();
+	public void fillList() {
+		for (int i = 0; i < 100; i++) {
+			list.add(new PlayerScore("Tom", i * 100));
+		}
+	}
+
+	public LinkedList<PlayerScore> readScoreFromFile() {
+		LinkedList<PlayerScore> list = null;
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
 
-			playerScoreMap = (MapWrapper) ois.readObject();
-
-			tempList = playerScoreMap.getScoreList();
+			list = (LinkedList<PlayerScore>) ois.readObject();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -42,31 +46,18 @@ public class ServerTest {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		return tempList;
-	}
-
-	public void load() {
-		readScoreFromFile();
+		return list;
 	}
 
 	public static void main(String[] args) {
 		ServerTest test = new ServerTest();
 
-		ArrayList<PlayerScore> list = test.readScoreFromFile();
-//		test.writeScoreToFile(new PlayerScore("Tom", 400));
+		LinkedList<PlayerScore> list = test.readScoreFromFile();
+//		test.add(new PlayerScore("Elin", 1001));
+//		test.writeListToFile();
 
 		for (PlayerScore elem : list) {
-			System.out.println(elem.getScore());
+			System.out.println(elem.getName() + " " + elem.getScore());
 		}
-
-//		Random rand = new Random();
-//		int number;
-//		for (int i = 0; i < 3; i++) {
-//			number = rand.nextInt(100);
-//			PlayerScore ps = new PlayerScore("Karlsson", 500);
-//			test.writeScoreToFile(ps);
-//		}
-
 	}
 }

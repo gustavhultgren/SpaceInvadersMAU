@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import entity.Player;
+import serverTestClasses.Client;
 
 public abstract class GameState {
 	
@@ -20,6 +21,7 @@ public abstract class GameState {
 	protected static int ENEMY_DIRECTION = -1;
 	protected static int GROUND = 650;
 	protected static Font font;
+	protected static Client client = new Client("127.0.0.1", 3500);
 
 	
 	protected GameStateManager gsm;

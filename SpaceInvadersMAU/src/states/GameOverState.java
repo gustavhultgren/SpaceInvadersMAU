@@ -8,12 +8,16 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import server.PlayerScore;
+
 
 public class GameOverState extends GameState {
 	
 	private String[] options = { "YES", "NO"};
 	
 	private int currentChoice = 0;
+	private int frameCounter = 0;
+	private String playerName = "";
 	
 	public GameOverState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -52,9 +56,37 @@ public class GameOverState extends GameState {
 		g.setColor(Color.WHITE);
 		String finalScore = "FINAL SCORE: ";
 		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
-		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
+		g.drawString(finalScore, (700 - length) / 2, (700 / 2)- 50);
+		
 
 		Font tempFont;
+		try {
+			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 50);
+			g.setFont(tempFont);
+			g.setColor(Color.RED);
+			String name = "Name: ";
+			length = (int) g.getFontMetrics().getStringBounds(name, g).getWidth();
+			g.drawString(name, (700 - length) / 2 - 100, (700 / 2) + 50);
+			g.drawString(playerName, (700) / 2 -15, (700 / 2) + 50);
+		} catch (FontFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		if (frameCounter < 30) {
+			g.setColor(Color.RED);
+			g.fillRect(330 + playerName.length() * 50, 395, 50, 6);
+		}else if(frameCounter >= 30 && frameCounter < 60) {
+			g.setColor(Color.BLACK);
+			g.clearRect(330 + playerName.length() * 50, 395, 50, 6);
+		}else {
+			frameCounter = 0;
+		}
+		frameCounter++;
+		
 		try {
 			g.setColor(Color.GREEN);
 
@@ -63,8 +95,8 @@ public class GameOverState extends GameState {
 			String submit = "SUBMIT SCORE";
 			length = (int) g.getFontMetrics().getStringBounds(submit, g).getWidth();
 
-			g.drawString(submit, (700 - length) / 2, (700 / 2) + 100);
-			g.drawString("" + player.getScore(), 490, (700 / 2));
+			g.drawString(submit, (700 - length) / 2, (700 / 2) + 150);
+			g.drawString("" + player.getScore(), 490, (700 / 2)-50);
 
 		} catch (FontFormatException | IOException e1) {
 			// TODO Auto-generated catch block
@@ -79,10 +111,10 @@ public class GameOverState extends GameState {
 				g.setColor(Color.WHITE);
 			}
 			try {
-				tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 50);
+				tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 35);
 				g.setFont(tempFont);
 				length = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
-				g.drawString(options[i], 200 + 200 * i, (700 / 2) + 200 );
+				g.drawString(options[i], 200 + 200 * i, (700 / 2) + 250 );
 			} catch (FontFormatException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -92,7 +124,8 @@ public class GameOverState extends GameState {
 	
 	private void select() {
 		if (currentChoice == 0) {
-			gsm.setState(GameStateManager.MENUSTATE);
+			client.send(new PlayerScore(playerName, player.getScore()));
+			gsm.setState(GameStateManager.LEADERBOARDSTATE);
 		}
 		if (currentChoice == 1) {
 			gsm.setState(GameStateManager.MENUSTATE);		}
@@ -113,7 +146,39 @@ public class GameOverState extends GameState {
 			if (currentChoice == options.length) {
 				currentChoice = 1;
 			}
-		}	
+		}else if(k >= KeyEvent.VK_A && k <= KeyEvent.VK_Z) {
+			if(k == KeyEvent.VK_A) playerName += "A";
+			if(k == KeyEvent.VK_B) playerName += "B";
+			if(k == KeyEvent.VK_C) playerName += "C";
+			if(k == KeyEvent.VK_D) playerName += "D";
+			if(k == KeyEvent.VK_E) playerName += "E";
+			if(k == KeyEvent.VK_F) playerName += "F";
+			if(k == KeyEvent.VK_G) playerName += "G";
+			if(k == KeyEvent.VK_H) playerName += "H";
+			if(k == KeyEvent.VK_I) playerName += "I";
+			if(k == KeyEvent.VK_J) playerName += "J";
+			if(k == KeyEvent.VK_K) playerName += "K";
+			if(k == KeyEvent.VK_L) playerName += "L";
+			if(k == KeyEvent.VK_M) playerName += "M";
+			if(k == KeyEvent.VK_N) playerName += "N";
+			if(k == KeyEvent.VK_O) playerName += "O";
+			if(k == KeyEvent.VK_P) playerName += "P";
+			if(k == KeyEvent.VK_Q) playerName += "Q";
+			if(k == KeyEvent.VK_R) playerName += "R";
+			if(k == KeyEvent.VK_S) playerName += "S";
+			if(k == KeyEvent.VK_T) playerName += "T";
+			if(k == KeyEvent.VK_U) playerName += "U";
+			if(k == KeyEvent.VK_V) playerName += "V";
+			if(k == KeyEvent.VK_X) playerName += "X";
+			if(k == KeyEvent.VK_Y) playerName += "Y";
+			if(k == KeyEvent.VK_Z) playerName += "Z";
+		}else if(k == KeyEvent.VK_BACK_SPACE) {
+			if (playerName.length() <= 1) {
+				playerName = "";
+			}else {
+				playerName = playerName.substring(0, playerName.length()-1);
+			}
+		}
 	}
 
 	@Override

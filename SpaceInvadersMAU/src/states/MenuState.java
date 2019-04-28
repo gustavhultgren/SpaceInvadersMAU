@@ -31,6 +31,11 @@ public class MenuState extends GameState {
 
 	
 		try {
+			if (!client.isAlive()) {
+				client.connect();
+				client.start();
+			}
+			
 			
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
 //			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -70,13 +75,17 @@ public class MenuState extends GameState {
 
 	private void select() {
 		if (currentChoice == 0) {
-			gsm.setState(GameStateManager.LEVEL1STATE);
+			gsm.setState(GameStateManager.PLAYINGSTATE);
 		}
 		if (currentChoice == 1) {
-			// help
+			gsm.setState(GameStateManager.GAMEOVERSTATE);
 		}
 		if (currentChoice == 2) {
-			gsm.setState(GameStateManager.GAMEOVERSTATE);
+			
+			gsm.setState(GameStateManager.LEADERBOARDSTATE);
+		}
+		if (currentChoice == 3) {
+			System.exit(0);
 		}
 	}
 
@@ -88,6 +97,12 @@ public class MenuState extends GameState {
 			currentChoice--;
 			if (currentChoice == -1) {
 				currentChoice = options.length - 1;
+			}
+		}
+		if (k == KeyEvent.VK_DOWN) {
+			currentChoice++;
+			if (currentChoice == options.length) {
+				currentChoice = 0;
 			}
 		}
 	}
