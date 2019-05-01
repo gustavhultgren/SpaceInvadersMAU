@@ -83,6 +83,10 @@ public class Player extends Entity {
 	public void loseLife() {
 		lives--;
 	}
+	
+	public void addLife(int increment) {
+		lives += increment;
+	}
 
 	public boolean isDead() {
 		return lives <= 0;

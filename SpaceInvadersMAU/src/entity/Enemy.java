@@ -1,9 +1,7 @@
 package entity;
 
-
 import java.awt.Rectangle;
 
-import main.GamePanel;
 import states.PlayingState;
 
 /**
@@ -46,7 +44,7 @@ public class Enemy extends Entity {
 
 	public boolean isDead() { return dead; }
 
-	public void hit() { dead = true; }
+	public void killed() { dead = true; }
 
 	//Used to handle player - enemy collision.
 	public Rectangle getBounds() {
