@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -217,21 +216,17 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 						
 						/**
-						 * Type 1 -- +1 life
-						 * Type 2 -- +50 score
-						 * Type 3 -- Slow motion
+						 * Type 1 -- +1 life (10%)
+						 * Type 2 -- +50 score (20%)
 						 */
 						double rand = Math.random();
-						if(rand < 0.05) {
+						if(rand < 0.30) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 8, 3.0, 1)); //Type 1
-							System.out.println("Skapad");
-						} else if(rand < 0.15) {
+							System.out.println("Skapad 1");
+						} else if(rand < 0.60) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 8, 3.0, 2)); //Type 2
 							System.out.println("Skapad 2");
-						} else if(rand < 0.5) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 8, 3.0, 3)); //Type 3
-							System.out.println("Skapad 3");
-						}
+						} 
 						
 						player.addScore(10);
 						
@@ -253,11 +248,8 @@ public class PlayingState extends GameState {
 
 //		// Check for dead enemies:
 //		for (int i = 0; i < enemies.size(); i++) {
-//			System.out.println("Hej");
 //			for (int j = 0; j < enemies.get(i).size(); j++) {
-//				System.out.println("Då");
 //				if (!enemies.get(i).get(j).isDead()) {
-//					System.out.println("Hej där");
 //					Enemy e = enemies.get(i).get(j);
 //					
 //					/**
@@ -284,17 +276,14 @@ public class PlayingState extends GameState {
 //					enemies.set(i, temp);
 //					j--;
 //				}
-//				System.out.println("Hej där 222");
 //			}
 //		}
 		
-		//Check for PowerUp - player collision and activating the power up.
+		//Check for PowerUp - player collision and activating the power up:
 		for(int i = 0; i < powerUps.size(); i++) {
-			
 			PowerUp powerUp = powerUps.get(i);
 			
 			if(powerUp.getBounds().intersects(player.getBounds())) {
-				
 				int type = powerUp.getType();
 				
 				if(type == 1) {
@@ -302,9 +291,6 @@ public class PlayingState extends GameState {
 				} 
 				else if(type == 2) {
 					player.addScore(50);
-				} 
-				else if(type == 3) {
-					
 				}
 				
 				powerUps.remove(i);
@@ -318,7 +304,7 @@ public class PlayingState extends GameState {
 			soundFX.get("gameOver").play();
 		}
 
-		if (nbr == 8) {
+		if (nbr == 32) {
 			gsm.setHigherDifficulty();
 			gsm.setState(1);
 

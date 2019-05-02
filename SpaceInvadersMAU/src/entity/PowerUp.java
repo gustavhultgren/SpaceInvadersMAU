@@ -28,7 +28,6 @@ public class PowerUp extends Entity {
 	/**
 	 * Type 1 -- +1 life
 	 * Type 2 -- +50 score
-	 * Type 3 -- Slow motion
 	 */
 	public void init(int type) {
 		if(type == 1) {
@@ -36,9 +35,6 @@ public class PowerUp extends Entity {
 		}
 		else if(type == 2) {
 			powerUpColor = Color.GREEN;
-		}
-		else if(type == 3) {
-			powerUpColor = Color.BLUE;
 		}
 	}
 	

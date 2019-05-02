@@ -19,6 +19,8 @@ public class Enemy extends Entity {
 	private long firingTimer;
 	private long firingDelay;
 
+	private boolean slow;
+
 	/**
 	 * When a Enemy-object is created it gets a x-value and y-value. 
 	 * The firing delay is also set.
@@ -46,6 +48,8 @@ public class Enemy extends Entity {
 
 	public void killed() { dead = true; }
 
+	public void setSlow(boolean b) { slow = b; }
+
 	//Used to handle player - enemy collision.
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 20, 20);
@@ -57,17 +61,20 @@ public class Enemy extends Entity {
 	 * @param isShooter
 	 */
 	public void update(int direction, boolean isShooter) {
-		this.x += direction;
+		if(slow) {
+			this.x += direction * 0.3;
+		} else {
+			this.x += direction;
+			if(firing) {
+				long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+				if(elapsed > firingDelay) {
 
-		if(firing) {
-			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
-			if(elapsed > firingDelay) {
+					firingTimer = System.nanoTime();
+					if (isShooter) {
+						//Adding enemy bombs to list which is then drawn onto the panel.
 
-				firingTimer = System.nanoTime();
-				if (isShooter) {
-					//Adding enemy bombs to list which is then drawn onto the panel.
-
-					PlayingState.bombs.add(new EnemyBomb(270, x, y, 3, 6));
+						PlayingState.bombs.add(new EnemyBomb(270, x, y, 3, 6));
+					}
 				}
 			}
 		}
