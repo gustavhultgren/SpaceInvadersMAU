@@ -67,6 +67,8 @@ public class GameOverState extends GameState {
 			String name = "Name: ";
 			length = (int) g.getFontMetrics().getStringBounds(name, g).getWidth();
 			g.drawString(name, (700 - length) / 2 - 100, (700 / 2) + 50);
+			g.setColor(Color.WHITE);
+
 			g.drawString(playerName, (700) / 2 -15, (700 / 2) + 50);
 		} catch (FontFormatException e2) {
 			// TODO Auto-generated catch block
@@ -77,7 +79,7 @@ public class GameOverState extends GameState {
 		}
 		
 		if (frameCounter < 30) {
-			g.setColor(Color.RED);
+			g.setColor(Color.WHITE);
 			g.fillRect(330 + playerName.length() * 50, 395, 50, 6);
 		}else if(frameCounter >= 30 && frameCounter < 60) {
 			g.setColor(Color.BLACK);
@@ -146,7 +148,7 @@ public class GameOverState extends GameState {
 			if (currentChoice == options.length) {
 				currentChoice = 1;
 			}
-		}else if(k >= KeyEvent.VK_A && k <= KeyEvent.VK_Z) {
+		}else if(k >= KeyEvent.VK_0 && k <= KeyEvent.VK_Z && playerName.length()<=5) {
 			if(k == KeyEvent.VK_A) playerName += "A";
 			if(k == KeyEvent.VK_B) playerName += "B";
 			if(k == KeyEvent.VK_C) playerName += "C";
@@ -172,6 +174,16 @@ public class GameOverState extends GameState {
 			if(k == KeyEvent.VK_X) playerName += "X";
 			if(k == KeyEvent.VK_Y) playerName += "Y";
 			if(k == KeyEvent.VK_Z) playerName += "Z";
+			if(k == KeyEvent.VK_1) playerName += "1";
+			if(k == KeyEvent.VK_2) playerName += "2";
+			if(k == KeyEvent.VK_3) playerName += "3";
+			if(k == KeyEvent.VK_4) playerName += "4";
+			if(k == KeyEvent.VK_5) playerName += "5";
+			if(k == KeyEvent.VK_6) playerName += "6";
+			if(k == KeyEvent.VK_7) playerName += "7";
+			if(k == KeyEvent.VK_8) playerName += "8";
+			if(k == KeyEvent.VK_9) playerName += "9";
+			if(k == KeyEvent.VK_0) playerName += "0";
 		}else if(k == KeyEvent.VK_BACK_SPACE) {
 			if (playerName.length() <= 1) {
 				playerName = "";
