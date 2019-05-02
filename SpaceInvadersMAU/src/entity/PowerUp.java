@@ -4,6 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * This class represents a Power Up.
@@ -16,6 +21,7 @@ public class PowerUp extends Entity {
 	
 	private int type;
 	
+	private BufferedImage powerUpImage;
 	private Color powerUpColor;
 
 	public PowerUp(int x, int y, int r, double speed, int type) {
@@ -32,6 +38,12 @@ public class PowerUp extends Entity {
 	public void init(int type) {
 		if(type == 1) {
 			powerUpColor = Color.RED;
+			
+			try {
+				powerUpImage = ImageIO.read(new File("resources/images/heart.png"));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		else if(type == 2) {
 			powerUpColor = Color.GREEN;
@@ -51,13 +63,7 @@ public class PowerUp extends Entity {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(powerUpColor);
-		g.fillRect((int)(x - r), (int)(y - r), 2 * r, 2 * r);
-		
-		g.setStroke(new BasicStroke(3));
-		g.setColor(powerUpColor.darker());
-		g.drawRect((int)(x - r), (int)(y - r), 2 * r, 2 * r);
-		g.setStroke(new BasicStroke(1));
+		g.drawImage(powerUpImage, x, y, 26, 26, null);
 	}
 	
 }

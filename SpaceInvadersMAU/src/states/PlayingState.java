@@ -233,10 +233,10 @@ public class PlayingState extends GameState {
 						 */
 						double rand = Math.random();
 						if(rand < 0.30) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 8, 3.0, 1)); //Type 1
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 1)); //Type 1
 							System.out.println("Skapad 1");
 						} else if(rand < 0.60) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 8, 3.0, 2)); //Type 2
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 2)); //Type 2
 							System.out.println("Skapad 2");
 						} 
 
