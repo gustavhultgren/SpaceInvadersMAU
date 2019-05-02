@@ -300,11 +300,11 @@ public class PlayingState extends GameState {
 
 				if(type == 1) {
 					player.addLife(1);
-					powerUpTexts.add(new PowerUpText(player.getX() - 30, player.getY() - 30, 0, 0, 1500, "+1 LIFE"));
+					powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
 				} 
 				else if(type == 2) {
 					player.addScore(50);
-					powerUpTexts.add(new PowerUpText(player.getX() - 40, player.getY() - 30, 0, 0, 1500, "+50 SCORE"));
+					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				}
 
 				powerUps.remove(i);

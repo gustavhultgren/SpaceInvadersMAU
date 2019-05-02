@@ -2,7 +2,11 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
 
 public class PowerUpText extends Entity {
 	
@@ -11,6 +15,7 @@ public class PowerUpText extends Entity {
 	
 	private long start;
 	
+	private Font font;
 	private Color textColor;
 
 	public PowerUpText(int x, int y, int r, double speed, long time, String string) {
@@ -18,6 +23,16 @@ public class PowerUpText extends Entity {
 		this.time = time;
 		this.string = string;
 		start = System.nanoTime();
+		
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(18f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		textColor = Color.WHITE;
 	}
@@ -31,7 +46,7 @@ public class PowerUpText extends Entity {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		g.setFont(font);
 		g.setColor(textColor);
 		g.drawString(string, (int)x, (int)y);
 		
