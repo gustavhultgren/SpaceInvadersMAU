@@ -22,7 +22,6 @@ public class PowerUp extends Entity {
 	private int type;
 	
 	private BufferedImage powerUpImage;
-	private Color powerUpColor;
 
 	public PowerUp(int x, int y, int r, double speed, int type) {
 		super(x, y, r, speed);
@@ -37,16 +36,18 @@ public class PowerUp extends Entity {
 	 */
 	public void init(int type) {
 		if(type == 1) {
-			powerUpColor = Color.RED;
-			
 			try {
 				powerUpImage = ImageIO.read(new File("resources/images/heart.png"));
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		else if(type == 2) {
-			powerUpColor = Color.GREEN;
+			try {
+				powerUpImage = ImageIO.read(new File("resources/images/powerUp_score.gif"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
