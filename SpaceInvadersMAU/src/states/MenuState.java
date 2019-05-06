@@ -50,8 +50,8 @@ public class MenuState extends GameState {
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
-			bg = new MenuBackground("/images/BackgroundTest.png", 2.0);
-			bg.setVector(-0.2, 0);
+			bg = new MenuBackground("/images/BackgroundTest.png", 1);
+			bg.setVector(-0.4, 0);
 			
 			
 		} catch (IOException e) {
@@ -77,8 +77,7 @@ public class MenuState extends GameState {
 		
 		
 		g.setFont(font);
-		//g.setColor(Color.BLACK);
-//		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
 
 		for (int i = 0; i < options.length; i++) {
 			if (i == currentChoice) {

@@ -48,6 +48,7 @@ public class PowerUp extends Entity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
 		}
 	}
 	
