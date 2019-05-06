@@ -228,14 +228,14 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 
 						/**
-						 * Type 1 -- +1 life (10%)
-						 * Type 2 -- +50 score (20%)
+						 * Type 1 -- +1 life (5%)
+						 * Type 2 -- +50 score (10%)
 						 */
 						double rand = Math.random();
-						if(rand < 0.30) {
+						if(rand < 0.05) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 1)); //Type 1
 							System.out.println("Skapad 1");
-						} else if(rand < 0.60) {
+						} else if(rand < 0.1) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 2)); //Type 2
 							System.out.println("Skapad 2");
 						} 

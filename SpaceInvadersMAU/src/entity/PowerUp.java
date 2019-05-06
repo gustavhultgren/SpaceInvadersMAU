@@ -44,7 +44,7 @@ public class PowerUp extends Entity {
 		}
 		else if(type == 2) {
 			try {
-				powerUpImage = ImageIO.read(new File("resources/images/powerUp_score.gif"));
+				powerUpImage = ImageIO.read(new File("resources/images/powerUp_Score.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
