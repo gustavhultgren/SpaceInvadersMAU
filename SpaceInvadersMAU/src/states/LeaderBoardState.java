@@ -126,7 +126,7 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void update() {
-
+		getScore();
 	}
 
 	private void select() {
@@ -218,7 +218,6 @@ public class LeaderBoardState extends GameState {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -256,6 +255,9 @@ public class LeaderBoardState extends GameState {
 					&& !(currentChoiceInTable == scoreList.length - 1)) {
 				yViewCord -= 40;
 			}
+		}
+		if(k == KeyEvent.VK_ESCAPE) {
+			gsm.setState(GameStateManager.MENUSTATE);
 		}
 	}
 

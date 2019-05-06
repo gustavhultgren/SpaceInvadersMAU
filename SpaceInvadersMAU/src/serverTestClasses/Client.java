@@ -16,11 +16,8 @@ import javax.swing.JTextArea;
 import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
 
-public class Client extends Thread{
+public class Client extends Thread {
 
-	private Socket socket;
-	private ObjectInputStream ois;
-	private ObjectOutputStream oos;
 	private JFrame frame;
 	private JPanel panel;
 	private String ip;
@@ -32,40 +29,68 @@ public class Client extends Thread{
 	public Client(String ip, int port) {
 		this.ip = ip;
 		this.port = port;
-//		init();
-//		connect();
-//		start();
+		start();
 	}
 
-	public void run() {
-		try {
-			while (true) {
-				Object o = ois.readObject();
-				if (o instanceof LeaderboardUpdateResponse) {
-//					txtArea.append("Leaderboard received" + "\n");
-					LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
-					scoreList = l.getScoreList();
-//					for (PlayerScore elem : list) {
-//						txtArea.append(elem.getName() + " " + elem.getScore() + "\n");
-//					}
-				}
+//	public void run() {
+//		try (Socket socket = new Socket(ip, port);
+//				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
+//				ObjectInputStream ois = new ObjectInputStream((socket.getInputStream()));) {
+//
+//			oos.writeObject(new PlayerScore("", 0));
+//			while (true) {
+//				Object o = ois.readObject();
+//				if (o instanceof LeaderboardUpdateResponse) {
+//					LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
+//					scoreList = l.getScoreList();
+//				}
+//			}
+//		} catch (ClassNotFoundException | IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+
+	public synchronized void requestList() {
+		try (Socket socket = new Socket(ip, port);
+				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
+				ObjectInputStream ois = new ObjectInputStream((socket.getInputStream()));) {
+
+			oos.writeObject(new PlayerScore("", 0));
+
+			Object o = ois.readObject();
+			if (o instanceof LeaderboardUpdateResponse) {
+				LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
+				scoreList = l.getScoreList();
 			}
-			
-//			send();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public synchronized void requestList(PlayerScore ps) {
+		try (Socket socket = new Socket(ip, port);
+				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
+				ObjectInputStream ois = new ObjectInputStream((socket.getInputStream()));) {
 
+			oos.writeObject(ps);
 
+			Object o = ois.readObject();
+			if (o instanceof LeaderboardUpdateResponse) {
+				LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
+				scoreList = l.getScoreList();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+
 	public void init() {
 		txtArea = new JTextArea();
 		panel = new JPanel(new BorderLayout());
 		frame = new JFrame();
 		scroll = new JScrollPane(txtArea);
 		frame.add(scroll);
-	    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.setBounds(0, 0, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Client");
@@ -77,33 +102,22 @@ public class Client extends Thread{
 				e.getWindow().dispose();
 			}
 		});
-		
 
 //		panel.add(scroll, BorderLayout.CENTER);
 
 	}
 
-	public void connect() {
-		try {
-			socket = new Socket(ip, port);
-			oos = new ObjectOutputStream((socket.getOutputStream()));
-			ois = new ObjectInputStream((socket.getInputStream()));
-//			txtArea.append("Client connected" + "\n");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public synchronized void send(PlayerScore ps) {
-		try {
+		try (Socket socket = new Socket(ip, port);
+				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));) {
 			oos.writeObject(ps);
-//			txtArea.append("playerScore sent" + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	public synchronized PlayerScore[] getScoreList(){
+
+	public synchronized PlayerScore[] getScoreList() {
+		requestList();
 		return scoreList;
 	}
 

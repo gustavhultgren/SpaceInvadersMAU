@@ -30,7 +30,7 @@ public class ServerClient {
 		pool.start();
 		connection.start();
 	}
-	
+
 	public void start() {
 		frame = new JFrame();
 		frame.setBounds(0, 0, 400, 400);
@@ -47,7 +47,7 @@ public class ServerClient {
 			}
 		});
 	}
-	
+
 	private void writeListToFile() {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
 			oos.writeObject(this.list);
@@ -56,7 +56,6 @@ public class ServerClient {
 			e.printStackTrace();
 		}
 	}
-
 
 	private LinkedList<PlayerScore> readScoreFromFile() {
 		LinkedList<PlayerScore> list = null;
@@ -73,19 +72,19 @@ public class ServerClient {
 		}
 		return list;
 	}
-	
-	private synchronized LinkedList<PlayerScore> getList(){
+
+	private synchronized LinkedList<PlayerScore> getList() {
 		return list;
 	}
-	
+
 	private synchronized void addAndSort(PlayerScore p) {
 		list.add(p);
 		Collections.sort(list);
 		System.out.println("score tillagd och sorterad");
 	}
-	
+
 	private void printScores() {
-		for(PlayerScore elem : list) {
+		for (PlayerScore elem : list) {
 			System.out.println(elem.getName() + " " + elem.getScore());
 		}
 	}
@@ -115,20 +114,26 @@ public class ServerClient {
 			System.out.println("Klient uppkopplad, servas av " + Thread.currentThread());
 			try (ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
 					ObjectInputStream dis = new ObjectInputStream(socket.getInputStream())) {
-				PlayerScore request;
-				LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList());
+
 				try {
-					dos.writeObject(response);
-					dos.flush();
-					request = (PlayerScore) dis.readObject();
-					addAndSort(request);
-					printScores();
-					response = new LeaderboardUpdateResponse(getList());
+					Object o = dis.readObject();
+					if (o instanceof PlayerScore) {
+						PlayerScore ps = (PlayerScore) o;
+						if (ps.getName().equals("")) {
+							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList());
+							dos.writeObject(response);
+							dos.flush();
+						} else {
+							addAndSort(ps);
+							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList());
+							dos.writeObject(response);
+							dos.flush();
+
+						}
+					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-				dos.writeObject(response);
-				dos.flush();
 			} catch (IOException e) {
 			}
 			try {
@@ -138,12 +143,13 @@ public class ServerClient {
 			System.out.println("Klient nerkopplad, " + Thread.currentThread() + " återvänder till buffert");
 		}
 	}
-	public static void main (String[]args) {
+
+	public static void main(String[] args) {
 		try {
 			new ServerClient(3500, 10).start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

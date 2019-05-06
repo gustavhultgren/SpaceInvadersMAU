@@ -126,7 +126,7 @@ public class GameOverState extends GameState {
 	
 	private void select() {
 		if (currentChoice == 0) {
-			client.send(new PlayerScore(playerName, player.getScore()));
+			client.requestList(new PlayerScore(playerName, player.getScore()));
 			gsm.setState(GameStateManager.LEADERBOARDSTATE);
 		}
 		if (currentChoice == 1) {

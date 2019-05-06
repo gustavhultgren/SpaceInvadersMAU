@@ -31,11 +31,6 @@ public class MenuState extends GameState {
 
 	
 		try {
-			if (!client.isAlive()) {
-				client.connect();
-				client.start();
-			}
-			
 			
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
 //			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
