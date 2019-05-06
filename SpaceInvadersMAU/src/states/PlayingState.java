@@ -1,17 +1,11 @@
 package states;
-import tileMap.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -23,9 +17,15 @@ import entity.Enemy;
 import entity.EnemyBomb;
 import entity.Missile;
 import entity.Player;
+import entity.PowerUp;
+import entity.PowerUpText;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
+/**
+ * 
+ * @author Gustav Hultgren, Tom Eriksson
+ */
 public class PlayingState extends GameState {
 
 	private BufferedImage image;
@@ -33,21 +33,23 @@ public class PlayingState extends GameState {
 	private Random rand = new Random();
 	private int nbr = 0;
 	private boolean paused;
-	
+
 	private String score;
 	private String instruction = "Press ESC to resume";
 	private String gameOver = "GAME PAUSED";
 	private int textLength;
-	
+
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
-	public static ArrayList<Missile> missiles;
+	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
+	public static LinkedList<PowerUp> powerUps;
+	public static LinkedList<PowerUpText> powerUpTexts;
 
 	// Images
 	private BufferedImage heartImage;
 	private MenuBackground bg;
-	
+
 	public PlayingState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
@@ -58,20 +60,22 @@ public class PlayingState extends GameState {
 		try {
 			bg = new MenuBackground("/images/retrospaces.png", 1.0);
 			bg.setVector(-0.5, 0);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
 		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
-		
-		// Adding enemies to the list and sets each enemies X and Y-value so it looks
-		// good.
+
+		/**
+		 * Adding enemies to the list and sets each enemies X and Y-value so it 
+		 * looks good.
+		 */
 		for (int i = 0; i < 4; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
@@ -81,27 +85,29 @@ public class PlayingState extends GameState {
 			}
 		}
 
-		missiles = new ArrayList<Missile>();
+		missiles = new LinkedList<Missile>();
 		bombs = new LinkedList<EnemyBomb>();
+		powerUps = new LinkedList<PowerUp>();
+		powerUpTexts = new LinkedList<PowerUpText>();
 
 		try {
 			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 		soundFX.put("win", new AudioPlayer("/music/sfx_win.mp3"));
 		soundFX.put("gameOver", new AudioPlayer("/music/sfx_gameOver.mp3"));
 		soundFX.put("enemyHit", new AudioPlayer("/music/sfx_enemyHit.mp3"));
-		
+
 	}
 
 	@Override
 	public void update() {
 		bg.update();
-		
+
 		while (paused) {
 			try {
 				wait();
@@ -109,7 +115,7 @@ public class PlayingState extends GameState {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// Updating player:
 		player.update();
 
@@ -118,6 +124,23 @@ public class PlayingState extends GameState {
 			boolean remove = missiles.get(i).update();
 			if (remove) {
 				missiles.remove(i);
+				i--;
+			}
+		}
+
+		//Updating PowerUps:
+		for(int i = 0; i < powerUps.size(); i++) {
+			powerUps.get(i).update();
+			if(powerUps.get(i).getY() > HEIGHT) {
+				powerUps.remove(i);
+			}
+		}
+
+		//Updating PowerUpTexts:
+		for(int i = 0; i < powerUpTexts.size(); i++) {
+			boolean remove = powerUpTexts.get(i).update();
+			if(remove) {
+				powerUpTexts.remove(i);
 				i--;
 			}
 		}
@@ -198,16 +221,32 @@ public class PlayingState extends GameState {
 
 		// Check for player missile - enemy collision:
 		for (int i = 0; i < missiles.size(); i++) {
-			Missile b = missiles.get(i);
+			Missile m = missiles.get(i);
 			for (int j = 0; j < enemies.size(); j++) {
 				for (int h = 0; h < enemies.get(j).size(); h++) {
 					Enemy e = enemies.get(j).get(h);
-					if (b.getBounds().intersects(e.getBounds())) {
+					if (m.getBounds().intersects(e.getBounds())) {
+						e.killed();
 						missiles.remove(i);
 						LinkedList<Enemy> temp = enemies.get(j);
 						temp.remove(h);
-						enemies.set(j, temp);
+
+						/**
+						 * Type 1 -- +1 life (5%)
+						 * Type 2 -- +50 score (10%)
+						 */
+						double rand = Math.random();
+						if(rand < 0.05) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 1)); //Type 1
+							System.out.println("Skapad 1");
+						} else if(rand < 0.20) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 2)); //Type 2
+							System.out.println("Skapad 2");
+						} 
+
 						player.addScore(10);
+
+						enemies.set(j, temp);
 						nbr++;
 					}
 				}
@@ -223,15 +262,62 @@ public class PlayingState extends GameState {
 			}
 		}
 
-		// Check for dead enemies:
-		for (int i = 0; i < enemies.size(); i++) {
-			for (int j = 0; j < enemies.get(i).size(); j++) {
-				if (enemies.get(i).get(j).isDead()) {
-					LinkedList<Enemy> temp = enemies.get(i);
-					temp.remove(j);
-					enemies.set(i, temp);
-					j--;
+		//		// Check for dead enemies:
+		//		for (int i = 0; i < enemies.size(); i++) {
+		//			for (int j = 0; j < enemies.get(i).size(); j++) {
+		//				if (!enemies.get(i).get(j).isDead()) {
+		//					Enemy e = enemies.get(i).get(j);
+		//					
+		//					/**
+		//					 * Type 1 -- +1 life
+		//					 * Type 2 -- +50 score
+		//					 * Type 3 -- Slow motion
+		//					 */
+		//					double rand = Math.random();
+		//					if(rand < 0.5) {
+		//						powerUps.add(new PowerUp(e.getX(), e.getY(), 16, 0.7, 1)); //Type 1
+		//						System.out.println("Skapad");
+		//					} else if(rand < 0.5) {
+		//						powerUps.add(new PowerUp(e.getX(), e.getY(), 16, 0.5, 2)); //Type 2
+		//						System.out.println("Skapad 2");
+		//					} else if(rand < 0.5) {
+		//						powerUps.add(new PowerUp(e.getX(), e.getY(), 16, 0.7, 2)); //Type 3
+		//						System.out.println("Skapad 3");
+		//					}
+		//					
+		//					player.addScore(10);
+		//					
+		//					LinkedList<Enemy> temp = enemies.get(i);
+		//					temp.remove(j);
+		//					enemies.set(i, temp);
+		//					j--;
+		//				}
+		//			}
+		//		}
+
+		//Check for PowerUp - player collision and activating the power up:
+		for(int i = 0; i < powerUps.size(); i++) {
+			PowerUp powerUp = powerUps.get(i);
+
+			if(powerUp.getBounds().intersects(player.getBounds())) {
+				int type = powerUp.getType();
+
+				if(type == 1) {
+					if(player.getLives() < 4) {
+						player.addLife(1);
+						powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
+					} else {
+						powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
+					}
+
+				} 
+				else if(type == 2) {
+					player.addScore(50);
+					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				}
+
+				powerUps.remove(i);
+				i--;
 			}
 		}
 
@@ -241,7 +327,7 @@ public class PlayingState extends GameState {
 			soundFX.get("gameOver").play();
 		}
 
-		if (nbr == 8) {
+		if (nbr == 32) {
 			gsm.setHigherDifficulty();
 			gsm.setState(1);
 
@@ -251,8 +337,6 @@ public class PlayingState extends GameState {
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-//		g.setColor(Color.black);
-//		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
@@ -275,6 +359,14 @@ public class PlayingState extends GameState {
 
 		for (int i = 0; i < missiles.size(); i++) {
 			missiles.get(i).draw(g);
+		}
+
+		for(int i = 0; i < powerUps.size(); i++) {
+			powerUps.get(i).draw(g);
+		}
+
+		for(int i = 0; i < powerUpTexts.size(); i++) {
+			powerUpTexts.get(i).draw(g);
 		}
 
 		for (int i = 0; i < bombs.size(); i++) {
@@ -300,7 +392,7 @@ public class PlayingState extends GameState {
 			drawMenu(g);
 		}
 	}
-	
+
 	public void drawMenu(Graphics2D g) {
 		score = player.getScore() + "";
 		g.setColor(new Color(0, 0, 0, 70));

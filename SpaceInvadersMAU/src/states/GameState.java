@@ -8,7 +8,8 @@ import audio.AudioPlayer;
 import entity.Player;
 
 /**
- * 
+ * GameState represents a state in the system. It contains some common
+ * variables and methods that is used in different states.
  * @author Gustav Hultgren & Tom Eriksson
  */
 public abstract class GameState {
