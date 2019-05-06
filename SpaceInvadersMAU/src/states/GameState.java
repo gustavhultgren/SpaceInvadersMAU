@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import entity.Player;
-import serverTestClasses.Client;
+import gameClient.Client;
 
 public abstract class GameState {
 	

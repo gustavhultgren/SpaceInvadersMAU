@@ -1,4 +1,4 @@
-package serverTestClasses;
+package gameClient;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -31,24 +31,6 @@ public class Client extends Thread {
 		this.port = port;
 		start();
 	}
-
-//	public void run() {
-//		try (Socket socket = new Socket(ip, port);
-//				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
-//				ObjectInputStream ois = new ObjectInputStream((socket.getInputStream()));) {
-//
-//			oos.writeObject(new PlayerScore("", 0));
-//			while (true) {
-//				Object o = ois.readObject();
-//				if (o instanceof LeaderboardUpdateResponse) {
-//					LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
-//					scoreList = l.getScoreList();
-//				}
-//			}
-//		} catch (ClassNotFoundException | IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	public synchronized void requestList() {
 		try (Socket socket = new Socket(ip, port);
@@ -106,23 +88,7 @@ public class Client extends Thread {
 //		panel.add(scroll, BorderLayout.CENTER);
 
 	}
-
-	public synchronized void send(PlayerScore ps) {
-		try (Socket socket = new Socket(ip, port);
-				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));) {
-			oos.writeObject(ps);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public synchronized PlayerScore[] getScoreList() {
-		requestList();
 		return scoreList;
 	}
-
-	public static void main(String[] args) {
-		new Client("127.0.0.1", 3500);
-	}
-
 }
