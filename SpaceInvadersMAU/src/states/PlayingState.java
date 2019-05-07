@@ -24,6 +24,10 @@ import entity.PowerUpText;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
+/**
+ * 
+ * @author Gustav Hultgren, Tom Eriksson
+ */
 public class PlayingState extends GameState {
 
 	private BufferedImage image;
@@ -249,14 +253,15 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 
 						/**
-						 * Type 1 -- +1 life (10%) Type 2 -- +50 score (20%)
+						 * Type 1 -- +1 life (5%)
+						 * Type 2 -- +50 score (10%)
 						 */
 						double rand = Math.random();
-						if (rand < 0.30) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 1)); // Type 1
+						if(rand < 0.05) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 1)); //Type 1
 							System.out.println("Skapad 1");
-						} else if (rand < 0.60) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 2)); // Type 2
+						} else if(rand < 0.20) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 2)); //Type 2
 							System.out.println("Skapad 2");
 						}
 
@@ -320,10 +325,16 @@ public class PlayingState extends GameState {
 			if (powerUp.getBounds().intersects(player.getBounds())) {
 				int type = powerUp.getType();
 
-				if (type == 1) {
-					player.addLife(1);
-					powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
-				} else if (type == 2) {
+				if(type == 1) {
+					if(player.getLives() < 4) {
+						player.addLife(1);
+						powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
+					} else {
+						powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
+					}
+
+				} 
+				else if(type == 2) {
 					player.addScore(50);
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				}

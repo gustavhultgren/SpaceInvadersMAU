@@ -1,7 +1,5 @@
 package entity;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -44,7 +42,7 @@ public class PowerUp extends Entity {
 		}
 		else if(type == 2) {
 			try {
-				powerUpImage = ImageIO.read(new File("resources/images/powerUp_score.gif"));
+				powerUpImage = ImageIO.read(new File("resources/images/powerUp_Score.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

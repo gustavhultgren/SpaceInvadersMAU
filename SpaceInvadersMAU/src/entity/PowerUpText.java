@@ -8,6 +8,11 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class represents a PowerUp text that pops up and shows
+ * what kind of power up the player have catched / activated.
+ * @author Gustav Hultgren
+ */
 public class PowerUpText extends Entity {
 	
 	private long time;
