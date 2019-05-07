@@ -312,7 +312,7 @@ public class PlayingState extends GameState {
 			player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
 			player.setRight(true);
-		if (key == KeyEvent.VK_Z)
+		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(true);
 		if (key == KeyEvent.VK_ESCAPE)
 			pause();
@@ -325,7 +325,7 @@ public class PlayingState extends GameState {
 			player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
 			player.setRight(false);
-		if (key == KeyEvent.VK_Z)
+		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
 	}
 

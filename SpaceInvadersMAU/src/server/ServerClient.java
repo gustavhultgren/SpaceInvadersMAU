@@ -83,12 +83,6 @@ public class ServerClient {
 		System.out.println("score tillagd och sorterad");
 	}
 
-	private void printScores() {
-		for (PlayerScore elem : list) {
-			System.out.println(elem.getName() + " " + elem.getScore());
-		}
-	}
-
 	private class Connection extends Thread {
 		public void run() {
 			System.out.println("Server running, port: " + serverSocket.getLocalPort());
