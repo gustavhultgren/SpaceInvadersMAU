@@ -1,8 +1,13 @@
 package wifitestclasses;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.util.LinkedList;
+
+import server.PlayerScore;
 
 public class Test {
 
@@ -43,10 +48,29 @@ public class Test {
 		String s = System.getProperty("os.name").toLowerCase();
 		return s;
 	}
+	
+	private synchronized void writeListToFile(String filename, LinkedList<PlayerScore> list) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/" + filename));) {
+			oos.writeObject(list);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
 		Test t = new Test();
-		String os = t.getOS();
-		System.out.println(t.getSSID(os));
+//		String os = t.getOS();
+//		System.out.println(t.getSSID(os));
+		
+		LinkedList<PlayerScore> psMau = new LinkedList<PlayerScore>();
+		LinkedList<PlayerScore> ps = new LinkedList<PlayerScore>();
+
+		for (int i = 0; i < 100; i++) {
+			psMau.add(new PlayerScore("aaa", 1, true));
+			ps.add(new PlayerScore("bbb", 1, false));
+		}
+		t.writeListToFile("savedScores.dat", ps);
+		t.writeListToFile("savedScoresMau.dat", psMau);
 	}
 }

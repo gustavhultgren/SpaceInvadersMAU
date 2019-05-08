@@ -28,6 +28,7 @@ public class ServerClient {
 		pool = new RunOnThreadN(nbrOfThreads);
 		list = readScoreFromFile("savedScores.dat");
 		mauList = readScoreFromFile("savedScoresMau.dat");
+		System.out.println(mauList.size());
 		serverSocket = new ServerSocket(port);
 		pool.start();
 		connection.start();
@@ -132,11 +133,13 @@ public class ServerClient {
 							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList(), getMauList());
 							dos.writeObject(response);
 							dos.flush();
+							System.out.println("lista skickad");
 						} else {
 							addAndSort(ps);
 							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList(), getMauList());
 							dos.writeObject(response);
 							dos.flush();
+							System.out.println("lista skickad");
 
 						}
 					}
