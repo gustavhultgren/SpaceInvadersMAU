@@ -21,11 +21,13 @@ public class ServerClient {
 	private ServerSocket serverSocket;
 	private RunOnThreadN pool;
 	private LinkedList<PlayerScore> list;
+	private LinkedList<PlayerScore> mauList;
 	private JFrame frame;
 
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
 		pool = new RunOnThreadN(nbrOfThreads);
-		list = readScoreFromFile();
+		list = readScoreFromFile("savedScores.dat");
+		mauList = readScoreFromFile("savedScoresMau.dat");
 		serverSocket = new ServerSocket(port);
 		pool.start();
 		connection.start();
@@ -42,24 +44,25 @@ public class ServerClient {
 		frame.setLocationRelativeTo(null); // Start middle screen
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				writeListToFile();
+				writeListToFile("savedScores.dat", list);
+				writeListToFile("savedScoresMau.dat", mauList);
 				e.getWindow().dispose();
 			}
 		});
 	}
 
-	private void writeListToFile() {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/filtest.dat"));) {
-			oos.writeObject(this.list);
+	private synchronized void writeListToFile(String filename, LinkedList<PlayerScore> list) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/" + filename));) {
+			oos.writeObject(list);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private LinkedList<PlayerScore> readScoreFromFile() {
+	private synchronized LinkedList<PlayerScore> readScoreFromFile(String filename) {
 		LinkedList<PlayerScore> list = null;
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/filtest.dat"));) {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/" + filename));) {
 
 			list = (LinkedList<PlayerScore>) ois.readObject();
 
@@ -72,15 +75,27 @@ public class ServerClient {
 		}
 		return list;
 	}
+	
+	
 
 	private synchronized LinkedList<PlayerScore> getList() {
 		return list;
 	}
+	
+	private synchronized LinkedList<PlayerScore> getMauList() {
+		return mauList;
+	}
 
 	private synchronized void addAndSort(PlayerScore p) {
-		list.add(p);
-		Collections.sort(list);
-		System.out.println("score tillagd och sorterad");
+		if (p.isMAUScore()) {
+			mauList.add(p);
+			Collections.sort(list);
+			System.out.println("score tillagd och sorterad i maulistan");
+		}else {
+			list.add(p);
+			Collections.sort(list);
+			System.out.println("score tillagd och sorterad");
+		}
 	}
 
 	private class Connection extends Thread {
@@ -114,12 +129,12 @@ public class ServerClient {
 					if (o instanceof PlayerScore) {
 						PlayerScore ps = (PlayerScore) o;
 						if (ps.getName().equals("")) {
-							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList());
+							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList(), getMauList());
 							dos.writeObject(response);
 							dos.flush();
 						} else {
 							addAndSort(ps);
-							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList());
+							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList(), getMauList());
 							dos.writeObject(response);
 							dos.flush();
 

@@ -3,7 +3,9 @@ package gameClient;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -25,6 +27,7 @@ public class Client extends Thread {
 	private JTextArea txtArea;
 	private JScrollPane scroll;
 	private PlayerScore[] scoreList;
+	private PlayerScore[] scoreListMau;
 
 	public Client(String ip, int port) {
 		this.ip = ip;
@@ -37,12 +40,13 @@ public class Client extends Thread {
 				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
 				ObjectInputStream ois = new ObjectInputStream((socket.getInputStream()));) {
 
-			oos.writeObject(new PlayerScore("", 0));
+			oos.writeObject(new PlayerScore("", 0, false));
 
 			Object o = ois.readObject();
 			if (o instanceof LeaderboardUpdateResponse) {
 				LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
 				scoreList = l.getScoreList();
+				scoreListMau = l.getScoreListMAU();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
@@ -59,6 +63,7 @@ public class Client extends Thread {
 			if (o instanceof LeaderboardUpdateResponse) {
 				LeaderboardUpdateResponse l = (LeaderboardUpdateResponse) o;
 				scoreList = l.getScoreList();
+				scoreListMau = l.getScoreListMAU();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
@@ -85,10 +90,50 @@ public class Client extends Thread {
 			}
 		});
 
-//		panel.add(scroll, BorderLayout.CENTER);
-
 	}
 	public synchronized PlayerScore[] getScoreList() {
 		return scoreList;
+	}
+	
+	public synchronized PlayerScore[] getScoreListMau() {
+		return scoreListMau;
+	}
+	
+	public String getSSID(String os)  {
+		String ssid = "";
+		if (os.substring(0, 3).equals("mac")) {
+			String command = "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I";
+			try {
+				Process proc;
+
+				proc = Runtime.getRuntime().exec(command);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+				String line = "";
+				int i = 0;
+				while ((line = reader.readLine()) != null) {
+						if (i == 12) {
+							ssid = line.substring(line.indexOf(':') +1);
+							return ssid;
+						}else {
+							i++;
+						}
+				}
+				proc.waitFor();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Read the output
+		}
+		return ssid;
+
+	}
+	
+	public String getOS() {
+		String s = System.getProperty("os.name").toLowerCase();
+		return s;
 	}
 }

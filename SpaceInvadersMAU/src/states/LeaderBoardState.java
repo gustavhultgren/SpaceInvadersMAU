@@ -33,6 +33,7 @@ public class LeaderBoardState extends GameState {
 	private String[] options = { "MAU", "WORLD WIDE" };
 	private Font headerFont;
 	private PlayerScore[] scoreList;
+	private PlayerScore[] scoreListMau;
 	
 	private int yViewCord = 0;
 
@@ -45,6 +46,7 @@ public class LeaderBoardState extends GameState {
 	public synchronized void getScore() {
 		client.requestList();
 		scoreList = client.getScoreList();
+		scoreListMau = client.getScoreListMau();
 	}
 
 	@Override
@@ -136,24 +138,46 @@ public class LeaderBoardState extends GameState {
 
 		drawBackground(g, yViewCord);
 
-		for (int i = 0; i < scoreList.length; i++) {
+		if (currentChoiceOfTable == 0) {
+			for (int i = 0; i < scoreList.length; i++) {
 
-			for (int j = 0; j < 3; j++) {
+				for (int j = 0; j < 3; j++) {
 
-				if (i == currentChoiceInTable) {
-					g.setColor(Color.YELLOW);
-				} else {
-					g.setColor(Color.WHITE);
+					if (i == currentChoiceInTable) {
+						g.setColor(Color.YELLOW);
+					} else {
+						g.setColor(Color.WHITE);
+					}
+					if (j == 0) {
+						g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
+					} else if (j == 1) {
+						g.drawString(scoreList[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
+					} else {
+						g.drawString(scoreList[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+					}
 				}
-				if (j == 0) {
-					g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
-				} else if (j == 1) {
-					g.drawString(scoreList[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
-				} else {
-					g.drawString(scoreList[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+			}
+		}else {
+			for (int i = 0; i < scoreListMau.length; i++) {
+
+				for (int j = 0; j < 3; j++) {
+
+					if (i == currentChoiceInTable) {
+						g.setColor(Color.YELLOW);
+					} else {
+						g.setColor(Color.WHITE);
+					}
+					if (j == 0) {
+						g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
+					} else if (j == 1) {
+						g.drawString(scoreListMau[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
+					} else {
+						g.drawString(scoreListMau[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+					}
 				}
 			}
 		}
+		
 	}
 
 	@Override

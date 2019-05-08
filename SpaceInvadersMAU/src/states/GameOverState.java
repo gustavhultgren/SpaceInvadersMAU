@@ -140,8 +140,15 @@ public class GameOverState extends GameState {
 		if (currentChoice == 0) {
 			if (playerName.length() < 3) {
 			} else {
-				client.requestList(new PlayerScore(playerName, player.getScore()));
-				gsm.setState(GameStateManager.LEADERBOARDSTATE);
+				String os = client.getOS();
+				String ssid = client.getSSID(os);
+				if (ssid.equals("Fiffi-5GHz")) {
+					client.requestList(new PlayerScore(playerName, player.getScore(), true));
+					gsm.setState(GameStateManager.LEADERBOARDSTATE);
+				}else {
+					client.requestList(new PlayerScore(playerName, player.getScore(), false));
+					gsm.setState(GameStateManager.LEADERBOARDSTATE);
+				}
 			}
 		}
 		if (currentChoice == 1) {

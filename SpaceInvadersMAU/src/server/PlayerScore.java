@@ -6,10 +6,11 @@ public class PlayerScore implements Serializable, Comparable<PlayerScore>{
 
 	private String playerName;
 	private int score;
-	
-	public PlayerScore(String playerName, int score) {
+	private boolean isMAUScore;
+	public PlayerScore(String playerName, int score, boolean isMAUScore) {
 		this.playerName = playerName;
 		this.score = score;
+		this.isMAUScore = isMAUScore;
 	}
 	
 	public String getName() {
@@ -18,6 +19,10 @@ public class PlayerScore implements Serializable, Comparable<PlayerScore>{
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public boolean isMAUScore() {
+		return isMAUScore;
 	}
 
 	public int compareTo(PlayerScore other) {
