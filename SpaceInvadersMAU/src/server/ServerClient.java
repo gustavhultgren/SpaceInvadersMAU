@@ -88,14 +88,13 @@ public class ServerClient {
 	}
 
 	private synchronized void addAndSort(PlayerScore p) {
+
 		if (p.isMAUScore()) {
 			mauList.add(p);
-			Collections.sort(list);
-			System.out.println("score tillagd och sorterad i maulistan");
+			Collections.sort(mauList);
 		}else {
 			list.add(p);
 			Collections.sort(list);
-			System.out.println("score tillagd och sorterad");
 		}
 	}
 
@@ -133,14 +132,11 @@ public class ServerClient {
 							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList(), getMauList());
 							dos.writeObject(response);
 							dos.flush();
-							System.out.println("lista skickad");
 						} else {
 							addAndSort(ps);
 							LeaderboardUpdateResponse response = new LeaderboardUpdateResponse(getList(), getMauList());
 							dos.writeObject(response);
 							dos.flush();
-							System.out.println("lista skickad");
-
 						}
 					}
 				} catch (ClassNotFoundException e) {

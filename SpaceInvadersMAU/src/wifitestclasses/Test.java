@@ -24,7 +24,7 @@ public class Test {
 				int i = 0;
 				while ((line = reader.readLine()) != null) {
 						if (i == 12) {
-							ssid = line.substring(line.indexOf(':') +1);
+							ssid = line.substring(line.indexOf(':') +2).toLowerCase();
 							return ssid;
 						}else {
 							i++;
@@ -60,17 +60,8 @@ public class Test {
 
 	public static void main(String[] args) {
 		Test t = new Test();
-//		String os = t.getOS();
-//		System.out.println(t.getSSID(os));
+		String os = t.getOS();
+		System.out.println(t.getSSID(os).equals("fiffi-5ghz"));
 		
-		LinkedList<PlayerScore> psMau = new LinkedList<PlayerScore>();
-		LinkedList<PlayerScore> ps = new LinkedList<PlayerScore>();
-
-		for (int i = 0; i < 100; i++) {
-			psMau.add(new PlayerScore("aaa", 1, true));
-			ps.add(new PlayerScore("bbb", 1, false));
-		}
-		t.writeListToFile("savedScores.dat", ps);
-		t.writeListToFile("savedScoresMau.dat", psMau);
 	}
 }

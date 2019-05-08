@@ -84,8 +84,6 @@ public class GameOverState extends GameState {
 			g.setColor(Color.WHITE);
 			g.fillRect(330 + playerName.length() * 50, 395, 50, 6);
 		} else if (frameCounter >= 30 && frameCounter < 60) {
-//			g.setColor(Color.BLACK);
-//			g.clearRect(330 + playerName.length() * 50, 395, 50, 6);
 		} else {
 			frameCounter = 0;
 		}
@@ -142,7 +140,7 @@ public class GameOverState extends GameState {
 			} else {
 				String os = client.getOS();
 				String ssid = client.getSSID(os);
-				if (ssid.equals("Fiffi-5GHz")) {
+				if (ssid.equals("fiffi-5ghz")) {
 					client.requestList(new PlayerScore(playerName, player.getScore(), true));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				}else {
@@ -216,6 +214,8 @@ public class GameOverState extends GameState {
 				playerName += "U";
 			if (k == KeyEvent.VK_V)
 				playerName += "V";
+			if (k == KeyEvent.VK_W)
+				playerName += "W";
 			if (k == KeyEvent.VK_X)
 				playerName += "X";
 			if (k == KeyEvent.VK_Y)

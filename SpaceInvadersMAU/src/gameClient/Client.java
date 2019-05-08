@@ -21,7 +21,6 @@ import server.PlayerScore;
 public class Client extends Thread {
 
 	private JFrame frame;
-	private JPanel panel;
 	private String ip;
 	private int port;
 	private JTextArea txtArea;
@@ -112,7 +111,7 @@ public class Client extends Thread {
 				int i = 0;
 				while ((line = reader.readLine()) != null) {
 						if (i == 12) {
-							ssid = line.substring(line.indexOf(':') +1);
+							ssid = line.substring(line.indexOf(':') +2).toLowerCase();
 							return ssid;
 						}else {
 							i++;
