@@ -45,7 +45,7 @@ public class Enemy extends Entity {
 
 		dead = false;
 
-		firing = false;
+		firing = true;
 		firingTimer = System.nanoTime();
 		this.firingDelay = firingDelay;
 
@@ -128,16 +128,12 @@ public class Enemy extends Entity {
 
 	public void draw(Graphics2D g, int frame, int enemyType) {
 
-		if(frame < 30) {
+		if(frame <= 30) {
 			g.drawImage(sprites[enemyType], null, x, y);
 		}
-		else if(frame > 30 && frame < 60) {
+		else if(frame > 30 && frame <= 60) {
 			g.drawImage(sprites[enemyType + 1], null, x, y);
 			
 		}
-		
-
-
 	}
-
 }

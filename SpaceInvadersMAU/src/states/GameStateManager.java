@@ -1,7 +1,5 @@
 package states;
 
-import java.awt.event.KeyEvent;
-
 public class GameStateManager {
 	
 	private GameState[] gameStates;
@@ -9,6 +7,7 @@ public class GameStateManager {
 	private int difficulty = 1000;
 	
 	public static final int NUMGAMESTATES = 5;
+	
 	public static final int MENUSTATE = 0;
 	public static final int PLAYINGSTATE = 1;
 	public static final int GAMEOVERSTATE = 2;
