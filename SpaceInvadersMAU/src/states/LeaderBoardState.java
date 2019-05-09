@@ -8,7 +8,19 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.Collections;
+import java.util.LinkedList;
+
+import gameClient.Client;
+import server.LeaderboardUpdateResponse;
+import server.PlayerScore;
 
 import audio.AudioPlayer;
 
@@ -16,30 +28,32 @@ public class LeaderBoardState extends GameState {
 
 	private int currentChoiceOfTable = 0;
 	private int currentChoiceInTable = 0;
-	private String[][] testCases = { { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" } ,{ "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" }, { "1th", "Tom", "1000000" }, { "2th", "Gustav", "900000" },
-			{ "3rd", "Herman", "800000" } };
+	private Thread readingThread;
+
 	private String header = "HIGHSCORE TOP 100";
 	private String[] subHeader = { "RANK", "NAME", "SCORE" };
 	private String[] options = { "MAU", "WORLD WIDE" };
 	private Font headerFont;
-
+	private PlayerScore[] scoreList;
+	private PlayerScore[] scoreListMau;
+	
 	private int yViewCord = 0;
+
 	public LeaderBoardState(GameStateManager gsm) {
 		this.gsm = gsm;
-
 		// Initializing variables.
 		init();
+	}
+	
+	public synchronized void getScore() {
+		client.requestList();
+		scoreList = client.getScoreList();
+		scoreListMau = client.getScoreListMau();
 	}
 
 	@Override
 	public void init() {
+		getScore();
 		try {
 			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -56,7 +70,6 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void update() {
-		
 	}
 
 	private void select() {
@@ -70,23 +83,23 @@ public class LeaderBoardState extends GameState {
 			System.exit(0);
 		}
 	}
-	
-	private boolean selectionInFrame(int currentChoiceInTable, int yViewCord) {
-		if ( yViewCord + 220 + currentChoiceInTable  * 40 < yViewCord + HEIGHT && isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
+
+	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord) {
+		if ((-yViewCord + 220 + currentChoiceInTable * 40 - 20) >= -yViewCord + HEIGHT) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
-	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord ) {
-		if ((yViewCord + 220 + currentChoiceInTable  * 40 -20) >= yViewCord + HEIGHT) {
+
+	private boolean isFirstSelectionInFrame(int currentChoiceInTable, int yViewCord) {
+		if ((currentChoiceInTable * 40) <= -yViewCord - 20) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	private void drawBackground(Graphics2D g, int y) {
 		g.setFont(headerFont);
 		g.setColor(Color.BLACK);
@@ -104,12 +117,19 @@ public class LeaderBoardState extends GameState {
 		g.setColor(Color.WHITE);
 
 		for (int i = 0; i < options.length; i++) {
+			
+			int length = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
+
 			if (i == currentChoiceOfTable) {
 				g.setColor(Color.YELLOW);
+				g.setStroke(new BasicStroke(2));
+				g.drawLine(120+(i*250), 120, 120+(i*250)+length, 120);
 			} else {
 				g.setColor(Color.WHITE);
 			}
 			g.drawString(options[i], 120 + i * 250, y + 115);
+			
+			
 		}
 
 		g.setColor(Color.WHITE);
@@ -127,23 +147,49 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void draw(Graphics2D g) {
-		
-		drawBackground(g, yViewCord);
-		
-		for (int i = 0; i < testCases.length; i++) {
-			
-			for (int j = 0; j < testCases[i].length; j++) {
 
-				if (i == currentChoiceInTable) {
-					g.setColor(Color.YELLOW);
-				} else {
-					g.setColor(Color.WHITE);
+		drawBackground(g, yViewCord);
+
+		if (currentChoiceOfTable == 0) {
+			for (int i = 0; i < scoreListMau.length; i++) {
+
+				for (int j = 0; j < 3; j++) {
+
+					if (i == currentChoiceInTable) {
+						g.setColor(Color.YELLOW);
+						
+					} else {
+						g.setColor(Color.WHITE);
+					}
+					if (j == 0) {
+						g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
+					} else if (j == 1) {
+						g.drawString(scoreListMau[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
+					} else {
+						g.drawString(scoreListMau[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+					}
 				}
-				g.drawString(testCases[i][j], 40 + j * 240, yViewCord + 220 + i * 40);
+			}
+		}else {
+			for (int i = 0; i < scoreList.length; i++) {
+
+				for (int j = 0; j < 3; j++) {
+
+					if (i == currentChoiceInTable) {
+						g.setColor(Color.YELLOW);
+					} else {
+						g.setColor(Color.WHITE);
+					}
+					if (j == 0) {
+						g.drawString(i + 1 + "th", 40 + j * 240, yViewCord + 220 + i * 40);
+					} else if (j == 1) {
+						g.drawString(scoreList[i].getName(), 40 + j * 240, yViewCord + 220 + i * 40);
+					} else {
+						g.drawString(scoreList[i].getScore() + "", 40 + j * 240, yViewCord + 220 + i * 40);
+					}
+				}
 			}
 		}
-
-		
 		
 	}
 
@@ -171,17 +217,24 @@ public class LeaderBoardState extends GameState {
 			if (currentChoiceInTable == -1) {
 				currentChoiceInTable = 0;
 			}
+			if (isFirstSelectionInFrame(currentChoiceInTable, yViewCord)) {
+				yViewCord += 40;
+			}
 			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoiceInTable++;
-			if (currentChoiceInTable == testCases.length) {
-				currentChoiceInTable = testCases.length-1;
+			if (currentChoiceInTable == scoreList.length) {
+				currentChoiceInTable = scoreList.length - 1;
 			}
-			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
+			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)
+					&& !(currentChoiceInTable == scoreList.length - 1)) {
 				yViewCord -= 40;
 			}
 			soundFX.get("click").play();
+		}
+		if(k == KeyEvent.VK_ESCAPE) {
+			gsm.setState(GameStateManager.MENUSTATE);
 		}
 	}
 

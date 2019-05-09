@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import audio.AudioPlayer;
 import entity.Player;
+import gameClient.Client;
 
 /**
  * GameState represents a state in the system. It contains some common
@@ -26,6 +27,7 @@ public abstract class GameState {
 	protected static int ENEMY_DIRECTION = -1;
 	protected static int GROUND = 650;
 	protected static Font font;
+	protected static Client client = new Client("127.0.0.1", 3500);
 
 	protected static HashMap<String, AudioPlayer> soundFX = new HashMap<String, AudioPlayer>();
 	

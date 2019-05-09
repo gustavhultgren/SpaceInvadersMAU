@@ -251,6 +251,7 @@ public class PlayingState extends GameState {
 						missiles.remove(i);
 						LinkedList<Enemy> temp = enemies.get(j);
 						temp.remove(h);
+					
 
 						/**
 						 * Type 1 -- +1 life (5%)
@@ -265,7 +266,7 @@ public class PlayingState extends GameState {
 							System.out.println("Skapad 2");
 						}
 
-						player.addScore(10);
+						player.addScore(100);
 
 						enemies.set(j, temp);
 						nbr++;
@@ -346,14 +347,13 @@ public class PlayingState extends GameState {
 
 		// Check for dead player:
 		if (player.isDead()) {
-			gsm.setState(2);
-			soundFX.get("gameOver").play();
+			gsm.setState(GameStateManager.GAMEOVERSTATE);
 		}
 
 		if (nbr == 32) {
 			gsm.setHigherDifficulty();
 			gsm.setState(1);
-
+			player.setScore(score);
 		}
 	}
 
@@ -467,7 +467,7 @@ public class PlayingState extends GameState {
 			player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
 			player.setRight(true);
-		if (key == KeyEvent.VK_Z)
+		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(true);
 		if (key == KeyEvent.VK_ESCAPE) {
 			pause();
@@ -484,7 +484,7 @@ public class PlayingState extends GameState {
 			player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
 			player.setRight(false);
-		if (key == KeyEvent.VK_Z)
+		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
 	}
 

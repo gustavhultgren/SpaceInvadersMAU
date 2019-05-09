@@ -1,29 +1,26 @@
 package server;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 
 public class LeaderboardUpdateResponse implements Serializable{
-	private ArrayList<PlayerScore> scoreList;
+	private PlayerScore[] scoreList = new PlayerScore[100];
+	private PlayerScore[] scoreListMAU = new PlayerScore[100];
+
 	
-	public LeaderboardUpdateResponse(ArrayList<PlayerScore> scoreList) {
-		this.scoreList = scoreList;
+	public LeaderboardUpdateResponse(LinkedList<PlayerScore> list, LinkedList<PlayerScore> mauList) {
+		for (int i = 0; i < 100; i++) {
+			scoreList[i] = list.get(i);
+			scoreListMAU[i] = mauList.get(i);
+		}
 	}
 	
-	public ArrayList<PlayerScore> getScore(){
+	public PlayerScore[] getScoreList(){
 		return scoreList;
 	}
-	
-	public String toString() {
-		ArrayList<PlayerScore> tempList = scoreList;
-		Collections.reverse(tempList);
-		
-		String m = "";
-		for (PlayerScore elem : tempList) {
-			m += (elem.getScore() + " " + elem.getName() + "\n");
-		}
-		return m;
+	public PlayerScore[] getScoreListMAU(){
+		return scoreListMAU;
 	}
+	
 	
 }

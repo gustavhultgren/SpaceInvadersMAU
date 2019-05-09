@@ -45,7 +45,7 @@ public class Player extends Entity {
 
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 700;
+		firingDelay = 100;
 
 		playerColor = Color.WHITE;
 
@@ -70,6 +70,10 @@ public class Player extends Entity {
 
 	public int getScore() {
 		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	public void addScore(int increment) {
