@@ -42,14 +42,12 @@ public class HelpState extends GameState {
 
 		try {
 
-			menuBg = new MenuBackground("SpaceInvadersMAU/resources/images/menuBG.gif", 1); // sets the background
-
 			//initializes the font
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF"))
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
 					.deriveFont(15f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(
-					Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF")));
+					Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -60,7 +58,7 @@ public class HelpState extends GameState {
 		
 		try {
 			//initializes the "gubbe" image
-			image = ImageIO.read(new File("SpaceInvadersMAU/resources/images/gubbe2.jpg"));
+			image = ImageIO.read(new File("resources/images/gubbe2.jpg"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,12 +69,7 @@ public class HelpState extends GameState {
 
 	}
 
-	public void draw(Graphics2D g) {
-
-		// draws background
-		menuBg.draw(g);
-		
-
+	public void draw(Graphics2D g) {	
 		// Draws the first box with text
 		g.setFont(font);
 

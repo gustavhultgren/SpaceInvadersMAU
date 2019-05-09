@@ -46,20 +46,20 @@ public class MenuState extends GameState {
 
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
-		
+
 		bgMusic = new AudioPlayer("/music/si.mp3");
 		bgMusic.play();
-		
+
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
-		
+
 		// Initializing variables.
 		init();
 	}
 
 	@Override
 	public void init() {
-    
+
 		// initializes the location of the arrows
 		leftArrowX = 250;
 		leftArrowY = 263;
@@ -69,19 +69,16 @@ public class MenuState extends GameState {
 
 		try {
 
-			// initializes the background
-			bg = new MenuBackground("SpaceInvadersMAU/resources/images/menuBG.gif", 1);
-
 			// initializes the font
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF"))
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
 					.deriveFont(25f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(
-					Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF")));
+					Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
 			bg = new MenuBackground("/images/BackgroundTest.png", 1);
 			bg.setVector(-0.4, 0);
-      
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -91,8 +88,8 @@ public class MenuState extends GameState {
 		try {
 
 			// initializes both the arrow images
-			leftArrow = ImageIO.read(new File("SpaceInvadersMAU/resources/images/LeftArrow.png"));
-			rightArrow = ImageIO.read(new File("SpaceInvadersMAU/resources/images/RightArrow.png"));
+			leftArrow = ImageIO.read(new File("resources/images/LeftArrow.png"));
+			rightArrow = ImageIO.read(new File("resources/images/RightArrow.png"));
 
 		} catch (Exception e) {
 
@@ -102,7 +99,7 @@ public class MenuState extends GameState {
 	@Override
 	public void update() {
 		bg.update();
-		
+
 		// TODO Auto-generated method stub
 
 	}
@@ -110,11 +107,8 @@ public class MenuState extends GameState {
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-		
-		// draw menu options
 
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 700, 700);
+		// draw menu options
 		g.setFont(font);
 
 		for (int i = 0; i < options.length; i++) {
@@ -227,20 +221,20 @@ public class MenuState extends GameState {
 	}
 
 	public void keyPressed(int k) {
-		
+
 		/**
 		 * If you press [Enter]
 		 */
-		
+
 		if (k == KeyEvent.VK_ENTER) {
 			select();
 			soundFX.get("enter").play();
 		}
-		
+
 		/**
 		 * If you press [Up]
 		 */
-		
+
 		if (k == KeyEvent.VK_UP) {
 			currentChoice--;
 			if (currentChoice == -1) {
@@ -258,11 +252,11 @@ public class MenuState extends GameState {
 			}
 			soundFX.get("click").play();
 		}
-		
+
 		/**
 		 * If you press [Down]
 		 */
-		
+
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoice++;
 			if (currentChoice == options.length) {
