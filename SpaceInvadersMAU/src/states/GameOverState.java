@@ -92,8 +92,7 @@ public class GameOverState extends GameState {
 		try {
 			g.setColor(Color.GREEN);
 
-			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,
-					35);
+			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,35);
 			g.setFont(tempFont);
 			String submit = "SUBMIT SCORE";
 			length = (int) g.getFontMetrics().getStringBounds(submit, g).getWidth();
@@ -128,9 +127,9 @@ public class GameOverState extends GameState {
 	private void printNameToShort(Graphics2D g) {
 		if (frameCounter < 30 && playerName.length() < 3) {
 			g.setColor(Color.WHITE);
-			String nameToShort = "NAME TO SHORT";
-			int length = (int) g.getFontMetrics().getStringBounds(nameToShort, g).getWidth();
-			g.drawString("NAME TO SHORT", (700 - length) / 2, 75);
+			String nameTooShort = "NAME TOO SHORT";
+			int length = (int) g.getFontMetrics().getStringBounds(nameTooShort, g).getWidth();
+			g.drawString(nameTooShort, (700 - length) / 2, 75);
 		}
 	}
 
@@ -140,7 +139,7 @@ public class GameOverState extends GameState {
 			} else {
 				String os = client.getOS();
 				String ssid = client.getSSID(os);
-				if (ssid.equals("fiffi-5ghz")) {
+				if (ssid.equals("eduroam")) {
 					client.requestList(new PlayerScore(playerName, player.getScore(), true));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				}else {

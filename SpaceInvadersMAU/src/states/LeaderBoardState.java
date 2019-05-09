@@ -112,12 +112,19 @@ public class LeaderBoardState extends GameState {
 		g.setColor(Color.WHITE);
 
 		for (int i = 0; i < options.length; i++) {
+			
+			int length = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
+
 			if (i == currentChoiceOfTable) {
 				g.setColor(Color.YELLOW);
+				g.setStroke(new BasicStroke(2));
+				g.drawLine(120+(i*250), 120, 120+(i*250)+length, 120);
 			} else {
 				g.setColor(Color.WHITE);
 			}
 			g.drawString(options[i], 120 + i * 250, y + 115);
+			
+			
 		}
 
 		g.setColor(Color.WHITE);
@@ -145,6 +152,7 @@ public class LeaderBoardState extends GameState {
 
 					if (i == currentChoiceInTable) {
 						g.setColor(Color.YELLOW);
+						
 					} else {
 						g.setColor(Color.WHITE);
 					}
@@ -177,6 +185,7 @@ public class LeaderBoardState extends GameState {
 				}
 			}
 		}
+		
 	}
 
 	@Override

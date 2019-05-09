@@ -21,6 +21,7 @@ import server.PlayerScore;
 public class Client extends Thread {
 
 	private JFrame frame;
+	private JPanel panel;
 	private String ip;
 	private int port;
 	private JTextArea txtArea;
