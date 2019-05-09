@@ -2,6 +2,8 @@ package states;
 
 import java.awt.Color;
 
+
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -12,18 +14,21 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
+import tileMap.*;
 import javafx.scene.layout.Background;
 import tileMap.MenuBackground;
+import audio.AudioPlayer;
 
 public class MenuState extends GameState {
 
 	private int currentChoice = 0;
 	private int textLength;
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
+
 
 	// arrow locations
 	private int leftArrowX = 0;
@@ -36,17 +41,25 @@ public class MenuState extends GameState {
 	private BufferedImage rightArrow;
 
 	// Background of the menu
+	private AudioPlayer bgMusic;
 	private MenuBackground bg;
 
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
+		
+		bgMusic = new AudioPlayer("/music/si.mp3");
+		bgMusic.play();
+		
+		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
+		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
+		
 		// Initializing variables.
 		init();
 	}
 
 	@Override
 	public void init() {
-
+    
 		// initializes the location of the arrows
 		leftArrowX = 250;
 		leftArrowY = 263;
@@ -66,6 +79,9 @@ public class MenuState extends GameState {
 			ge.registerFont(
 					Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF")));
 
+			bg = new MenuBackground("/images/BackgroundTest.png", 1);
+			bg.setVector(-0.4, 0);
+      
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -86,6 +102,7 @@ public class MenuState extends GameState {
 	@Override
 	public void update() {
 		bg.update();
+		
 		// TODO Auto-generated method stub
 
 	}
@@ -217,6 +234,7 @@ public class MenuState extends GameState {
 		
 		if (k == KeyEvent.VK_ENTER) {
 			select();
+			soundFX.get("enter").play();
 		}
 		
 		/**
@@ -238,6 +256,7 @@ public class MenuState extends GameState {
 				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice), leftArrowY - 60);
 				setRightArrowLocation((WIDTH / 2) + getStringWidth(currentChoice) - 40, rightArrowY - 60);
 			}
+			soundFX.get("click").play();
 		}
 		
 		/**
@@ -260,6 +279,7 @@ public class MenuState extends GameState {
 				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice), leftArrowY + 60);
 				setRightArrowLocation((WIDTH / 2) + getStringWidth(currentChoice) - 40, rightArrowY + 60);
 			}
+			soundFX.get("click").play();
 		}
 	}
 

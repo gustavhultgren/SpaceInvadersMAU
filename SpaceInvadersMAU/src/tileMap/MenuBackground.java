@@ -5,12 +5,15 @@ package tileMap;
  */
 
 import java.awt.image.BufferedImage;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import java.awt.*;
 
-public class MenuBackground {
 
+public class MenuBackground {
+	
 	private BufferedImage image;
 	private double x;
 	private double y;
@@ -20,7 +23,7 @@ public class MenuBackground {
 
 	public MenuBackground (String s, double ms) {
 		try { 
-		
+			
 		image = ImageIO.read(getClass().getResourceAsStream(s));
 		moveScale = ms;
 	}
@@ -30,6 +33,7 @@ public class MenuBackground {
 	}
 	public void setPosition (double x, double y) {
 		this.x = (x * moveScale) % GamePanel.WIDTH;
+		
 		this.y = (y * moveScale) % GamePanel.HEIGHT;
 		
 	}
@@ -42,6 +46,7 @@ public class MenuBackground {
 	public void update() {
 		x += dx;
 		y += dy;
+		setPosition(x, y);
 	}
 	
 	public void draw (Graphics2D g) {
@@ -49,10 +54,12 @@ public class MenuBackground {
 		
 		g.drawImage(image, (int) x, (int) y, null);
 		if (x < 0) {
+			
 			g.drawImage(image, (int) x + GamePanel.WIDTH, (int) y, null);
 		}
-		if (x > 0) {
-			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y, null);
+		if (x > 700) {
+			
+			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y , null);
 		}
 	}
 }

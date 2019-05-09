@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import audio.AudioPlayer;
+
 public class LeaderBoardState extends GameState {
 
 	private int currentChoiceOfTable = 0;
@@ -47,6 +49,9 @@ public class LeaderBoardState extends GameState {
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		}
+		
+		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
+		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 	}
 
 	@Override
@@ -152,18 +157,21 @@ public class LeaderBoardState extends GameState {
 			if (currentChoiceOfTable == -1) {
 				currentChoiceOfTable = options.length - 1;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_RIGHT) {
 			currentChoiceOfTable++;
 			if (currentChoiceOfTable == options.length) {
 				currentChoiceOfTable = 0;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_UP) {
 			currentChoiceInTable--;
 			if (currentChoiceInTable == -1) {
 				currentChoiceInTable = 0;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoiceInTable++;
@@ -173,6 +181,7 @@ public class LeaderBoardState extends GameState {
 			if (isLastSelectionInFrame(currentChoiceInTable, yViewCord)) {
 				yViewCord -= 40;
 			}
+			soundFX.get("click").play();
 		}
 	}
 
