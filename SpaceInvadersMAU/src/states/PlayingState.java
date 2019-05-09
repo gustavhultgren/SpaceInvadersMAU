@@ -350,9 +350,10 @@ public class PlayingState extends GameState {
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
 		}
 
-		if (nbr == 32) {
+		if (nbr == 24) {
+			int score = player.getScore();
 			gsm.setHigherDifficulty();
-			gsm.setState(1);
+			gsm.setState(GameStateManager.PLAYINGSTATE);
 			player.setScore(score);
 		}
 	}

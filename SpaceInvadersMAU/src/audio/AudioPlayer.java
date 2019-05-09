@@ -58,4 +58,9 @@ public class AudioPlayer {
 		clip.close();
 	}
 	
+	public void loop(){
+		
+		clip.loop(clip.LOOP_CONTINUOUSLY);  
+	}
+	
 }

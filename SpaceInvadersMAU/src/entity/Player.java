@@ -45,7 +45,7 @@ public class Player extends Entity {
 
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 100;
+		firingDelay = 700;
 
 		playerColor = Color.WHITE;
 
@@ -128,7 +128,7 @@ public class Player extends Entity {
 			if(elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
 
-				PlayingState.missiles.add(new Missile(270, x, y, 3, 7));
+				PlayingState.missiles.add(new Missile(270, x, y, 3, 8));
 			}
 		}
 	}

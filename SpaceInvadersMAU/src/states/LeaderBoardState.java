@@ -123,7 +123,7 @@ public class LeaderBoardState extends GameState {
 			if (i == currentChoiceOfTable) {
 				g.setColor(Color.YELLOW);
 				g.setStroke(new BasicStroke(2));
-				g.drawLine(120+(i*250), 120, 120+(i*250)+length, 120);
+				g.drawLine(120+(i*250), 120 +yViewCord, 120+(i*250)+length, 120 +yViewCord);
 			} else {
 				g.setColor(Color.WHITE);
 			}

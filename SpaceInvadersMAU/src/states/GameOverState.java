@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -8,12 +9,10 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
-<<<<<<< HEAD
 import server.PlayerScore;
-=======
-import com.sun.glass.events.KeyEvent;
+import tileMap.MenuBackground;
 
->>>>>>> master
+
 
 public class GameOverState extends GameState {
 
@@ -22,27 +21,38 @@ public class GameOverState extends GameState {
 	private int currentChoice = 0;
 	private int frameCounter = 0;
 	private String playerName = "";
+	private MenuBackground bg;
 
 	public GameOverState(GameStateManager gsm) {
+		try {
+			bg = new MenuBackground("/images/background.png", 1);
+			bg.setVector(-0.4, 0);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.gsm = gsm;
 	}
 
 	@Override
 	public void init() {
+		
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void update() {
+		bg.update();
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 700, 700);
+		bg.draw(g);
+//		g.setColor(Color.BLACK);
+//		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
 		
 		printNameToShort(g);
@@ -50,7 +60,7 @@ public class GameOverState extends GameState {
 		
 		int length;
 		try {
-			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF"))
+			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
 					.deriveFont(Font.PLAIN, 60);
 			g.setFont(tempFont);
 			g.setColor(Color.RED);
@@ -68,7 +78,7 @@ public class GameOverState extends GameState {
 
 		Font tempFont;
 		try {
-			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,
+			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,
 					50);
 			g.setFont(tempFont);
 			g.setColor(Color.RED);
@@ -98,7 +108,7 @@ public class GameOverState extends GameState {
 		try {
 			g.setColor(Color.GREEN);
 
-			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,35);
+			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,35);
 			g.setFont(tempFont);
 			String submit = "SUBMIT SCORE";
 			length = (int) g.getFontMetrics().getStringBounds(submit, g).getWidth();
@@ -118,7 +128,7 @@ public class GameOverState extends GameState {
 				g.setColor(Color.WHITE);
 			}
 			try {
-				tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF"))
+				tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
 						.deriveFont(Font.PLAIN, 35);
 				g.setFont(tempFont);
 				length = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
@@ -154,19 +164,19 @@ public class GameOverState extends GameState {
 				}
 			}
 		}
+//		
+//		int length = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
+//		g.drawString(gameOver, (700 - length) / 2, (700 / 2) - 150);
+//		
+//		String finalScore = "FINAL SCORE: ";
+//		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
+//		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
+//		g.setColor(Color.GREEN);
+//		g.drawString("" + player.getScore(), 490, (700 / 2));
 		
-		int length = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
-		g.drawString(gameOver, (700 - length) / 2, (700 / 2) - 150);
-		
-		String finalScore = "FINAL SCORE: ";
-		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
-		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
-		g.setColor(Color.GREEN);
-		g.drawString("" + player.getScore(), 490, (700 / 2));
-		
-		String exitMessage = "PRESS ESC TO GO BACK TO MENU";
-		length = (int) g.getFontMetrics().getStringBounds(exitMessage, g).getWidth();
-		g.drawString(exitMessage, (700 - length) / 2, 600);
+//		String exitMessage = "PRESS ESC TO GO BACK TO MENU";
+//		length = (int) g.getFontMetrics().getStringBounds(exitMessage, g).getWidth();
+//		g.drawString(exitMessage, (700 - length) / 2, 600);
 	}
 
 	@Override

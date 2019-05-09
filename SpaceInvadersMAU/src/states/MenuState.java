@@ -48,7 +48,8 @@ public class MenuState extends GameState {
 		this.gsm = gsm;
 
 		bgMusic = new AudioPlayer("/music/si.mp3");
-		bgMusic.play();
+//		bgMusic.play();
+		bgMusic.loop();
 
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
@@ -62,7 +63,7 @@ public class MenuState extends GameState {
 
 		try {
 
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
 
 			// initializes the location of the arrows
 			leftArrowX = 250;
@@ -71,7 +72,6 @@ public class MenuState extends GameState {
 			rightArrowX = 410;
 			rightArrowY = 263;
 
-			try {
 
 				// initializes the font
 				font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
@@ -82,23 +82,20 @@ public class MenuState extends GameState {
 
 				bg = new MenuBackground("/images/BackgroundTest.png", 1);
 				bg.setVector(-0.4, 0);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (FontFormatException e) {
-				e.printStackTrace();
-			}
-
-			try {
-
 				// initializes both the arrow images
 				leftArrow = ImageIO.read(new File("resources/images/LeftArrow.png"));
 				rightArrow = ImageIO.read(new File("resources/images/RightArrow.png"));
 
-			} catch (Exception e) {
-
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (FontFormatException e) {
+				}
 			}
-		}
+		
+				
+			
+
+		
 
 		@Override
 		public void update() {
