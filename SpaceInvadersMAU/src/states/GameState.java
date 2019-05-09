@@ -1,12 +1,18 @@
 package states;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.HashMap;
 
+import audio.AudioPlayer;
 import entity.Player;
 import gameClient.Client;
 
+/**
+ * GameState represents a state in the system. It contains some common
+ * variables and methods that is used in different states.
+ * @author Gustav Hultgren & Tom Eriksson
+ */
 public abstract class GameState {
 	
 	//Dimensions.
@@ -23,13 +29,14 @@ public abstract class GameState {
 	protected static Font font;
 	protected static Client client = new Client("127.0.0.1", 3500);
 
+	protected static HashMap<String, AudioPlayer> soundFX = new HashMap<String, AudioPlayer>();
 	
 	protected GameStateManager gsm;
 	protected static Player player;
 
 	public abstract void init();
 	public abstract void update();
-	public abstract void draw(java.awt.Graphics2D g);
+	public abstract void draw(Graphics2D g);
 	public abstract void keyPressed(int k);
 	public abstract void keyReleased(int k);
 	

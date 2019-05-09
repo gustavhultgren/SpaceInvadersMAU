@@ -22,6 +22,8 @@ import gameClient.Client;
 import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
 
+import audio.AudioPlayer;
+
 public class LeaderBoardState extends GameState {
 
 	private int currentChoiceOfTable = 0;
@@ -53,14 +55,17 @@ public class LeaderBoardState extends GameState {
 	public void init() {
 		getScore();
 		try {
-			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")).deriveFont(40f);
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/ARCADE_I.TTF")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		}
+		
+		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
+		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 	}
 
 	@Override
@@ -198,12 +203,14 @@ public class LeaderBoardState extends GameState {
 			if (currentChoiceOfTable == -1) {
 				currentChoiceOfTable = options.length - 1;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_RIGHT) {
 			currentChoiceOfTable++;
 			if (currentChoiceOfTable == options.length) {
 				currentChoiceOfTable = 0;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_UP) {
 			currentChoiceInTable--;
@@ -213,6 +220,7 @@ public class LeaderBoardState extends GameState {
 			if (isFirstSelectionInFrame(currentChoiceInTable, yViewCord)) {
 				yViewCord += 40;
 			}
+			soundFX.get("click").play();
 		}
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoiceInTable++;
@@ -223,6 +231,7 @@ public class LeaderBoardState extends GameState {
 					&& !(currentChoiceInTable == scoreList.length - 1)) {
 				yViewCord -= 40;
 			}
+			soundFX.get("click").play();
 		}
 		if(k == KeyEvent.VK_ESCAPE) {
 			gsm.setState(GameStateManager.MENUSTATE);

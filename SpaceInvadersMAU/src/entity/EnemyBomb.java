@@ -12,17 +12,11 @@ import main.GamePanel;
  * @author Gustav Hultgren
  *
  */
-public class EnemyBomb {
-
-	//FIELDS
-	private double x;
-	private double y;
-	private int r;
+public class EnemyBomb extends Entity {
 
 	private double dx;
 	private double dy;
 	private double rad;
-	private double speed;
 
 	private Color bulletColor;
 
@@ -32,13 +26,10 @@ public class EnemyBomb {
 	 * @param x - sets where the bomb starts on the x-axis.
 	 * @param y - sets where the bomb starts on the y-axis.
 	 */
-	public EnemyBomb(double angle, int x, int y) {
-		this.x = x;
-		this.y = y;
-		r = 3;
+	public EnemyBomb(double angle, int x, int y, int r, double speed) {
+		super(x, y, r, speed);
 
 		rad = Math.toRadians(angle);
-		speed = 7;
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 
@@ -46,9 +37,9 @@ public class EnemyBomb {
 
 	}
 	//FUNCTIONS
-	public double getX() { return x; }
-	public double getY() { return y; }
-	public double getR() { return r; }
+	public int getX() { return x; }
+	public int getY() { return y; }
+	public int getR() { return r; }
 
 	public Rectangle getBounds() {
 		return new Rectangle((int)x, (int)y, 2 * r, 6 * r);
