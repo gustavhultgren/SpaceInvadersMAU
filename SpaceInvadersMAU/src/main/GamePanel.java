@@ -17,9 +17,10 @@ import javafx.scene.transform.Scale;
 import states.GameStateManager;
 
 /**
- * This class represents a GamePanel. 
- * The GamePanel is responsible to update, render and draw game object.
- * The plan is to handle all game logic in one separate class.
+ * This class represents a GamePanel. The GamePanel is responsible to update,
+ * render and draw game object. The plan is to handle all game logic in one
+ * separate class.
+ * 
  * @author Gustav Hultgren
  */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
@@ -29,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// Dimensions.s
 	public static int WIDTH = 700;
 	public static int HEIGHT = 700;
-	public static final int  SCALE = 2;
+	public static final int SCALE = 2;
 
 	// Game thread.
 	private Thread thread;
@@ -44,18 +45,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Random rand = new Random();
 
 	private Player player;
-	
+
 	private MenuBackground bg;
 
 	// Game state manager.
 	private GameStateManager gsm;
 
 	/**
-	 * Creates a GamePanel-object. 
+	 * Creates a GamePanel-object.
 	 */
 	public GamePanel() {
 		super();
-		setPreferredSize(new Dimension(WIDTH  , HEIGHT));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
 		setFocusable(true);
 		requestFocus();
@@ -73,10 +74,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 
 	public void init() {
-		image = new BufferedImage(
-				WIDTH, HEIGHT,
-				BufferedImage.TYPE_INT_RGB
-				);
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		running = true;
 		gsm = new GameStateManager();
@@ -91,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		long wait;
 
 		// game loop
-		while(running) {
+		while (running) {
 
 			start = System.nanoTime();
 
@@ -102,12 +100,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			elapsed = System.nanoTime() - start;
 
 			wait = targetTime - elapsed / 1000000;
-			if(wait < 0) wait = 5;
+			if (wait < 0)
+				wait = 5;
 
 			try {
 				Thread.sleep(wait);
-			}
-			catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
@@ -123,7 +121,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	/**
 	 * This method is rendering all game objects. Basically it draws the player,
-	 * enemy/enemies, enemy bombs etc. 
+	 * enemy/enemies, enemy bombs etc.
 	 */
 	private void draw() {
 		gsm.draw(g);
@@ -142,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
