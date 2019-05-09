@@ -8,11 +8,13 @@ public class GameStateManager {
 	private int currentState;
 	private int difficulty = 1000;
 	
+	//States
 	public static final int NUMGAMESTATES = 5;
 	public static final int MENUSTATE = 0;
 	public static final int PLAYINGSTATE = 1;
 	public static final int GAMEOVERSTATE = 2;
 	public static final int LEADERBOARDSTATE = 3;
+	public static final int HELPSTATE = 4;
 	
 	public GameStateManager() {
 		
@@ -40,6 +42,8 @@ public class GameStateManager {
 			gameStates[state] = new GameOverState(this);
 		if(state == LEADERBOARDSTATE)
 			gameStates[state] = new LeaderBoardState(this);
+		if(state == HELPSTATE)
+			gameStates[state] = new HelpState(this);
 	}
 	
 	private void unloadState(int state) {

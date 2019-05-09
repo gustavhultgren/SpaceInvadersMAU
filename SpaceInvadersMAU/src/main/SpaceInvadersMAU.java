@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 /**
  * This class contains the main thread.
+ * 
  * @author Gustav Hultgren
  */
 public class SpaceInvadersMAU extends JFrame {
@@ -16,7 +17,8 @@ public class SpaceInvadersMAU extends JFrame {
 		window.setContentPane(new GamePanel());
 		window.pack();
 		window.setLocationRelativeTo(null);
-//		window.setResizable(false);
+		window.setResizable(false);
 		window.setVisible(true);
 	}
+
 }
