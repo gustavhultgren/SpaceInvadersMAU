@@ -16,6 +16,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+// FFJFJ
 public class ServerClient {
 	private Connection connection = new Connection();
 	private ServerSocket serverSocket;
