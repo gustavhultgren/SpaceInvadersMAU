@@ -49,6 +49,7 @@ public class PlayingState extends GameState {
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
+	public static LinkedList<BufferedImage> savedPowerUps;
 	public static LinkedList<PowerUpText> powerUpTexts;
 
 	// Images
@@ -101,6 +102,7 @@ public class PlayingState extends GameState {
 		missiles = new LinkedList<Missile>();
 		bombs = new LinkedList<EnemyBomb>();
 		powerUps = new LinkedList<PowerUp>();
+		savedPowerUps = new LinkedList<BufferedImage>();
 		powerUpTexts = new LinkedList<PowerUpText>();
 
 		try {
@@ -343,6 +345,12 @@ public class PlayingState extends GameState {
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				}else if(type == PowerUp.RAYGUN) {
 					powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
+					try {
+						savedPowerUps.add(ImageIO.read(new File("resources/images/raygun.png")));
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 				powerUps.remove(i);
@@ -404,6 +412,12 @@ public class PlayingState extends GameState {
 
 		for (int i = 0; i < powerUps.size(); i++) {
 			powerUps.get(i).draw(g);
+		}
+		
+		for (int i = 0; i < savedPowerUps.size(); i++) {
+			if(!savedPowerUps.isEmpty()) {
+				g.drawImage(savedPowerUps.get(i), 10 + i*55, 660, 50, 26, null);
+			}
 		}
 
 		for (int i = 0; i < powerUpTexts.size(); i++) {

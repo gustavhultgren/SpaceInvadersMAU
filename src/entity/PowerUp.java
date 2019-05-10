@@ -70,7 +70,13 @@ public class PowerUp extends Entity {
 	}
 
 	public void draw(Graphics2D g) {
-		g.drawImage(powerUpImage, x, y, 26, 26, null);
+		if (type == PowerUp.RAYGUN) {
+			g.drawImage(powerUpImage, x, y, 50, 26, null);
+
+		}else {
+			g.drawImage(powerUpImage, x, y, 26, 26, null);
+
+		}
 	}
 
 }
