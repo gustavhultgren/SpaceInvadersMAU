@@ -67,6 +67,8 @@ public class PlayingState extends GameState {
 		try {
 			bg = new MenuBackground("/images/background.png", 1);
 			bg.setVector(-0.4, 0);
+			bgMusic = new AudioPlayer("/music/si.mp3");
+			bgMusic.play();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -242,6 +244,8 @@ public class PlayingState extends GameState {
 				missiles.remove(i);
 				purpleShip.killed();
 				
+				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 13, 3.0, PowerUp.RAYGUN)); //Type 2
+				
 			}
 			for (int j = 0; j < enemies.size(); j++) {
 				for (int h = 0; h < enemies.get(j).size(); h++) {
@@ -259,10 +263,10 @@ public class PlayingState extends GameState {
 						 */
 						double rand = Math.random();
 						if(rand < 0.05) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 1)); //Type 1
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, PowerUp.HEART)); //Type 1
 							System.out.println("Skapad 1");
 						} else if(rand < 0.20) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, 2)); //Type 2
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, PowerUp.SCORE)); //Type 2
 							System.out.println("Skapad 2");
 						}
 
@@ -326,7 +330,7 @@ public class PlayingState extends GameState {
 			if (powerUp.getBounds().intersects(player.getBounds())) {
 				int type = powerUp.getType();
 
-				if(type == 1) {
+				if(type == PowerUp.HEART) {
 					if(player.getLives() < 4) {
 						player.addLife(1);
 						powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
@@ -334,10 +338,11 @@ public class PlayingState extends GameState {
 						powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
 					}
 
-				} 
-				else if(type == 2) {
+				} else if(type == PowerUp.SCORE) {
 					player.addScore(50);
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
+				}else if(type == PowerUp.RAYGUN) {
+					powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
 				}
 
 				powerUps.remove(i);
@@ -347,6 +352,7 @@ public class PlayingState extends GameState {
 
 		// Check for dead player:
 		if (player.isDead()) {
+			bgMusic.stop();
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
 		}
 
@@ -476,7 +482,9 @@ public class PlayingState extends GameState {
 		}
 		if (key == KeyEvent.VK_E && paused) {
 			soundFX.get("enter").play();
+			bgMusic.stop();
 			gsm.setState(GameStateManager.MENUSTATE);
+			
 		}
 	}
 

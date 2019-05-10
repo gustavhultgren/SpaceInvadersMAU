@@ -41,15 +41,10 @@ public class MenuState extends GameState {
 	private BufferedImage rightArrow;
 
 	// Background of the menu
-	private AudioPlayer bgMusic;
 	private MenuBackground bg;
 
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
-
-		bgMusic = new AudioPlayer("/music/si.mp3");
-//		bgMusic.play();
-		bgMusic.loop();
 
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));

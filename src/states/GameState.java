@@ -33,6 +33,8 @@ public abstract class GameState {
 	
 	protected GameStateManager gsm;
 	protected static Player player;
+	protected static AudioPlayer bgMusic;
+
 
 	public abstract void init();
 	public abstract void update();
