@@ -10,9 +10,10 @@ import main.GamePanel;
 import states.PlayingState;
 
 /**
- * This class represents a player.
- * A player can move left and right. A player can launch missiles to 
- * shoot down enemies. A player can loose lives and gain score.
+ * This class represents a player. A player can move left and right. A player
+ * can launch missiles to shoot down enemies. A player can loose lives and gain
+ * score.
+ * 
  * @author Gustav Hultgren
  */
 public class Player extends Entity {
@@ -25,6 +26,7 @@ public class Player extends Entity {
 	private boolean firing;
 	private long firingTimer;
 	private long firingDelay;
+	private boolean firingRaygun;
 
 	private Color playerColor;
 
@@ -32,9 +34,9 @@ public class Player extends Entity {
 	private int lives;
 
 	/**
-	 * Creates a player object.
-	 * Sets the players speed to 3, firing delay to 700 milliseconds,
-	 * color to white, score to 0 and lives to 3.
+	 * Creates a player object. Sets the players speed to 3, firing delay to 700
+	 * milliseconds, color to white, score to 0 and lives to 3.
+	 * 
 	 * @param x - where the player is created on the x-axis.
 	 * @param y - where the player is created on the y-axis.
 	 */
@@ -54,24 +56,38 @@ public class Player extends Entity {
 
 	}
 
-	public int getX() { return x; }
-	public int getY() { return y; }
-	public int getR() { return r; }
+	public int getX() {
+		return x;
+	}
 
-	public void setLeft(boolean b) { 
-		left = b; 
+	public int getY() {
+		return y;
 	}
-	public void setRight(boolean b) { 
-		right = b; 
+
+	public int getR() {
+		return r;
 	}
+
+	public void setLeft(boolean b) {
+		left = b;
+	}
+
+	public void setRight(boolean b) {
+		right = b;
+	}
+
 	public void setFiring(boolean b) {
-		firing = b; 
+		firing = b;
+	}
+
+	public void setFiringRaygun(boolean b) {
+		firingRaygun = b;
 	}
 
 	public int getScore() {
 		return score;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}
@@ -87,7 +103,7 @@ public class Player extends Entity {
 	public void loseLife() {
 		lives--;
 	}
-	
+
 	public void addLife(int increment) {
 		lives += increment;
 	}
@@ -96,44 +112,53 @@ public class Player extends Entity {
 		return lives <= 0;
 	}
 
-	//This method is used to handle enemy bombs - player collision.
+	// This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
 	}
 
 	/**
-	 * This method is called in class GamePanel. It makes the player move and 
-	 * adding missiles to the list every time the player fires.
+	 * This method is called in class GamePanel. It makes the player move and adding
+	 * missiles to the list every time the player fires.
 	 */
 	public void update() {
-		if(left) 
+		if (left)
 			dx = -speed;
-		if(right) 
+		if (right)
 			dx = speed;
 
 		x += dx;
 
-		if(x < r) 
+		if (x < r)
 			x = r;
-		if(y < r) 
+		if (y < r)
 			y = r;
 
-		if(x > GamePanel.WIDTH - r) 
+		if (x > GamePanel.WIDTH - r)
 			x = GamePanel.WIDTH - r;
 
 		dx = 0;
 
-		if(firing) {
+		if (firing) {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
-			if(elapsed > firingDelay) {
+			if (elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
 
 				PlayingState.missiles.add(new Missile(270, x, y, 3, 8));
 			}
 		}
+
+		if (firingRaygun) {
+			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+			if (elapsed > firingDelay / 8) {
+				firingTimer = System.nanoTime();
+
+				PlayingState.missiles.add(new Missile(270, x, y, 5, 24, Color.GREEN));
+			}
+		}
 	}
 
-	//This method is called in the class GamePanel. It draws the player.
+	// This method is called in the class GamePanel. It draws the player.
 	public void draw(Graphics2D g) {
 		g.setColor(playerColor);
 		g.fillRect(x - r, y - r, 2 * r, 2 * r);

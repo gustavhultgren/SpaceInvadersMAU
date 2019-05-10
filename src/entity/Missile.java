@@ -33,7 +33,19 @@ public class Missile extends Entity {
 		dy = Math.sin(rad) * speed;
 
 		bulletColor = Color.GRAY;
+	}
+	public Missile(double angle, int x, int y, int r, double speed, Color c) {
+		super(x, y, r, speed);
 
+		rad = Math.toRadians(angle);
+		dx = Math.cos(rad) * speed;
+		dy = Math.sin(rad) * speed;
+
+		bulletColor = c;
+	}
+	
+	public void setColor(Color c) {
+		bulletColor = c;
 	}
 	//FUNCTIONS
 	public int getX() { return x; }

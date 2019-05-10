@@ -64,6 +64,7 @@ public class PowerUp extends Entity {
 	public Rectangle getBounds() {
 		return new Rectangle((int) x, (int) y, 2 * r, 2 * r);
 	}
+	
 
 	public void update() {
 		y += speed;
@@ -72,10 +73,12 @@ public class PowerUp extends Entity {
 	public void draw(Graphics2D g) {
 		if (type == PowerUp.RAYGUN) {
 			g.drawImage(powerUpImage, x, y, 50, 26, null);
-
-		}else {
-			g.drawImage(powerUpImage, x, y, 26, 26, null);
-
+		}
+	}
+	
+	public void draw(Graphics2D g, int x, int y, int width, int height) {
+		if (type == PowerUp.RAYGUN) {
+			g.drawImage(powerUpImage, x, y, 50, 26, null);
 		}
 	}
 

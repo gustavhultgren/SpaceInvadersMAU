@@ -3,6 +3,7 @@ package states;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -42,6 +45,8 @@ public class PlayingState extends GameState {
 	private int textLength;
 	private int frameCounter = 0;
 	private boolean bossActive = true;
+	private boolean raygunIsFiring = false;
+	private Rectangle raygunLaserHitbox;
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
@@ -49,13 +54,12 @@ public class PlayingState extends GameState {
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
-	public static LinkedList<BufferedImage> savedPowerUps;
+	public static LinkedList<PowerUp> savedPowerUps;
 	public static LinkedList<PowerUpText> powerUpTexts;
 
 	// Images
 	private BufferedImage heartImage;
-	
-	
+
 	private MenuBackground bg;
 
 	public PlayingState(GameStateManager gsm) {
@@ -94,15 +98,13 @@ public class PlayingState extends GameState {
 				row.add(enemy);
 			}
 		}
-		
-		purpleShip = new Boss(ENEMY_INIT_X, ENEMY_INIT_Y , 1, 1, gsm.getDifficulty());
-	
-		
+
+		purpleShip = new Boss(ENEMY_INIT_X, ENEMY_INIT_Y, 1, 1, gsm.getDifficulty());
 
 		missiles = new LinkedList<Missile>();
 		bombs = new LinkedList<EnemyBomb>();
 		powerUps = new LinkedList<PowerUp>();
-		savedPowerUps = new LinkedList<BufferedImage>();
+		savedPowerUps = new LinkedList<PowerUp>();
 		powerUpTexts = new LinkedList<PowerUpText>();
 
 		try {
@@ -133,7 +135,7 @@ public class PlayingState extends GameState {
 
 		// Updating player:
 		player.update();
-		
+
 		purpleShip.update(ENEMY_DIRECTION, false);
 
 		// Updating missiles:
@@ -222,12 +224,12 @@ public class PlayingState extends GameState {
 				}
 				if (x <= 3 && ENEMY_DIRECTION != 1) {
 					ENEMY_DIRECTION = 1;
-			
+
 					for (int h = 0; h < enemies.size(); h++) {
 						Iterator<Enemy> i2 = enemies.get(h).iterator();
-						
+
 						while (i2.hasNext()) {
-							
+
 							Enemy e = (Enemy) i2.next();
 							e.setY(e.getY() + 15);
 						}
@@ -239,15 +241,14 @@ public class PlayingState extends GameState {
 		// ----------------------------------------------------
 
 		// Check for player missile - enemy collision:
-	
+
 		for (int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
-			if(m.getBounds().intersects(purpleShip.getBounds())) {
+			if (m.getBounds().intersects(purpleShip.getBounds())) {
 				missiles.remove(i);
 				purpleShip.killed();
-				
-				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 13, 3.0, PowerUp.RAYGUN)); //Type 2
-				
+
+				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 13, 3.0, PowerUp.RAYGUN)); // Type 2
 			}
 			for (int j = 0; j < enemies.size(); j++) {
 				for (int h = 0; h < enemies.get(j).size(); h++) {
@@ -257,19 +258,15 @@ public class PlayingState extends GameState {
 						missiles.remove(i);
 						LinkedList<Enemy> temp = enemies.get(j);
 						temp.remove(h);
-					
 
 						/**
-						 * Type 1 -- +1 life (5%)
-						 * Type 2 -- +50 score (10%)
+						 * Type 1 -- +1 life (5%) Type 2 -- +50 score (10%)
 						 */
 						double rand = Math.random();
-						if(rand < 0.05) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, PowerUp.HEART)); //Type 1
-							System.out.println("Skapad 1");
-						} else if(rand < 0.20) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, PowerUp.SCORE)); //Type 2
-							System.out.println("Skapad 2");
+						if (rand < 0.05) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, PowerUp.HEART)); // Type 1
+						} else if (rand < 0.20) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 13, 3.0, PowerUp.SCORE)); // Type 2
 						}
 
 						player.addScore(100);
@@ -277,11 +274,10 @@ public class PlayingState extends GameState {
 						enemies.set(j, temp);
 						nbr++;
 					}
+
 				}
 			}
 		}
-		
-		
 
 		// Check for enemy bombs - player collision:
 		for (int i = 0; i < bombs.size(); i++) {
@@ -292,39 +288,6 @@ public class PlayingState extends GameState {
 			}
 		}
 
-		// // Check for dead enemies:
-		// for (int i = 0; i < enemies.size(); i++) {
-		// for (int j = 0; j < enemies.get(i).size(); j++) {
-		// if (!enemies.get(i).get(j).isDead()) {
-		// Enemy e = enemies.get(i).get(j);
-		//
-		// /**
-		// * Type 1 -- +1 life
-		// * Type 2 -- +50 score
-		// * Type 3 -- Slow motion
-		// */
-		// double rand = Math.random();
-		// if(rand < 0.5) {
-		// powerUps.add(new PowerUp(e.getX(), e.getY(), 16, 0.7, 1)); //Type 1
-		// System.out.println("Skapad");
-		// } else if(rand < 0.5) {
-		// powerUps.add(new PowerUp(e.getX(), e.getY(), 16, 0.5, 2)); //Type 2
-		// System.out.println("Skapad 2");
-		// } else if(rand < 0.5) {
-		// powerUps.add(new PowerUp(e.getX(), e.getY(), 16, 0.7, 2)); //Type 3
-		// System.out.println("Skapad 3");
-		// }
-		//
-		// player.addScore(10);
-		//
-		// LinkedList<Enemy> temp = enemies.get(i);
-		// temp.remove(j);
-		// enemies.set(i, temp);
-		// j--;
-		// }
-		// }
-		// }
-
 		// Check for PowerUp - player collision and activating the power up:
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp powerUp = powerUps.get(i);
@@ -332,25 +295,23 @@ public class PlayingState extends GameState {
 			if (powerUp.getBounds().intersects(player.getBounds())) {
 				int type = powerUp.getType();
 
-				if(type == PowerUp.HEART) {
-					if(player.getLives() < 4) {
+				if (type == PowerUp.HEART) {
+					if (player.getLives() < 4) {
 						player.addLife(1);
-						powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
+						powerUpTexts
+								.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
 					} else {
-						powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
+						powerUpTexts
+								.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
 					}
 
-				} else if(type == PowerUp.SCORE) {
+				} else if (type == PowerUp.SCORE) {
 					player.addScore(50);
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
-				}else if(type == PowerUp.RAYGUN) {
-					powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
-					try {
-						savedPowerUps.add(ImageIO.read(new File("resources/images/raygun.png")));
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				} else if (type == PowerUp.RAYGUN) {
+					powerUpTexts.add(
+							new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
+					savedPowerUps.add(powerUp);
 				}
 
 				powerUps.remove(i);
@@ -370,11 +331,12 @@ public class PlayingState extends GameState {
 			gsm.setState(GameStateManager.PLAYINGSTATE);
 			player.setScore(score);
 		}
+
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		
+
 		bg.draw(g);
 
 //		g.setColor(Color.BLACK);
@@ -390,33 +352,31 @@ public class PlayingState extends GameState {
 		g.setStroke(new BasicStroke(1));
 
 		player.draw(g);
-		
+
 		if (bossActive) {
 			purpleShip.draw(g);
 		}
-		
-		
+
 		for (int i = 0; i < enemies.size(); i++) {
-			for (int j = 0; j < enemies.get(i).size();j++) {
-				enemies.get(i).get(j).draw(g, frameCounter, i*2);
-				
+			for (int j = 0; j < enemies.get(i).size(); j++) {
+				enemies.get(i).get(j).draw(g, frameCounter, i * 2);
+
 			}
-			
+
 		}
 
-		
-
 		for (int i = 0; i < missiles.size(); i++) {
+
 			missiles.get(i).draw(g);
 		}
 
 		for (int i = 0; i < powerUps.size(); i++) {
 			powerUps.get(i).draw(g);
 		}
-		
+
 		for (int i = 0; i < savedPowerUps.size(); i++) {
-			if(!savedPowerUps.isEmpty()) {
-				g.drawImage(savedPowerUps.get(i), 10 + i*55, 660, 50, 26, null);
+			if (!savedPowerUps.isEmpty()) {
+				savedPowerUps.get(i).draw(g, 20 + i * 55, 660, 50, 26);
 			}
 		}
 
@@ -446,12 +406,12 @@ public class PlayingState extends GameState {
 		if (paused) {
 			drawMenu(g);
 		}
-		
-		 if(frameCounter < 60)
-			 frameCounter++;
-		 else {
-			 frameCounter = 0;
-		 }
+
+		if (frameCounter < 60)
+			frameCounter++;
+		else {
+			frameCounter = 0;
+		}
 	}
 
 	public void drawMenu(Graphics2D g) {
@@ -494,11 +454,28 @@ public class PlayingState extends GameState {
 			pause();
 			soundFX.get("click").play();
 		}
+		if (key == KeyEvent.VK_X) {
+			for (PowerUp elem : savedPowerUps) {
+				if (elem.getType() == PowerUp.RAYGUN) {
+					player.setFiringRaygun(true);
+					Timer timer = new Timer();
+					TimerTask task = new TimerTask() {
+						public void run() {
+						player.setFiringRaygun(false);
+						savedPowerUps.remove(elem);
+
+						}
+					};
+					timer.schedule(task, 3000, 1);
+						
+					}
+				}
+			}
 		if (key == KeyEvent.VK_E && paused) {
 			soundFX.get("enter").play();
 			bgMusic.stop();
 			gsm.setState(GameStateManager.MENUSTATE);
-			
+
 		}
 	}
 
@@ -509,6 +486,7 @@ public class PlayingState extends GameState {
 			player.setRight(false);
 		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
+		if (key == KeyEvent.VK_X) {}
 	}
 
 }
