@@ -16,6 +16,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+// FFJFJ
 public class ServerClient {
 	private Connection connection = new Connection();
 	private ServerSocket serverSocket;
@@ -28,7 +29,6 @@ public class ServerClient {
 		pool = new RunOnThreadN(nbrOfThreads);
 		list = readScoreFromFile("savedScores.dat");
 		mauList = readScoreFromFile("savedScoresMau.dat");
-		System.out.println(mauList.size());
 		serverSocket = new ServerSocket(port);
 		pool.start();
 		connection.start();

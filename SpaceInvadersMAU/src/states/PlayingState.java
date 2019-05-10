@@ -45,7 +45,7 @@ public class PlayingState extends GameState {
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
-	public static Boss rolf;
+	public static Boss purpleShip;
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
@@ -92,7 +92,7 @@ public class PlayingState extends GameState {
 			}
 		}
 		
-		rolf = new Boss(ENEMY_INIT_X, ENEMY_INIT_Y , 1, 1, gsm.getDifficulty());
+		purpleShip = new Boss(ENEMY_INIT_X, ENEMY_INIT_Y , 1, 1, gsm.getDifficulty());
 	
 		
 
@@ -130,7 +130,7 @@ public class PlayingState extends GameState {
 		// Updating player:
 		player.update();
 		
-		rolf.update(ENEMY_DIRECTION, false);
+		purpleShip.update(ENEMY_DIRECTION, false);
 
 		// Updating missiles:
 		for (int i = 0; i < missiles.size(); i++) {
@@ -238,9 +238,9 @@ public class PlayingState extends GameState {
 	
 		for (int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
-			if(m.getBounds().intersects(rolf.getBounds())) {
+			if(m.getBounds().intersects(purpleShip.getBounds())) {
 				missiles.remove(i);
-				rolf.killed();
+				purpleShip.killed();
 				
 			}
 			for (int j = 0; j < enemies.size(); j++) {
@@ -378,7 +378,7 @@ public class PlayingState extends GameState {
 		player.draw(g);
 		
 		if (bossActive) {
-			rolf.draw(g);
+			purpleShip.draw(g);
 		}
 		
 		
