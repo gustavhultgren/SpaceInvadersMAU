@@ -5,7 +5,7 @@ package tileMap;
  */
 
 import java.awt.image.BufferedImage;
-import java.net.URL;
+
 
 import javax.imageio.ImageIO;
 import main.GamePanel;

@@ -67,6 +67,7 @@ public class PlayingState extends GameState {
 		try {
 			bg = new MenuBackground("/images/background.png", 1);
 			bg.setVector(-0.4, 0);
+			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,12 +102,6 @@ public class PlayingState extends GameState {
 		powerUps = new LinkedList<PowerUp>();
 		powerUpTexts = new LinkedList<PowerUpText>();
 
-		try {
-			heartImage = ImageIO.read(new File("resources/images/heart.png"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 		soundFX.put("win", new AudioPlayer("/music/sfx_win.mp3"));
@@ -117,7 +112,7 @@ public class PlayingState extends GameState {
 
 	@Override
 	public void update() {
-		bg.update();
+		
 
 		while (paused) {
 			try {
@@ -126,7 +121,7 @@ public class PlayingState extends GameState {
 				e.printStackTrace();
 			}
 		}
-
+		bg.update();
 		// Updating player:
 		player.update();
 		
@@ -363,8 +358,6 @@ public class PlayingState extends GameState {
 		
 		bg.draw(g);
 
-//		g.setColor(Color.BLACK);
-//		g.fillRect(0, 0, WIDTH, HEIGHT);
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);

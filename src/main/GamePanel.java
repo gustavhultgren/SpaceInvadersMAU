@@ -12,6 +12,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import audio.AudioPlayer;
 import entity.Player;
 import javafx.scene.transform.Scale;
 import states.GameStateManager;
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Player player;
 
 	private MenuBackground bg;
-
+	private AudioPlayer bgMusic;
 	// Game state manager.
 	private GameStateManager gsm;
 
@@ -60,6 +61,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		setFocusable(true);
 		requestFocus();
+		bgMusic = new AudioPlayer("/music/si.mp3");
+	
+		bgMusic.loop();
 	}
 
 	// FUNCTIONS
@@ -78,6 +82,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g = (Graphics2D) image.getGraphics();
 		running = true;
 		gsm = new GameStateManager();
+	
 	}
 
 	public void run() {

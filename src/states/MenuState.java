@@ -8,18 +8,13 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import tileMap.*;
-import javafx.scene.layout.Background;
 import tileMap.MenuBackground;
 import audio.AudioPlayer;
 
@@ -41,16 +36,14 @@ public class MenuState extends GameState {
 	private BufferedImage rightArrow;
 
 	// Background of the menu
-	private AudioPlayer bgMusic;
+	
 	private MenuBackground bg;
 
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
 
-		bgMusic = new AudioPlayer("/music/si.mp3");
-//		bgMusic.play();
-		bgMusic.loop();
-
+	
+		
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 
