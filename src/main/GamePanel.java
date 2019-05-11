@@ -10,12 +10,16 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
+
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 import audio.AudioPlayer;
 import entity.Player;
 import javafx.scene.transform.Scale;
 import states.GameStateManager;
+import states.PlayingState;
 
 /**
  * This class represents a GamePanel. The GamePanel is responsible to update,
@@ -48,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Player player;
 
 	private MenuBackground bg;
-	private AudioPlayer bgMusic;
+	private static  AudioPlayer bgMusic;
 	// Game state manager.
 	private GameStateManager gsm;
 
@@ -151,10 +155,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		gsm.keyPressed(e.getKeyCode());
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		gsm.keyReleased(e.getKeyCode());
 	}
-}
+	
+	public static void setVolume(double vol) {
+		
+	
+			bgMusic.setVolume(vol);
+		
+			
+	
+		
+		
+	}
+//	public static void unMute() {
+//		bgMusic.setVolume(1);
+
+	}
+//}

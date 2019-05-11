@@ -56,6 +56,7 @@ public class PlayingState extends GameState {
 	
 	
 	private MenuBackground bg;
+	private AudioPlayer bgMusic;
 
 	public PlayingState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -456,7 +457,32 @@ public class PlayingState extends GameState {
 	 * The keyPressed and keyReleased-method is responsible to handle key events to
 	 * make the player move and fire missiles.
 	 */
+	double x = 1;
 	public void keyPressed(int key) {
+		
+		if (key == KeyEvent.VK_DOWN) {
+			GamePanel.setVolume(x);
+			System.out.println(x);
+
+			if (x <= 0.0) {
+				x = 0;
+
+			} else {
+				x = x - 0.3;
+			}
+		}
+
+		if (key == KeyEvent.VK_UP) {
+			GamePanel.setVolume(x);
+			System.out.println(x);
+
+			if (x >= 1.0) {
+				x = 1;
+			} else {
+				x = x + 0.3;
+			}
+		}
+
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
@@ -471,9 +497,13 @@ public class PlayingState extends GameState {
 			soundFX.get("enter").play();
 			gsm.setState(GameStateManager.MENUSTATE);
 		}
-	}
+
+}
 
 	public void keyReleased(int key) {
+	
+			
+			
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
@@ -481,5 +511,9 @@ public class PlayingState extends GameState {
 		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
 	}
+	
 
-}
+	
+	
+	}
+
