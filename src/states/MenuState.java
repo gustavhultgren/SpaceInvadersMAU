@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import tileMap.*;
 import tileMap.MenuBackground;
 import audio.AudioPlayer;
+import main.GamePanel;
 
 public class MenuState extends GameState {
 
@@ -85,7 +86,7 @@ public class MenuState extends GameState {
 				}
 			}
 		
-				
+	double vol = 1;
 			
 
 		
@@ -214,7 +215,7 @@ public class MenuState extends GameState {
 				System.exit(0);
 			}
 		}
-
+		
 		public void keyPressed(int k) {
 
 			/**
@@ -270,11 +271,46 @@ public class MenuState extends GameState {
 				}
 				soundFX.get("click").play();
 			}
+		
+		
+		if (k == KeyEvent.VK_MINUS) {
+			GamePanel.setVolume(vol);
+			System.out.println(vol);
+
+			if (vol <= 0.0) {
+				vol = 0;
+
+			} else {
+				vol = vol - 0.25;
+			}
 		}
+
+		if (k == KeyEvent.VK_PLUS) {
+			GamePanel.setVolume(vol);
+			System.out.println(vol);
+
+			if (vol >= 1.0) {
+				vol = 1;
+			} else {
+				vol = vol + 0.25;
+			}
+		}
+
+		if (k == KeyEvent.VK_M) {
+			GamePanel.setVolume(vol);
+			System.out.println(vol);
+
+			if (vol != 0) {
+				vol = 0;
+			} else {
+				vol = 1;
+			}
+		}
+	}
 
 		@Override
 		public void keyReleased(int k) {
 
 		}
 
-	}
+}

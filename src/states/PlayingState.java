@@ -468,7 +468,7 @@ public class PlayingState extends GameState {
 				x = 0;
 
 			} else {
-				x = x - 0.3;
+				x = x - 0.25;
 			}
 		}
 
@@ -479,9 +479,23 @@ public class PlayingState extends GameState {
 			if (x >= 1.0) {
 				x = 1;
 			} else {
-				x = x + 0.3;
+				x = x + 0.25;
 			}
 		}
+		
+		if (key == KeyEvent.VK_M) {
+			GamePanel.setVolume(x);
+			System.out.println(x);
+
+			if (x != 0) {
+				x = 0;
+			} else {
+				x = 1;
+			}
+		}
+		
+		
+		
 
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(true);

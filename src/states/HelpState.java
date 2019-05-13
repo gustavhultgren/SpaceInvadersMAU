@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javafx.scene.layout.Background;
+import main.GamePanel;
 import tileMap.MenuBackground;
 
 public class HelpState extends GameState {
@@ -41,7 +42,7 @@ public class HelpState extends GameState {
 	public void init() {
 
 		try {
-
+			
 			//initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
 					.deriveFont(15f);
@@ -62,7 +63,9 @@ public class HelpState extends GameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
+	double vol;
 
 	public void update() {
 //		menuBg.update();
@@ -129,8 +132,44 @@ public class HelpState extends GameState {
 			gsm.setState(GameStateManager.MENUSTATE); 
 
 		}
+		
+		
+		if (k == KeyEvent.VK_MINUS) {
+			GamePanel.setVolume(vol);
+			System.out.println(vol);
 
+			if (vol <= 0.0) {
+				vol = 0;
+
+			} else {
+				vol = vol - 0.25;
+			}
+		}
+
+		if (k == KeyEvent.VK_PLUS) {
+			GamePanel.setVolume(vol);
+			System.out.println(vol);
+
+			if (vol >= 1.0) {
+				vol = 1;
+			} else {
+				vol = vol + 0.25;
+			}
+		}
+
+		if (k == KeyEvent.VK_M) {
+			GamePanel.setVolume(vol);
+			System.out.println(vol);
+
+			if (vol != 0) {
+				vol = 0;
+			} else {
+				vol = 1;
+			}
+		}
 	}
+
+	
 
 	public void keyReleased(int k) {
 
