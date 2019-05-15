@@ -44,7 +44,6 @@ public class Boss extends Enemy {
 			
 		}
 	}	
-	
 
 	// FUNCTIONS
 	public int getX() {
@@ -110,8 +109,5 @@ public class Boss extends Enemy {
 	public void draw(Graphics2D g) {
 		if(!isDead())
 		g.drawImage(rolf, null, x, y);
-
-
 	}
-
 }

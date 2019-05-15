@@ -4,8 +4,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import entity.Missile;
+import javax.imageio.ImageIO;
+
 import main.GamePanel;
 import states.PlayingState;
 
@@ -27,11 +31,15 @@ public class Player extends Entity {
 	private long firingTimer;
 	private long firingDelay;
 	private boolean firingRaygun;
+	private boolean shieldActivated = false;
 
 	private Color playerColor;
 
 	private int score;
 	private int lives;
+	
+	private BufferedImage playerImage;
+	private BufferedImage shieldImage;
 
 	/**
 	 * Creates a player object. Sets the players speed to 3, firing delay to 700
@@ -53,6 +61,12 @@ public class Player extends Entity {
 
 		score = 0;
 		lives = 3;
+		
+		try {
+			shieldImage = ImageIO.read(new File("resources/images/powerUp_Shield.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -82,6 +96,14 @@ public class Player extends Entity {
 
 	public void setFiringRaygun(boolean b) {
 		firingRaygun = b;
+	}
+	
+	public void shieldActivated(boolean b) {
+		shieldActivated = b;
+	}
+	
+	public boolean getShieldStatus() {
+		return shieldActivated;
 	}
 
 	public int getScore() {
@@ -114,6 +136,9 @@ public class Player extends Entity {
 
 	// This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
+		if(shieldActivated) {
+			return new Rectangle(x - 64, y - 64, 128, 128);
+		}
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
 	}
 
@@ -160,6 +185,9 @@ public class Player extends Entity {
 
 	// This method is called in the class GamePanel. It draws the player.
 	public void draw(Graphics2D g) {
+		if(shieldActivated) {
+			g.drawImage(shieldImage, null, x - 64, y - 64);
+		}
 		g.setColor(playerColor);
 		g.fillRect(x - r, y - r, 2 * r, 2 * r);
 
