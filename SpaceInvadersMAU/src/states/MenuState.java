@@ -19,10 +19,23 @@ import javax.swing.ImageIcon;
 import javafx.scene.layout.Background;
 import tileMap.MenuBackground;
 
+/**
+ * 
+ * @author hannesgranberg och..?
+ *
+ */
+
 public class MenuState extends GameState {
 
+	// reference variables
 	private int currentChoice = 0;
 	private int textLength;
+	private int textHeight;
+	private int[] pixelLength = new int[4];
+	private int stringXValue;
+	private int stringYValue;
+
+	// Menu choices
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
 
 	// arrow locations
@@ -34,6 +47,8 @@ public class MenuState extends GameState {
 	// arrow images
 	private BufferedImage leftArrow;
 	private BufferedImage rightArrow;
+	private static final int arrowPixelWidth = 32; // the width of the arrow image (is known)
+	private static final int arrowShifted = 50; // will be used later with the arrows
 
 	// Background of the menu
 	private MenuBackground bg;
@@ -48,16 +63,13 @@ public class MenuState extends GameState {
 	public void init() {
 
 		// initializes the location of the arrows
-		leftArrowX = 250;
+		leftArrowX = 252;
 		leftArrowY = 263;
 
-		rightArrowX = 410;
+		rightArrowX = 420;
 		rightArrowY = 263;
 
 		try {
-
-			// initializes the background
-			bg = new MenuBackground("SpaceInvadersMAU/resources/images/menuBG.gif", 1);
 
 			// initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF"))
@@ -85,20 +97,27 @@ public class MenuState extends GameState {
 
 	@Override
 	public void update() {
-		bg.update();
-		// TODO Auto-generated method stub
+//		bg.update();
 
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		bg.draw(g);
-		
-		// draw menu options
 
+	/**
+	 * This is the draw-method that draws the main menu. This method gets updated in
+	 * relation to the frames
+	 */
+	public void draw(Graphics2D g) {
+
+		// draws black background
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 700, 700);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+
+		// sets the font for the text
 		g.setFont(font);
+
+		// draw menu options and changes the color of the text depending on what you
+		// have chosen
 
 		for (int i = 0; i < options.length; i++) {
 			if (i == currentChoice) {
@@ -106,8 +125,18 @@ public class MenuState extends GameState {
 			} else {
 				g.setColor(Color.GREEN);
 			}
-			textLength = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
-			g.drawString(options[i], (700 - textLength) / 2, (700 / 2) - 60 + 60 * i);
+			textLength = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth(); // gets the width of the
+																								// string
+
+			textHeight = (int) g.getFontMetrics().getStringBounds(options[i], g).getHeight(); // gets the height of the
+																								// string
+
+			stringXValue = (700 - textLength) / 2;
+			stringYValue = (700 / 2) - 60 + 60 * i;
+			g.drawString(options[i], stringXValue, stringYValue); // draws the string
+
+			pixelLength[i] = textLength; // saves the length of the text written in the menu, will be used for drawing
+											// arrows
 
 		}
 
@@ -122,7 +151,8 @@ public class MenuState extends GameState {
 	 * Method that draws the right arrow
 	 */
 
-	public void drawRightArrow(Graphics2D g) {
+	private void drawRightArrow(Graphics2D g) {
+
 		g.drawImage(rightArrow, rightArrowX, rightArrowY, null);
 
 	}
@@ -134,17 +164,18 @@ public class MenuState extends GameState {
 	 * @param y the Y-location
 	 */
 
-	public void setRightArrowLocation(int x, int y) {
+	private void setRightArrowLocation(int x, int y) {
 
 		rightArrowX = x;
 		rightArrowY = y;
+
 	}
 
 	/**
 	 * Method that draws the left arrow
 	 */
 
-	public void drawLeftArrow(Graphics2D g) {
+	private void drawLeftArrow(Graphics2D g) {
 
 		g.drawImage(leftArrow, leftArrowX, leftArrowY, null);
 
@@ -157,7 +188,7 @@ public class MenuState extends GameState {
 	 * @param y the Y-location
 	 */
 
-	public void setLeftArrowLocation(int x, int y) {
+	private void setLeftArrowLocation(int x, int y) {
 
 		leftArrowX = x;
 		leftArrowY = y;
@@ -165,23 +196,23 @@ public class MenuState extends GameState {
 	}
 
 	/**
-	 * Returns the String-width (roughly)
+	 * Returns the String-width of each of the strings in the options-array.
 	 * 
 	 * @param operation - is the currentChoice
 	 * @return Returns the width
 	 */
 
-	public int getStringWidth(int currentChoice) {
+	private int getStringWidth(int currentChoice) {
 
 		switch (currentChoice) {
 		case 0:
-			return 100;
+			return pixelLength[currentChoice];
 		case 1:
-			return 100;
+			return pixelLength[currentChoice];
 		case 2:
-			return 190;
+			return pixelLength[currentChoice];
 		case 3:
-			return 100;
+			return pixelLength[currentChoice];
 
 		}
 
@@ -195,8 +226,9 @@ public class MenuState extends GameState {
 	 */
 
 	private void select() {
+
 		if (currentChoice == 0) {
-			gsm.setState(GameStateManager.PLAYINGSTATE);
+			gsm.setState(GameStateManager.INTERMISSIONSTATE);
 		}
 		if (currentChoice == 1) {
 			gsm.setState(GameStateManager.HELPSTATE);
@@ -209,56 +241,80 @@ public class MenuState extends GameState {
 		}
 	}
 
+	/**
+	 * Method that is called if you press a key on the keyboard.
+	 */
+
 	public void keyPressed(int k) {
-		
+
+		/**
+		 * ~~~~~~~~~~~~~~ QUICK NOTE ~~~~~~~~~~~~~~
+		 * 
+		 * the X locations that are sent if you press Down or Up are calculated with the
+		 * following function:
+		 * 
+		 * - Firstly, we start of the middle of the window (WIDTH / 2) - Secondly, we
+		 * remove or add, depending on which side the arrow is on, the half of the width
+		 * of the string, since the middle of the string is in the middle of the window
+		 * - Thirdly, we shift the arrows another 50 pixels from the string so there is
+		 * some room between the arrows and the text - Finally, if the arrow is on the
+		 * right, we remove the Width of the arrow image, otherwise the left-pointing
+		 * arrow would be drawn even further to the right, resulting in uneven spacing.
+		 */
+
 		/**
 		 * If you press [Enter]
 		 */
-		
+
 		if (k == KeyEvent.VK_ENTER) {
 			select();
 		}
-		
+
 		/**
 		 * If you press [Up]
 		 */
-		
+
 		if (k == KeyEvent.VK_UP) {
 			currentChoice--;
 			if (currentChoice == -1) {
 				currentChoice = options.length - 1;
 
 				// moves the arrows to the bottom, in coherence with the <currentChoice>
-				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice), 445);
-				setRightArrowLocation((WIDTH / 2) + getStringWidth(currentChoice) - 40, 445);
+				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice) / 2 - arrowShifted, 445);
+				setRightArrowLocation(
+						(WIDTH / 2) + (getStringWidth(currentChoice) / 2) + arrowShifted - arrowPixelWidth, 445);
 
 			} else {
 
 				// moves the arrow upwards, in coherence with the <currentChoice>
-				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice), leftArrowY - 60);
-				setRightArrowLocation((WIDTH / 2) + getStringWidth(currentChoice) - 40, rightArrowY - 60);
+				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice) / 2 - arrowShifted, leftArrowY - 60);
+				setRightArrowLocation(
+						(WIDTH / 2) + (getStringWidth(currentChoice) / 2) + arrowShifted - arrowPixelWidth,
+						rightArrowY - 60);
 			}
 		}
-		
+
 		/**
 		 * If you press [Down]
 		 */
-		
+
 		if (k == KeyEvent.VK_DOWN) {
 			currentChoice++;
 			if (currentChoice == options.length) {
 				currentChoice = 0;
 
-				// moves the arrows to the top (the original values), in coherence with the
-				// <currentChoice>
-				setLeftArrowLocation(250, 263);
-				setRightArrowLocation(420, 263);
+				// moves the arrows to the top
+				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice) / 2 - arrowShifted, 263);
+				setRightArrowLocation(
+						(WIDTH / 2) + (getStringWidth(currentChoice) / 2) + arrowShifted - arrowPixelWidth, 263);
 
 			} else {
 
 				// moves the arrow downwards, in coherence with the <currentChoice>
-				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice), leftArrowY + 60);
-				setRightArrowLocation((WIDTH / 2) + getStringWidth(currentChoice) - 40, rightArrowY + 60);
+				setLeftArrowLocation((WIDTH / 2) - getStringWidth(currentChoice) / 2 - arrowShifted, leftArrowY + 60);
+				setRightArrowLocation(
+						(WIDTH / 2) + (getStringWidth(currentChoice) / 2) + arrowShifted - arrowPixelWidth,
+						rightArrowY + 60);
 			}
 		}
 	}

@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -25,6 +26,9 @@ public class HelpState extends GameState {
 	private MenuBackground menuBg;
 	private Font font;
 	private BufferedImage image;
+	private Thread thread;
+
+	private int frameCounter = 0;
 
 	public HelpState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -42,9 +46,7 @@ public class HelpState extends GameState {
 
 		try {
 
-			menuBg = new MenuBackground("SpaceInvadersMAU/resources/images/menuBG.gif", 1); // sets the background
-
-			//initializes the font
+			// initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("SpaceInvadersMAU/resources/fonts/ARCADE_I.TTF"))
 					.deriveFont(15f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -57,9 +59,8 @@ public class HelpState extends GameState {
 			e.printStackTrace();
 		}
 
-		
 		try {
-			//initializes the "gubbe" image
+			// initializes the "gubbe" image
 			image = ImageIO.read(new File("SpaceInvadersMAU/resources/images/gubbe2.jpg"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,15 +68,10 @@ public class HelpState extends GameState {
 	}
 
 	public void update() {
-//		menuBg.update();
 
 	}
 
 	public void draw(Graphics2D g) {
-
-		// draws background
-		menuBg.draw(g);
-		
 
 		// Draws the first box with text
 		g.setFont(font);
@@ -83,7 +79,8 @@ public class HelpState extends GameState {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700); // draws a black background (will be changed to a gif soon)
 
-		// Draws the green rectangle around the text as well as setting the stroke to 3 (thickness of line)
+		// Draws the green rectangle around the text as well as setting the stroke to 3
+		// (thickness of line)
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.GREEN);
 		g.drawRect(80, 50, 540, 250);
@@ -120,10 +117,32 @@ public class HelpState extends GameState {
 			aboutTextY += 30;
 		}
 
-		// sets the color to red and puts the escape text at the bottom of the window
-		g.setColor(Color.RED);
-		String howToLeave = "> Press [Escape] to go back < ";
-		g.drawString(howToLeave, 130, 650);
+		// initializes the text at the bottom of the frame
+		String leftsideArrow = ">";
+		String rightsideArrow = "<";
+		String howToLeave = "Press [Escape] to go back";
+
+		// sets the color to Cyan and draws the text
+		g.setColor(Color.CYAN);
+		g.drawString(howToLeave, 150, 650);
+		g.setColor(Color.WHITE);
+
+		// creates a loop that makes the escape text have a flashing animation
+		if (frameCounter <= 30) {
+
+			g.drawString(leftsideArrow, 110, 650);
+			g.drawString(rightsideArrow, 550, 650);
+
+		} else if (frameCounter > 30 && frameCounter <= 60) {
+			g.setColor(Color.CYAN);
+			g.drawString(leftsideArrow, 120, 650);
+			g.drawString(rightsideArrow, 540, 650);
+
+		} else {
+			frameCounter = 0;
+
+		}
+		frameCounter++;
 
 //		// adds gubbe.jpg in the window
 		g.drawImage(image, 600, 610, null);
@@ -133,7 +152,8 @@ public class HelpState extends GameState {
 	public void keyPressed(int k) {
 
 		if (k == KeyEvent.VK_ESCAPE) {
-			gsm.setState(GameStateManager.MENUSTATE); 
+
+			gsm.setState(GameStateManager.MENUSTATE);
 
 		}
 
