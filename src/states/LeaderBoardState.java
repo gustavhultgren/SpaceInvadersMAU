@@ -239,39 +239,38 @@ public class LeaderBoardState extends GameState {
 		}
 		
 		if (k == KeyEvent.VK_MINUS) {
-			GamePanel.setVolume(vol);
-			System.out.println(vol);
+			if (VOLUME <= 0.0) {
+					VOLUME = 0;
 
-			if (vol <= 0.0) {
-				vol = 0;
+				} else {
+					VOLUME = VOLUME - 0.25;
+				}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+			}
 
-			} else {
-				vol = vol - 0.25;
+			if (k == KeyEvent.VK_PLUS) {
+				
+				if (VOLUME >= 1.0) {
+					VOLUME = 1;
+				} else {
+					VOLUME = VOLUME + 0.25;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
+			}
+
+			if (k == KeyEvent.VK_M) {
+				if (VOLUME != 0) {
+					VOLUME = 0;
+				} else {
+					VOLUME = 1;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
 			}
 		}
-
-		if (k == KeyEvent.VK_PLUS) {
-			GamePanel.setVolume(vol);
-			System.out.println(vol);
-
-			if (vol >= 1.0) {
-				vol = 1;
-			} else {
-				vol = vol + 0.25;
-			}
-		}
-
-		if (k == KeyEvent.VK_M) {
-			GamePanel.setVolume(vol);
-			System.out.println(vol);
-
-			if (vol != 0) {
-				vol = 0;
-			} else {
-				vol = 1;
-			}
-		}
-	}
+	
 
 	@Override
 	public void keyReleased(int k) {

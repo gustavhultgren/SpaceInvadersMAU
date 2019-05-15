@@ -98,7 +98,8 @@ public class Player extends Entity {
 
 	//This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
-		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
+		return new Rectangle(x, y, 50, 32);
+//		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
 	}
 
 	/**
@@ -136,10 +137,13 @@ public class Player extends Entity {
 	//This method is called in the class GamePanel. It draws the player.
 	public void draw(Graphics2D g) {
 		g.setColor(playerColor);
+		
+		
 		g.fillRect(x - r, y - r, 2 * r, 2 * r);
 
 		g.setStroke(new BasicStroke(3));
 		g.setColor(playerColor.darker());
+		
 		g.drawRect(x - r, y - r, 2 * r, 2 * r);
 		g.setStroke(new BasicStroke(1));
 	}

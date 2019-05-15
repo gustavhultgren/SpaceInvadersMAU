@@ -155,26 +155,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		gsm.keyPressed(e.getKeyCode());
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		gsm.keyReleased(e.getKeyCode());
 	}
-	
+
 	public static void setVolume(double vol) {
-		
-	
-			bgMusic.setVolume(vol);
-		
-			
-	
-		
-		
-	}
-//	public static void unMute() {
-//		bgMusic.setVolume(1);
+
+		bgMusic.setVolume(vol);
 
 	}
-//}
+}

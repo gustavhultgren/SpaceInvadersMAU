@@ -49,6 +49,9 @@ public class Enemy extends Entity {
 		firingTimer = System.nanoTime();
 		this.firingDelay = firingDelay;
 
+		
+		
+		
 		try {
 
 			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/images/enemySprite.gif"));

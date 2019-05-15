@@ -2,7 +2,10 @@ package states;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -56,8 +59,7 @@ public class PlayingState extends GameState {
 	
 	
 	private MenuBackground bg;
-	private AudioPlayer bgMusic;
-
+	
 	public PlayingState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
@@ -66,7 +68,7 @@ public class PlayingState extends GameState {
 	@Override
 	public void init() {
 		try {
-			bg = new MenuBackground("/images/background.png", 1);
+			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
 			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 
@@ -247,8 +249,10 @@ public class PlayingState extends GameState {
 						missiles.remove(i);
 						LinkedList<Enemy> temp = enemies.get(j);
 						temp.remove(h);
-					
-
+						
+						
+						
+						
 						/**
 						 * Type 1 -- +1 life (5%)
 						 * Type 2 -- +50 score (10%)
@@ -268,6 +272,7 @@ public class PlayingState extends GameState {
 						nbr++;
 					}
 				}
+				
 			}
 		}
 		
@@ -340,6 +345,10 @@ public class PlayingState extends GameState {
 				i--;
 			}
 		}
+		
+			
+	
+	
 
 		// Check for dead player:
 		if (player.isDead()) {
@@ -358,18 +367,13 @@ public class PlayingState extends GameState {
 	public void draw(Graphics2D g) {
 		
 		bg.draw(g);
-
+		player.draw(g);
+		
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
 		g.setStroke(new BasicStroke(1));
-
-		g.setColor(Color.GREEN);
-		g.setStroke(new BasicStroke(3));
-		g.drawLine(10, GROUND, WIDTH - 10, GROUND);
-		g.setStroke(new BasicStroke(1));
-
-		player.draw(g);
+		
 		
 		if (bossActive) {
 			purpleShip.draw(g);
@@ -412,7 +416,9 @@ public class PlayingState extends GameState {
 		// Draw Lives:
 		g.setColor(Color.WHITE);
 		g.drawString("LIVES:", 400, 50);
+		
 		g.setColor(Color.GREEN);
+		
 		for (int i = 0; i < player.getLives(); i++) {
 			g.drawImage(heartImage, 545 + (40 * i), 25, 32, 32, null);
 		}
@@ -457,42 +463,40 @@ public class PlayingState extends GameState {
 	 * The keyPressed and keyReleased-method is responsible to handle key events to
 	 * make the player move and fire missiles.
 	 */
-	double x = 1;
+	
 	public void keyPressed(int key) {
 		
-		if (key == KeyEvent.VK_DOWN) {
-			GamePanel.setVolume(x);
-			System.out.println(x);
+		if (key == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
+					VOLUME = 0;
 
-			if (x <= 0.0) {
-				x = 0;
-
-			} else {
-				x = x - 0.25;
+				} else {
+					VOLUME = VOLUME - 0.25;
+				}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
 			}
-		}
 
-		if (key == KeyEvent.VK_UP) {
-			GamePanel.setVolume(x);
-			System.out.println(x);
-
-			if (x >= 1.0) {
-				x = 1;
-			} else {
-				x = x + 0.25;
+			if (key == KeyEvent.VK_PLUS) {
+				
+				if (VOLUME >= 1.0) {
+					VOLUME = 1;
+				} else {
+					VOLUME = VOLUME + 0.25;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
 			}
-		}
-		
-		if (key == KeyEvent.VK_M) {
-			GamePanel.setVolume(x);
-			System.out.println(x);
 
-			if (x != 0) {
-				x = 0;
-			} else {
-				x = 1;
+			if (key == KeyEvent.VK_M) {
+				if (VOLUME != 0) {
+					VOLUME = 0;
+				} else {
+					VOLUME = 1;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
 			}
-		}
 		
 		
 		

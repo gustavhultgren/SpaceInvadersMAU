@@ -57,7 +57,7 @@ public class MenuBackground {
 
 			g.drawImage(image, (int) x + GamePanel.WIDTH, (int) y, null);
 		}
-		if (x > 700) {
+		if (x > 900) {
 
 			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y , null);
 		}

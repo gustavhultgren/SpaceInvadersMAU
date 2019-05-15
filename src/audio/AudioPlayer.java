@@ -52,10 +52,10 @@ public class AudioPlayer {
 	}
 
 	public void setVolume(double vol) {
-		
-	FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-  	float db = (float) (Math.log(vol)/Math.log(10)*20);
-	 gain.setValue(db);
-	    
-		}
+
+		FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		float db = (float) (Math.log(vol) / Math.log(10) * 20);
+		gain.setValue(db);
+
+	}
 }

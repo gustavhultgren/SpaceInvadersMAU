@@ -18,6 +18,7 @@ import tileMap.*;
 import tileMap.MenuBackground;
 import audio.AudioPlayer;
 import main.GamePanel;
+import sun.java2d.pipe.DrawImage;
 
 public class MenuState extends GameState {
 
@@ -39,7 +40,8 @@ public class MenuState extends GameState {
 	// Background of the menu
 	
 	private MenuBackground bg;
-
+	private BufferedImage image;
+	
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
 
@@ -56,7 +58,8 @@ public class MenuState extends GameState {
 	public void init() {
 
 		try {
-
+			
+			
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
 
 			// initializes the location of the arrows
@@ -74,11 +77,13 @@ public class MenuState extends GameState {
 				ge.registerFont(
 						Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
-				bg = new MenuBackground("/images/BackgroundTest.png", 1);
+				bg = new MenuBackground("/images/bg.png", 1);
 				bg.setVector(-0.4, 0);
 				// initializes both the arrow images
 				leftArrow = ImageIO.read(new File("resources/images/LeftArrow.png"));
 				rightArrow = ImageIO.read(new File("resources/images/RightArrow.png"));
+				
+				image = ImageIO.read(new File("resources/images/headline.png"));
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -86,7 +91,7 @@ public class MenuState extends GameState {
 				}
 			}
 		
-	double vol = 1;
+	
 			
 
 		
@@ -101,6 +106,7 @@ public class MenuState extends GameState {
 
 		@Override
 		public void draw(Graphics2D g) {
+			g.drawImage(image, null, 100, 100);
 			bg.draw(g);
 
 			// draw menu options
@@ -121,8 +127,11 @@ public class MenuState extends GameState {
 
 			drawLeftArrow(g);
 			drawRightArrow(g);
+			
 
 		}
+		
+		
 
 		/**
 		 * Method that draws the right arrow
@@ -274,37 +283,35 @@ public class MenuState extends GameState {
 		
 		
 		if (k == KeyEvent.VK_MINUS) {
-			GamePanel.setVolume(vol);
-			System.out.println(vol);
-
-			if (vol <= 0.0) {
-				vol = 0;
+		if (VOLUME <= 0.0) {
+				VOLUME = 0;
 
 			} else {
-				vol = vol - 0.25;
+				VOLUME = VOLUME - 0.25;
 			}
+		GamePanel.setVolume(VOLUME);
+		System.out.println("Volym nivå: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
-			GamePanel.setVolume(vol);
-			System.out.println(vol);
-
-			if (vol >= 1.0) {
-				vol = 1;
+			
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
 			} else {
-				vol = vol + 0.25;
+				VOLUME = VOLUME + 0.25;
 			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
-			GamePanel.setVolume(vol);
-			System.out.println(vol);
-
-			if (vol != 0) {
-				vol = 0;
+			if (VOLUME != 0) {
+				VOLUME = 0;
 			} else {
-				vol = 1;
+				VOLUME = 1;
 			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
 		}
 	}
 
