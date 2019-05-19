@@ -63,7 +63,7 @@ public class Player extends Entity {
 		lives = 3;
 		
 		try {
-			shieldImage = ImageIO.read(new File("resources/images/powerUp_Shield.png"));
+			shieldImage = ImageIO.read(new File("resources/images/playerShield.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

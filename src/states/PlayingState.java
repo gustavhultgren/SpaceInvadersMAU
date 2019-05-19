@@ -259,7 +259,10 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 
 						/**
-						 * Type 1 -- +1 life (5%) Type 2 -- +50 score (10%)
+						 * Type 1 -- +1 life (5%) 
+						 * Type 2 -- +50 score (10%)
+						 * Type 3 --
+						 * Type 4 --
 						 */
 						double rand = Math.random();
 						if (rand < 0.05) {
