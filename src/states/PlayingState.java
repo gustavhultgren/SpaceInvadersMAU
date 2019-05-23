@@ -265,13 +265,13 @@ public class PlayingState extends GameState {
 						 * Type 4 --
 						 */
 						double rand = Math.random();
-						if (rand < 0.05) {
+						if (rand < 0.03) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.HEART)); // Type 1
-						} else if (rand < 0.20) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
-						} else if (rand <= 0.50) {
+						} else if (rand <= 0.07) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SHIELD)); //Type 4
-						}
+						} else if (rand < 0.15) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
+						} 
 
 						player.addScore(100);
 

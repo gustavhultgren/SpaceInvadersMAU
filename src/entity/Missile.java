@@ -13,7 +13,8 @@ import main.GamePanel;
 
 /**
  * This class represents a missile that the player launches to shoot down
- * enemies. 
+ * enemies.
+ * 
  * @author Gustav Hultgren
  */
 public class Missile extends Entity {
@@ -24,14 +25,15 @@ public class Missile extends Entity {
 
 	private BufferedImage missileImage;
 	private Color bulletColor;
-	
+
 	private boolean firingRaygun = false;
 
 	/**
 	 * Creates a missile.
+	 * 
 	 * @param angle - sets the angle that the bomb is heading.
-	 * @param x - sets where the bomb starts on the x-axis.
-	 * @param y - sets where the bomb starts on the y-axis.
+	 * @param x     - sets where the bomb starts on the x-axis.
+	 * @param y     - sets where the bomb starts on the y-axis.
 	 */
 	public Missile(double angle, int x, int y, int r, double speed, boolean raygun, Color c) {
 		super(x, y, r, speed);
@@ -46,40 +48,48 @@ public class Missile extends Entity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		bulletColor = c;
-		
+
 		firingRaygun = raygun;
 	}
-	
+
 	public void setColor(Color c) {
 		bulletColor = c;
 	}
-	
-	//FUNCTIONS
-	public int getX() { return x; }
-	public int getY() { return y; }
-	public int getR() { return r; }
-	
+
+	// FUNCTIONS
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getR() {
+		return r;
+	}
+
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 40);
 	}
-	
-	//This method is called in class GamePanel. It makes the missile move.
+
+	// This method is called in class GamePanel. It makes the missile move.
 	public boolean update() {
 		x += dx;
 		y += dy;
 
-		if(x < -r || x > GamePanel.WIDTH + r || y < -r || y > GamePanel.HEIGHT + r) {
+		if (x < -r || x > GamePanel.WIDTH + r || y < -r || y > GamePanel.HEIGHT + r) {
 			return true;
 		}
 		return false;
 
 	}
-	
-	//This method is called in class GamePanel. It draws the missile.
+
+	// This method is called in class GamePanel. It draws the missile.
 	public void draw(Graphics2D g) {
-		if(firingRaygun) {
+		if (firingRaygun) {
 			g.setColor(bulletColor);
 			g.fillRect(x - r, y - 80, 5, 80);
 		} else {
