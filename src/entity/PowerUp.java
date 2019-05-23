@@ -73,7 +73,6 @@ public class PowerUp extends Entity {
 	public Rectangle getBounds() {
 		return new Rectangle((int) x, (int) y, 2 * r, 2 * r);
 	}
-
 	public void update() {
 		y += speed;
 	}

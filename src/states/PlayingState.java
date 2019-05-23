@@ -331,9 +331,13 @@ public class PlayingState extends GameState {
 
 		if (nbr == 24) {
 			int score = player.getScore();
+			int lifes = player.getLives();
+			LinkedList<PowerUp> tempList = savedPowerUps;
 			gsm.setHigherDifficulty();
 			gsm.setState(GameStateManager.PLAYINGSTATE);
 			player.setScore(score);
+			player.setLives(lifes);
+			setPowerups(tempList);
 		}
 
 	}
@@ -376,9 +380,7 @@ public class PlayingState extends GameState {
 		}
 
 		for (int i = 0; i < savedPowerUps.size(); i++) {
-			if (!savedPowerUps.isEmpty()) {
 				savedPowerUps.get(i).draw(g, 20 + i * 55, 660, 50, 26);
-			}
 		}
 
 		for (int i = 0; i < powerUpTexts.size(); i++) {
@@ -495,6 +497,10 @@ public class PlayingState extends GameState {
 			gsm.setState(GameStateManager.MENUSTATE);
 
 		}
+	}
+	
+	private void setPowerups(LinkedList<PowerUp> powerups) {
+		savedPowerUps = powerUps;
 	}
 
 	public void keyReleased(int key) {

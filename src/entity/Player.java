@@ -121,6 +121,10 @@ public class Player extends Entity {
 	public int getLives() {
 		return lives;
 	}
+	
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
 
 	public void loseLife() {
 		lives--;
