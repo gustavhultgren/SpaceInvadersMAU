@@ -169,7 +169,7 @@ public class Player extends Entity {
 			if (elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
 
-				PlayingState.missiles.add(new Missile(270, x, y, 3, 8));
+				PlayingState.missiles.add(new Missile(270, x, y, 3, 8, false, Color.GREEN));
 			}
 		}
 
@@ -178,7 +178,7 @@ public class Player extends Entity {
 			if (elapsed > firingDelay / 8) {
 				firingTimer = System.nanoTime();
 
-				PlayingState.missiles.add(new Missile(270, x, y, 5, 24, Color.GREEN));
+				PlayingState.missiles.add(new Missile(270, x, y, 5, 24, true, Color.GREEN));
 			}
 		}
 	}

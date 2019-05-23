@@ -477,18 +477,18 @@ public class PlayingState extends GameState {
 		}
 		//To activate PowerUp Shield:
 		if (key == KeyEvent.VK_S) {
-			for(PowerUp elem : savedPowerUps) {
-				if(elem.getType() == PowerUp.SHIELD) {
+			for(int i = 0; i < savedPowerUps.size(); i++) {
+				if(savedPowerUps.get(i).getType() == PowerUp.SHIELD) {
 					System.out.println("Shield activated.");
 					player.shieldActivated(true);
 					Timer timer = new Timer();
 					TimerTask task = new TimerTask() {
 						public void run() {
 							player.shieldActivated(false);
-							savedPowerUps.remove(elem);
 						}
 					};
 					timer.schedule(task, 8000, 1);
+					savedPowerUps.remove(i);
 				}
 			}
 		}
