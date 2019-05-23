@@ -63,6 +63,7 @@ public class Player extends Entity {
 		lives = 3;
 		
 		try {
+			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			shieldImage = ImageIO.read(new File("resources/images/playerShield.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -188,13 +189,17 @@ public class Player extends Entity {
 		if(shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
 		}
-		g.setColor(playerColor);
-		g.fillRect(x - r, y - r, 2 * r, 2 * r);
-
-		g.setStroke(new BasicStroke(3));
-		g.setColor(playerColor.darker());
-		g.drawRect(x - r, y - r, 2 * r, 2 * r);
-		g.setStroke(new BasicStroke(1));
+		
+		g.drawImage(playerImage, x - 32, y - 32, 64, 64, null);
+		
+//		g.setColor(playerColor);
+//		g.fillRect(x - r, y - r, 2 * r, 2 * r);
+//
+//		g.setStroke(new BasicStroke(3));
+//		g.setColor(playerColor.darker());
+//		g.drawRect(x - r, y - r, 2 * r, 2 * r);
+//		g.setStroke(new BasicStroke(1));
+		
 	}
 
 }
