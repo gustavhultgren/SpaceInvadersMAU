@@ -259,16 +259,19 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 
 						/**
-						 * Type 1 -- +1 life (5%) Type 2 -- +50 score (10%)
+						 * Type 1 -- +1 life (5%) 
+						 * Type 2 -- +50 score (10%)
+						 * Type 3 --
+						 * Type 4 --
 						 */
 						double rand = Math.random();
-						if (rand < 0.05) {
+						if (rand < 0.03) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.HEART)); // Type 1
-						} else if (rand < 0.20) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
-						} else if (rand <= 0.50) {
+						} else if (rand <= 0.07) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SHIELD)); //Type 4
-						}
+						} else if (rand < 0.15) {
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
+						} 
 
 						player.addScore(100);
 
@@ -476,18 +479,18 @@ public class PlayingState extends GameState {
 		}
 		//To activate PowerUp Shield:
 		if (key == KeyEvent.VK_S) {
-			for(PowerUp elem : savedPowerUps) {
-				if(elem.getType() == PowerUp.SHIELD) {
+			for(int i = 0; i < savedPowerUps.size(); i++) {
+				if(savedPowerUps.get(i).getType() == PowerUp.SHIELD) {
 					System.out.println("Shield activated.");
 					player.shieldActivated(true);
 					Timer timer = new Timer();
 					TimerTask task = new TimerTask() {
 						public void run() {
 							player.shieldActivated(false);
-							savedPowerUps.remove(elem);
 						}
 					};
 					timer.schedule(task, 8000, 1);
+					savedPowerUps.remove(i);
 				}
 			}
 		}

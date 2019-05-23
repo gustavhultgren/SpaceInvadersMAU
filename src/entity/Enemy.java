@@ -31,6 +31,7 @@ public class Enemy extends Entity {
 
 	private boolean slow;
 	
+	private BufferedImage spritesheet;
 	private BufferedImage[] sprites;
 	
 	/**
@@ -51,7 +52,7 @@ public class Enemy extends Entity {
 
 		try {
 
-			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/images/enemySprite.gif"));
+			spritesheet = ImageIO.read(getClass().getResourceAsStream("/images/enemySprite.gif"));
 
 			sprites = new BufferedImage[6];
 			for (int i = 0; i < sprites.length; i++) {
