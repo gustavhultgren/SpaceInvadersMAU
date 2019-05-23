@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
 
@@ -278,7 +279,40 @@ public class GameOverState extends GameState {
 			gsm.setState(0);
 			soundFX.get("enter").play();
 		}
-	}
+	
+	if (k == KeyEvent.VK_MINUS) {
+		if (VOLUME <= 0.0) {
+				VOLUME = 0;
+
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
+		GamePanel.setVolume(VOLUME);
+		System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_PLUS) {
+			
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+}
+
 
 	@Override
 	public void keyReleased(int k) {
