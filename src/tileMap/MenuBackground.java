@@ -6,11 +6,9 @@ package tileMap;
 
 import java.awt.image.BufferedImage;
 
-
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import java.awt.*;
-
 
 public class MenuBackground {
 
@@ -21,24 +19,24 @@ public class MenuBackground {
 	private double dy;
 	private double moveScale;
 
-	public MenuBackground (String s, double ms) {
-		try { 
+	public MenuBackground(String s, double ms) {
+		try {
 
 			image = ImageIO.read(getClass().getResourceAsStream(s));
 			moveScale = ms;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public void setPosition (double x, double y) {
+
+	public void setPosition(double x, double y) {
 		this.x = (x * moveScale) % GamePanel.WIDTH;
 
 		this.y = (y * moveScale) % GamePanel.HEIGHT;
 
 	}
 
-	public void setVector (double dx, double dy) {
+	public void setVector(double dx, double dy) {
 		this.dx = dx;
 		this.dy = dy;
 	}
@@ -49,8 +47,7 @@ public class MenuBackground {
 		setPosition(x, y);
 	}
 
-	public void draw (Graphics2D g) {
-
+	public void draw(Graphics2D g) {
 
 		g.drawImage(image, (int) x, (int) y, null);
 		if (x < 0) {
@@ -59,7 +56,7 @@ public class MenuBackground {
 		}
 		if (x > 900) {
 
-			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y , null);
+			g.drawImage(image, (int) x - GamePanel.WIDTH, (int) y, null);
 		}
 	}
 }

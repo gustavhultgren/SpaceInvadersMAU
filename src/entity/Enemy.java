@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-
 import states.PlayingState;
 import sun.java2d.pipe.DrawImage;
 
@@ -30,10 +29,10 @@ public class Enemy extends Entity {
 	private long firingDelay;
 
 	private boolean slow;
-	
+
 	private BufferedImage spritesheet;
 	private BufferedImage[] sprites;
-	
+
 	/**
 	 * When a Enemy-object is created it gets a x-value and y-value. The firing
 	 * delay is also set.
@@ -50,9 +49,6 @@ public class Enemy extends Entity {
 		firingTimer = System.nanoTime();
 		this.firingDelay = firingDelay;
 
-		
-		
-		
 		try {
 
 			spritesheet = ImageIO.read(getClass().getResourceAsStream("/images/enemySprite.gif"));
@@ -61,12 +57,10 @@ public class Enemy extends Entity {
 			for (int i = 0; i < sprites.length; i++) {
 				sprites[i] = spritesheet.getSubimage(i * 50, 0, 50, 32);
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-	
 
 	}
 
@@ -132,12 +126,11 @@ public class Enemy extends Entity {
 
 	public void draw(Graphics2D g, int frame, int enemyType) {
 
-		if(frame <= 30) {
+		if (frame <= 30) {
 			g.drawImage(sprites[enemyType], null, x, y);
-		}
-		else if(frame > 30 && frame <= 60) {
+		} else if (frame > 30 && frame <= 60) {
 			g.drawImage(sprites[enemyType + 1], null, x, y);
-			
+
 		}
 	}
 }

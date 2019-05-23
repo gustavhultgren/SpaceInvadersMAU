@@ -11,7 +11,7 @@ import server.PlayerScore;
 
 public class Test {
 
-	String getSSID(String os)  {
+	String getSSID(String os) {
 		String ssid = "";
 		if (os.substring(0, 3).equals("mac")) {
 			String command = "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I";
@@ -23,12 +23,12 @@ public class Test {
 				String line = "";
 				int i = 0;
 				while ((line = reader.readLine()) != null) {
-						if (i == 12) {
-							ssid = line.substring(line.indexOf(':') +2).toLowerCase();
-							return ssid;
-						}else {
-							i++;
-						}
+					if (i == 12) {
+						ssid = line.substring(line.indexOf(':') + 2).toLowerCase();
+						return ssid;
+					} else {
+						i++;
+					}
 				}
 				proc.waitFor();
 
@@ -43,12 +43,12 @@ public class Test {
 		return ssid;
 
 	}
-	
+
 	String getOS() {
 		String s = System.getProperty("os.name").toLowerCase();
 		return s;
 	}
-	
+
 	private synchronized void writeListToFile(String filename, LinkedList<PlayerScore> list) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/" + filename));) {
 			oos.writeObject(list);
@@ -62,6 +62,6 @@ public class Test {
 		Test t = new Test();
 		String os = t.getOS();
 		System.out.println(t.getSSID(os).equals("fiffi-5ghz"));
-		
+
 	}
 }

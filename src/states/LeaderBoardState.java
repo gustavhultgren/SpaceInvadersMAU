@@ -22,7 +22,7 @@ import gameClient.Client;
 import main.GamePanel;
 import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
-
+import tileMap.MenuBackground;
 import audio.AudioPlayer;
 
 public class LeaderBoardState extends GameState {
@@ -37,15 +37,16 @@ public class LeaderBoardState extends GameState {
 	private Font headerFont;
 	private PlayerScore[] scoreList;
 	private PlayerScore[] scoreListMau;
-	
+
 	private int yViewCord = 0;
+	private MenuBackground bg;
 
 	public LeaderBoardState(GameStateManager gsm) {
 		this.gsm = gsm;
 		// Initializing variables.
 		init();
 	}
-	
+
 	public synchronized void getScore() {
 		client.requestList();
 		scoreList = client.getScoreList();
@@ -56,6 +57,8 @@ public class LeaderBoardState extends GameState {
 	public void init() {
 		getScore();
 		try {
+			bg = new MenuBackground("/images/background.png", 1);
+			bg.setVector(-0.4, 0);
 			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
@@ -64,13 +67,16 @@ public class LeaderBoardState extends GameState {
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		}
-		
+
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 	}
+
 	double vol;
+
 	@Override
 	public void update() {
+		bg.update();
 	}
 
 	private void select() {
@@ -102,10 +108,9 @@ public class LeaderBoardState extends GameState {
 	}
 
 	private void drawBackground(Graphics2D g, int y) {
-		g.setFont(headerFont);
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
 
+		bg.draw(g);
+		g.setFont(headerFont);
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, y + 75, WIDTH - 10, y + 75);
@@ -118,19 +123,18 @@ public class LeaderBoardState extends GameState {
 		g.setColor(Color.WHITE);
 
 		for (int i = 0; i < options.length; i++) {
-			
+
 			int length = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
 
 			if (i == currentChoiceOfTable) {
 				g.setColor(Color.YELLOW);
 				g.setStroke(new BasicStroke(2));
-				g.drawLine(120+(i*250), 120 +yViewCord, 120+(i*250)+length, 120 +yViewCord);
+				g.drawLine(120 + (i * 250), 120 + yViewCord, 120 + (i * 250) + length, 120 + yViewCord);
 			} else {
 				g.setColor(Color.WHITE);
 			}
 			g.drawString(options[i], 120 + i * 250, y + 115);
-			
-			
+
 		}
 
 		g.setColor(Color.WHITE);
@@ -158,7 +162,7 @@ public class LeaderBoardState extends GameState {
 
 					if (i == currentChoiceInTable) {
 						g.setColor(Color.YELLOW);
-						
+
 					} else {
 						g.setColor(Color.WHITE);
 					}
@@ -171,7 +175,7 @@ public class LeaderBoardState extends GameState {
 					}
 				}
 			}
-		}else {
+		} else {
 			for (int i = 0; i < scoreList.length; i++) {
 
 				for (int j = 0; j < 3; j++) {
@@ -191,7 +195,7 @@ public class LeaderBoardState extends GameState {
 				}
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -234,43 +238,42 @@ public class LeaderBoardState extends GameState {
 			}
 			soundFX.get("click").play();
 		}
-		if(k == KeyEvent.VK_ESCAPE) {
+		if (k == KeyEvent.VK_ESCAPE) {
 			gsm.setState(GameStateManager.MENUSTATE);
 		}
-		
+
 		if (k == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
-					VOLUME = 0;
+				VOLUME = 0;
 
-				} else {
-					VOLUME = VOLUME - 0.25;
-				}
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
 			GamePanel.setVolume(VOLUME);
 			System.out.println("Volym nivå: " + VOLUME);
-			}
-
-			if (k == KeyEvent.VK_PLUS) {
-				
-				if (VOLUME >= 1.0) {
-					VOLUME = 1;
-				} else {
-					VOLUME = VOLUME + 0.25;
-				}
-				GamePanel.setVolume(VOLUME);
-				System.out.println("Volym nivå: " + VOLUME);
-			}
-
-			if (k == KeyEvent.VK_M) {
-				if (VOLUME != 0) {
-					VOLUME = 0;
-				} else {
-					VOLUME = 1;
-				}
-				GamePanel.setVolume(VOLUME);
-				System.out.println("Volym nivå: " + VOLUME);
-			}
 		}
-	
+
+		if (k == KeyEvent.VK_PLUS) {
+
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+	}
 
 	@Override
 	public void keyReleased(int k) {

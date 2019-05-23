@@ -4,17 +4,18 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
- * This class is used as a Superclass. It contains some common variables 
- * and methods that is used in most subclasses.
+ * This class is used as a Superclass. It contains some common variables and
+ * methods that is used in most subclasses.
+ * 
  * @author Gustav Hultgren
  */
 public class Entity {
-	
+
 	protected int x;
 	protected int y;
 	protected int r;
 	protected double speed;
-	
+
 	public Entity(int x, int y, int r, double speed) {
 		this.x = x;
 		this.y = y;
@@ -53,6 +54,5 @@ public class Entity {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
-	
-	
+
 }
