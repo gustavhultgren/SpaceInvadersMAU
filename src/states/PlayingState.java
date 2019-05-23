@@ -244,7 +244,7 @@ public class PlayingState extends GameState {
 				missiles.remove(i);
 				purpleShip.killed();
 
-				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 13, 3.0, PowerUp.RAYGUN)); // Type 3
+				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 25, 3.0, PowerUp.RAYGUN)); // Type 3
 			}
 			for (int j = 0; j < enemies.size(); j++) {
 				for (int h = 0; h < enemies.get(j).size(); h++) {
@@ -261,11 +261,11 @@ public class PlayingState extends GameState {
 
 						double rand = Math.random();
 						if (rand < 0.03) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.HEART)); // Type 1
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 20, 3.0, PowerUp.HEART)); // Type 1
 						} else if (rand <= 0.07) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SHIELD)); // Type 4
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 20, 3.0, PowerUp.SHIELD)); // Type 4
 						} else if (rand < 0.15) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 20, 3.0, PowerUp.SCORE)); // Type 2
 						}
 
 						player.addScore(100);

@@ -79,12 +79,20 @@ public class PowerUp extends Entity {
 
 	//Draw method for different PowerUps.
 	public void draw(Graphics2D g) {
-			g.drawImage(powerUpImage, x, y, 50, 50, null);
+		if (type == RAYGUN) {
+			g.drawImage(powerUpImage, x, y, 50, 25, null);
+		} else {
+			g.drawImage(powerUpImage, x, y, 35, 35, null);
+		}
+			
 	}
 	
-	//Draw method for RayGun and Shield.
+	//Draw method for RayGun.
 	public void draw(Graphics2D g, int x, int y, int width, int height) {
-			g.drawImage(powerUpImage, x, y, 50, 50, null);
+		
+			g.drawImage(powerUpImage, x, y, 50, 25, null);
+		
+			
 	}
 
 }

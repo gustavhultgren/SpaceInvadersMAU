@@ -33,7 +33,7 @@ public class EnemyBomb extends Entity {
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 
-		bulletColor = Color.GRAY;
+		bulletColor = Color.GREEN;
 
 	}
 	//FUNCTIONS
