@@ -2,8 +2,12 @@ package states;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+
+import java.awt.Shape;
+
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -68,10 +72,10 @@ public class PlayingState extends GameState {
 	@Override
 	public void init() {
 		try {
-			bg = new MenuBackground("/images/background.png", 1);
+			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
-			bgMusic = new AudioPlayer("/music/si.mp3");
-			bgMusic.play();
+
+			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,12 +109,6 @@ public class PlayingState extends GameState {
 		savedPowerUps = new LinkedList<PowerUp>();
 		powerUpTexts = new LinkedList<PowerUpText>();
 
-		try {
-			heartImage = ImageIO.read(new File("resources/images/heart.png"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 		soundFX.put("win", new AudioPlayer("/music/sfx_win.mp3"));
@@ -122,7 +120,6 @@ public class PlayingState extends GameState {
 
 	@Override
 	public void update() {
-		bg.update();
 
 		while (paused) {
 			try {
@@ -131,7 +128,7 @@ public class PlayingState extends GameState {
 				e.printStackTrace();
 			}
 		}
-
+		bg.update();
 		// Updating player:
 		player.update();
 
@@ -259,19 +256,17 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 
 						/**
-						 * Type 1 -- +1 life (5%) 
-						 * Type 2 -- +50 score (10%)
-						 * Type 3 --
-						 * Type 4 --
+						 * Type 1 -- +1 life (5%) Type 2 -- +50 score (10%) Type 3 -- Type 4 --
 						 */
+
 						double rand = Math.random();
 						if (rand < 0.03) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.HEART)); // Type 1
 						} else if (rand <= 0.07) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SHIELD)); //Type 4
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SHIELD)); // Type 4
 						} else if (rand < 0.15) {
 							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
-						} 
+						}
 
 						player.addScore(100);
 
@@ -280,6 +275,7 @@ public class PlayingState extends GameState {
 					}
 
 				}
+
 			}
 		}
 
@@ -288,7 +284,7 @@ public class PlayingState extends GameState {
 			EnemyBomb eb = bombs.get(i);
 			if (eb.getBounds().intersects(player.getBounds())) {
 				bombs.remove(i);
-				if(player.getShieldStatus() == false) {
+				if (player.getShieldStatus() == false) {
 					player.loseLife();
 				}
 			}
@@ -300,25 +296,29 @@ public class PlayingState extends GameState {
 
 			if (powerUp.getBounds().intersects(player.getBounds())) {
 				soundFX.get("collectPU").play();
-				
+
 				int type = powerUp.getType();
 
 				if (type == PowerUp.HEART) {
 					if (player.getLives() < 4) {
 						player.addLife(1);
-						powerUpTexts.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
+						powerUpTexts
+						.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
 					} else {
-						powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
+						powerUpTexts
+						.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
 					}
 				} else if (type == PowerUp.SCORE) {
 					player.addScore(50);
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				} else if (type == PowerUp.RAYGUN) {
 					savedPowerUps.add(powerUp);
-					powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
+					powerUpTexts.add(
+							new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
 				} else if (type == PowerUp.SHIELD) {
 					savedPowerUps.add(powerUp);
-					powerUpTexts.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
+					powerUpTexts
+					.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
 				}
 
 				powerUps.remove(i);
@@ -335,12 +335,10 @@ public class PlayingState extends GameState {
 		if (nbr == 24) {
 			int score = player.getScore();
 			int lifes = player.getLives();
-			LinkedList<PowerUp> tempList = savedPowerUps;
 			gsm.setHigherDifficulty();
 			gsm.setState(GameStateManager.PLAYINGSTATE);
 			player.setScore(score);
 			player.setLives(lifes);
-			setPowerups(tempList);
 		}
 
 	}
@@ -350,19 +348,19 @@ public class PlayingState extends GameState {
 
 		bg.draw(g);
 
-		//		g.setColor(Color.BLACK);
-		//		g.fillRect(0, 0, WIDTH, HEIGHT);
+		player.draw(g);
+
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
 		g.setStroke(new BasicStroke(1));
-
-		g.setColor(Color.GREEN);
-		g.setStroke(new BasicStroke(3));
-		g.drawLine(10, GROUND, WIDTH - 10, GROUND);
-		g.setStroke(new BasicStroke(1));
-
-		player.draw(g);
+		//
+		//		g.setColor(Color.GREEN);
+		//		g.setStroke(new BasicStroke(3));
+		//		g.drawLine(10, GROUND, WIDTH - 10, GROUND);
+		//		g.setStroke(new BasicStroke(1));
+		//
+		//		player.draw(g);
 
 		if (bossActive) {
 			purpleShip.draw(g);
@@ -383,7 +381,7 @@ public class PlayingState extends GameState {
 		}
 
 		for (int i = 0; i < savedPowerUps.size(); i++) {
-				savedPowerUps.get(i).draw(g, 20 + i * 55, 660, 50, 26);
+			savedPowerUps.get(i).draw(g, 20 + i * 55, 660, 50, 26);
 		}
 
 		for (int i = 0; i < powerUpTexts.size(); i++) {
@@ -404,7 +402,9 @@ public class PlayingState extends GameState {
 		// Draw Lives:
 		g.setColor(Color.WHITE);
 		g.drawString("LIVES:", 400, 50);
+
 		g.setColor(Color.GREEN);
+
 		for (int i = 0; i < player.getLives(); i++) {
 			g.drawImage(heartImage, 545 + (40 * i), 25, 32, 32, null);
 		}
@@ -449,7 +449,44 @@ public class PlayingState extends GameState {
 	 * The keyPressed and keyReleased-method is responsible to handle key events to
 	 * make the player move and fire missiles.
 	 */
+
 	public void keyPressed(int key) {
+
+		if (key == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
+				VOLUME = 0;
+
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (key == KeyEvent.VK_PLUS) {
+
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (key == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+
+
+
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
@@ -493,27 +530,36 @@ public class PlayingState extends GameState {
 					savedPowerUps.remove(i);
 				}
 			}
+
+			if (key == KeyEvent.VK_E && paused) {
+				soundFX.get("enter").play();
+				bgMusic.stop();
+				gsm.setState(GameStateManager.MENUSTATE);
+
+			}
 		}
-		if (key == KeyEvent.VK_E && paused) {
-			soundFX.get("enter").play();
-			bgMusic.stop();
-			gsm.setState(GameStateManager.MENUSTATE);
+	}
+		private void setPowerups(LinkedList<PowerUp> powerups) {
+		
+			savedPowerUps = powerUps;
+
 
 		}
-	}
-	
-	private void setPowerups(LinkedList<PowerUp> powerups) {
-		savedPowerUps = powerUps;
-	}
 
-	public void keyReleased(int key) {
-		if (key == KeyEvent.VK_LEFT)
-			player.setLeft(false);
-		if (key == KeyEvent.VK_RIGHT)
-			player.setRight(false);
-		if (key == KeyEvent.VK_SPACE)
-			player.setFiring(false);
-		if (key == KeyEvent.VK_X) {}
-	}
+		public void keyReleased(int key) {
 
+
+
+			if (key == KeyEvent.VK_LEFT)
+				player.setLeft(false);
+			if (key == KeyEvent.VK_RIGHT)
+				player.setRight(false);
+			if (key == KeyEvent.VK_SPACE)
+				player.setFiring(false);
+			if (key == KeyEvent.VK_X) {}
+		
+
+
+
+	}
 }

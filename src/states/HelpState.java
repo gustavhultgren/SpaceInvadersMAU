@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javafx.scene.layout.Background;
+import main.GamePanel;
 import tileMap.MenuBackground;
 
 public class HelpState extends GameState {
@@ -41,7 +42,7 @@ public class HelpState extends GameState {
 	public void init() {
 
 		try {
-
+			
 			//initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
 					.deriveFont(15f);
@@ -62,7 +63,9 @@ public class HelpState extends GameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
+	double vol;
 
 	public void update() {
 //		menuBg.update();
@@ -129,8 +132,42 @@ public class HelpState extends GameState {
 			gsm.setState(GameStateManager.MENUSTATE); 
 
 		}
+		
+		
+		if (k == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
+					VOLUME = 0;
+				} else {
+					VOLUME = VOLUME - 0.25;
+				}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+			}
 
-	}
+			if (k == KeyEvent.VK_PLUS) {
+				
+				if (VOLUME >= 1.0) {
+					VOLUME = 1;
+				} else {
+					VOLUME = VOLUME + 0.25;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
+			}
+
+			if (k == KeyEvent.VK_M) {
+				if (VOLUME != 0) {
+					VOLUME = 0;
+				} else {
+					VOLUME = 1;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
+			}
+		}
+
+
+	
 
 	public void keyReleased(int k) {
 

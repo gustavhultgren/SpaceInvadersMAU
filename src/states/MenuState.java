@@ -8,20 +8,17 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import tileMap.*;
-import javafx.scene.layout.Background;
 import tileMap.MenuBackground;
 import audio.AudioPlayer;
+import main.GamePanel;
+import sun.java2d.pipe.DrawImage;
 
 public class MenuState extends GameState {
 
@@ -42,7 +39,8 @@ public class MenuState extends GameState {
 
 	// Background of the menu
 	private MenuBackground bg;
-
+	private BufferedImage image;
+	
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
 
@@ -57,7 +55,8 @@ public class MenuState extends GameState {
 	public void init() {
 
 		try {
-
+			
+			
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN, 25);
 
 			// initializes the location of the arrows
@@ -75,11 +74,13 @@ public class MenuState extends GameState {
 				ge.registerFont(
 						Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
-				bg = new MenuBackground("/images/BackgroundTest.png", 1);
+				bg = new MenuBackground("/images/bg.png", 1);
 				bg.setVector(-0.4, 0);
 				// initializes both the arrow images
 				leftArrow = ImageIO.read(new File("resources/images/LeftArrow.png"));
 				rightArrow = ImageIO.read(new File("resources/images/RightArrow.png"));
+				
+				image = ImageIO.read(new File("resources/images/headline.png"));
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -87,7 +88,7 @@ public class MenuState extends GameState {
 				}
 			}
 		
-				
+	
 			
 
 		
@@ -102,6 +103,7 @@ public class MenuState extends GameState {
 
 		@Override
 		public void draw(Graphics2D g) {
+			g.drawImage(image, null, 100, 100);
 			bg.draw(g);
 
 			// draw menu options
@@ -122,8 +124,11 @@ public class MenuState extends GameState {
 
 			drawLeftArrow(g);
 			drawRightArrow(g);
+			
 
 		}
+		
+		
 
 		/**
 		 * Method that draws the right arrow
@@ -216,7 +221,7 @@ public class MenuState extends GameState {
 				System.exit(0);
 			}
 		}
-
+		
 		public void keyPressed(int k) {
 
 			/**
@@ -272,11 +277,44 @@ public class MenuState extends GameState {
 				}
 				soundFX.get("click").play();
 			}
+		
+		
+		if (k == KeyEvent.VK_MINUS) {
+		if (VOLUME <= 0.0) {
+				VOLUME = 0;
+
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
+		GamePanel.setVolume(VOLUME);
+		System.out.println("Volym nivå: " + VOLUME);
 		}
+
+		if (k == KeyEvent.VK_PLUS) {
+			
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+	}
 
 		@Override
 		public void keyReleased(int k) {
 
 		}
 
-	}
+}

@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import gameClient.Client;
+import main.GamePanel;
 import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
 
@@ -67,7 +68,7 @@ public class LeaderBoardState extends GameState {
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 	}
-
+	double vol;
 	@Override
 	public void update() {
 	}
@@ -236,7 +237,40 @@ public class LeaderBoardState extends GameState {
 		if(k == KeyEvent.VK_ESCAPE) {
 			gsm.setState(GameStateManager.MENUSTATE);
 		}
-	}
+		
+		if (k == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
+					VOLUME = 0;
+
+				} else {
+					VOLUME = VOLUME - 0.25;
+				}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+			}
+
+			if (k == KeyEvent.VK_PLUS) {
+				
+				if (VOLUME >= 1.0) {
+					VOLUME = 1;
+				} else {
+					VOLUME = VOLUME + 0.25;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
+			}
+
+			if (k == KeyEvent.VK_M) {
+				if (VOLUME != 0) {
+					VOLUME = 0;
+				} else {
+					VOLUME = 1;
+				}
+				GamePanel.setVolume(VOLUME);
+				System.out.println("Volym nivå: " + VOLUME);
+			}
+		}
+	
 
 	@Override
 	public void keyReleased(int k) {
