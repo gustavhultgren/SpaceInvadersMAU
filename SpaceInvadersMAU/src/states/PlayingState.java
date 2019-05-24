@@ -350,9 +350,9 @@ public class PlayingState extends GameState {
 			soundFX.get("gameOver").play();
 		}
 
-		if (nbr == 32) {
+		if (nbr == 1) {
 			gsm.setHigherDifficulty();
-			gsm.setState(1);
+			gsm.setState(4);
 
 		}
 	}

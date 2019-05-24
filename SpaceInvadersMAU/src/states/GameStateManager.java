@@ -12,6 +12,7 @@ public class GameStateManager {
 	public static final int PLAYINGSTATE = 1;
 	public static final int GAMEOVERSTATE = 2;
 	public static final int LEADERBOARDSTATE = 3;
+	public static final int BOSS1STATE = 4;
 	
 	public GameStateManager() {
 		
@@ -35,6 +36,8 @@ public class GameStateManager {
 			gameStates[state] = new MenuState(this);
 		if(state == PLAYINGSTATE)
 			gameStates[state] = new PlayingState(this);
+		if(state == BOSS1STATE)
+			gameStates[state] = new Boss1State(this);
 		if(state == GAMEOVERSTATE)
 			gameStates[state] = new GameOverState(this);
 		if(state == LEADERBOARDSTATE)

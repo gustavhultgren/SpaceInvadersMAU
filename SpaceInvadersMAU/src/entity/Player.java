@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 
 import entity.Missile;
 import main.GamePanel;
+import states.Boss1State;
 import states.PlayingState;
 
 /**
@@ -125,6 +126,7 @@ public class Player extends Entity {
 				firingTimer = System.nanoTime();
 
 				PlayingState.missiles.add(new Missile(270, x, y, 3, 7));
+				Boss1State.missiles.add(new Missile(270, x, y, 3, 7));
 			}
 		}
 	}
