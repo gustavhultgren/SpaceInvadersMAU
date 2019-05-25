@@ -33,11 +33,9 @@ public class Player extends Entity {
 	private boolean firingRaygun;
 	private boolean shieldActivated = false;
 
-	private Color playerColor;
-
 	private int score;
 	private int lives;
-	
+
 	private BufferedImage playerImage;
 	private BufferedImage shieldImage;
 
@@ -57,11 +55,9 @@ public class Player extends Entity {
 		firingTimer = System.nanoTime();
 		firingDelay = 700;
 
-		playerColor = Color.WHITE;
-
 		score = 0;
 		lives = 3;
-		
+
 		try {
 			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			shieldImage = ImageIO.read(new File("resources/images/playerShield.png"));
@@ -98,11 +94,11 @@ public class Player extends Entity {
 	public void setFiringRaygun(boolean b) {
 		firingRaygun = b;
 	}
-	
+
 	public void shieldActivated(boolean b) {
 		shieldActivated = b;
 	}
-	
+
 	public boolean getShieldStatus() {
 		return shieldActivated;
 	}
@@ -122,7 +118,7 @@ public class Player extends Entity {
 	public int getLives() {
 		return lives;
 	}
-	
+
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
@@ -139,9 +135,19 @@ public class Player extends Entity {
 		return lives <= 0;
 	}
 
+	public void setPlayerImage(int choice) throws IOException {
+		if (choice == 1) {
+			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
+			
+		} else if (choice == 2) {
+			playerImage = ImageIO.read(new File("resources/images/playerImage2.png"));
+			
+		}
+	}
+
 	// This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
-		if(shieldActivated) {
+		if (shieldActivated) {
 			return new Rectangle(x - 64, y - 64, 128, 128);
 		}
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
@@ -190,20 +196,12 @@ public class Player extends Entity {
 
 	// This method is called in the class GamePanel. It draws the player.
 	public void draw(Graphics2D g) {
-		if(shieldActivated) {
+		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
 		}
-		
+
 		g.drawImage(playerImage, x - 32, y - 32, 64, 64, null);
-		
-//		g.setColor(playerColor);
-//		g.fillRect(x - r, y - r, 2 * r, 2 * r);
-//
-//		g.setStroke(new BasicStroke(3));
-//		g.setColor(playerColor.darker());
-//		g.drawRect(x - r, y - r, 2 * r, 2 * r);
-//		g.setStroke(new BasicStroke(1));
-		
+
 	}
 
 }

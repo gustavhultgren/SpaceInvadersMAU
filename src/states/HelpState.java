@@ -42,13 +42,11 @@ public class HelpState extends GameState {
 	public void init() {
 
 		try {
-			
-			//initializes the font
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
-					.deriveFont(15f);
+
+			// initializes the font
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(15f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(
-					Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -56,15 +54,15 @@ public class HelpState extends GameState {
 			e.printStackTrace();
 		}
 
-		
 		try {
-			//initializes the "gubbe" image
+			// initializes the "gubbe" image
 			image = ImageIO.read(new File("resources/images/gubbe2.jpg"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	double vol;
 
 	public void update() {
@@ -72,14 +70,15 @@ public class HelpState extends GameState {
 
 	}
 
-	public void draw(Graphics2D g) {	
+	public void draw(Graphics2D g) {
 		// Draws the first box with text
 		g.setFont(font);
 
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700); // draws a black background (will be changed to a gif soon)
 
-		// Draws the green rectangle around the text as well as setting the stroke to 3 (thickness of line)
+		// Draws the green rectangle around the text as well as setting the stroke to 3
+		// (thickness of line)
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.GREEN);
 		g.drawRect(80, 50, 540, 250);
@@ -129,45 +128,41 @@ public class HelpState extends GameState {
 	public void keyPressed(int k) {
 
 		if (k == KeyEvent.VK_ESCAPE) {
-			gsm.setState(GameStateManager.MENUSTATE); 
+			gsm.setState(GameStateManager.MENUSTATE);
 
 		}
-		
-		
+
 		if (k == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
-					VOLUME = 0;
-				} else {
-					VOLUME = VOLUME - 0.25;
-				}
+				VOLUME = 0;
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
 			GamePanel.setVolume(VOLUME);
 			System.out.println("Volym nivå: " + VOLUME);
-			}
-
-			if (k == KeyEvent.VK_PLUS) {
-				
-				if (VOLUME >= 1.0) {
-					VOLUME = 1;
-				} else {
-					VOLUME = VOLUME + 0.25;
-				}
-				GamePanel.setVolume(VOLUME);
-				System.out.println("Volym nivå: " + VOLUME);
-			}
-
-			if (k == KeyEvent.VK_M) {
-				if (VOLUME != 0) {
-					VOLUME = 0;
-				} else {
-					VOLUME = 1;
-				}
-				GamePanel.setVolume(VOLUME);
-				System.out.println("Volym nivå: " + VOLUME);
-			}
 		}
 
+		if (k == KeyEvent.VK_PLUS) {
 
-	
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+	}
 
 	public void keyReleased(int k) {
 
