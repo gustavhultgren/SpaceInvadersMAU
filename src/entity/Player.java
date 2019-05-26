@@ -190,7 +190,7 @@ public class Player extends Entity {
 			if (elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
 
-				PlayingState.missiles.add(new Missile(270, x, y, 3, 8, false, Color.GREEN));
+				PlayingState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
 			}
 		}
 
