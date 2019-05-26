@@ -52,6 +52,7 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 	public synchronized void requestList(PlayerScore ps) {
 		try (Socket socket = new Socket(ip, port);
 				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
@@ -69,7 +70,6 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
 
 	public void init() {
 		txtArea = new JTextArea();
@@ -91,15 +91,16 @@ public class Client extends Thread {
 		});
 
 	}
+
 	public synchronized PlayerScore[] getScoreList() {
 		return scoreList;
 	}
-	
+
 	public synchronized PlayerScore[] getScoreListMau() {
 		return scoreListMau;
 	}
-	
-	public String getSSID(String os)  {
+
+	public String getSSID(String os) {
 		String ssid = "";
 		if (os.substring(0, 3).equals("mac")) {
 			String command = "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I";
@@ -111,12 +112,12 @@ public class Client extends Thread {
 				String line = "";
 				int i = 0;
 				while ((line = reader.readLine()) != null) {
-						if (i == 12) {
-							ssid = line.substring(line.indexOf(':') +2).toLowerCase();
-							return ssid;
-						}else {
-							i++;
-						}
+					if (i == 12) {
+						ssid = line.substring(line.indexOf(':') + 2).toLowerCase();
+						return ssid;
+					} else {
+						i++;
+					}
 				}
 				proc.waitFor();
 
@@ -131,7 +132,7 @@ public class Client extends Thread {
 		return ssid;
 
 	}
-	
+
 	public String getOS() {
 		String s = System.getProperty("os.name").toLowerCase();
 		return s;

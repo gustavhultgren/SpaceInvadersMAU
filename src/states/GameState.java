@@ -22,7 +22,7 @@ public abstract class GameState {
 	protected static int HEIGHT = 700;
 
 	protected static int PLAYER_INIT_X = WIDTH / 2 - 20;
-	protected static int PLAYER_INIT_Y = 670;
+	protected static int PLAYER_INIT_Y = 652;
 	protected static int PLAYER_WIDTH = 30;
 	protected static int PLAYER_HEIGHT = 30;
 	protected static int ENEMY_INIT_X = 100;

@@ -33,7 +33,7 @@ import tileMap.MenuBackground;
 
 /**
  * 
- * @author Gustav Hultgren, Tom Eriksson
+ * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
  */
 public class PlayingState extends GameState {
 
@@ -128,9 +128,9 @@ public class PlayingState extends GameState {
 				e.printStackTrace();
 			}
 		}
-		
+
 		bg.update();
-		
+
 		// Updating player:
 		player.update();
 
@@ -215,7 +215,7 @@ public class PlayingState extends GameState {
 						Iterator<Enemy> i1 = enemies.get(h).iterator();
 						while (i1.hasNext()) {
 							Enemy e = (Enemy) i1.next();
-							e.setY(e.getY() + 15);
+							e.setY(e.getY() + 30);
 						}
 					}
 
@@ -229,7 +229,7 @@ public class PlayingState extends GameState {
 						while (i2.hasNext()) {
 
 							Enemy e = (Enemy) i2.next();
-							e.setY(e.getY() + 15);
+							e.setY(e.getY() + 30);
 						}
 					}
 
@@ -237,6 +237,7 @@ public class PlayingState extends GameState {
 			}
 		}
 		// ----------------------------------------------------
+		// checks if enemies touch player
 
 		// Check for player missile - enemy collision:
 
@@ -246,7 +247,7 @@ public class PlayingState extends GameState {
 				missiles.remove(i);
 				purpleShip.killed();
 
-				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 13, 3.0, PowerUp.RAYGUN)); // Type 3
+				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 25, 3.0, PowerUp.RAYGUN)); // Type 3
 			}
 			for (int j = 0; j < enemies.size(); j++) {
 				for (int h = 0; h < enemies.get(j).size(); h++) {
@@ -258,19 +259,16 @@ public class PlayingState extends GameState {
 						temp.remove(h);
 
 						/**
-						 * Type 1 -- +1 life (5%) 
-						 * Type 2 -- +50 score (10%) 
-						 * Type 3 -- 
-						 * Type 4 --
+						 * Type 1 -- +1 life (5%) Type 2 -- +50 score (10%) Type 3 -- Type 4 --
 						 */
 
 						double rand = Math.random();
 						if (rand < 0.03) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.HEART)); // Type 1
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 20, 3.0, PowerUp.HEART)); // Type 1
 						} else if (rand <= 0.07) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SHIELD)); // Type 4
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 20, 3.0, PowerUp.SHIELD)); // Type 4
 						} else if (rand < 0.15) {
-							powerUps.add(new PowerUp(e.getX(), e.getY(), 25, 3.0, PowerUp.SCORE)); // Type 2
+							powerUps.add(new PowerUp(e.getX(), e.getY(), 20, 3.0, PowerUp.SCORE)); // Type 2
 						}
 
 						player.addScore(100);
@@ -282,6 +280,16 @@ public class PlayingState extends GameState {
 				}
 
 			}
+
+		}
+		for (int i = 0; i < enemies.size(); i++) {
+			for (int j = 0; j < enemies.get(i).size(); j++) {
+				Enemy e = enemies.get(i).get(j);
+				if (e.getY() >= 620) {
+					gsm.setState(2);
+				}
+			}
+
 		}
 
 		// Check for enemy bombs - player collision:
@@ -291,6 +299,9 @@ public class PlayingState extends GameState {
 				bombs.remove(i);
 				if (player.getShieldStatus() == false) {
 					player.loseLife();
+					if (player.getLives() <= 0) {
+						player.isDead();
+					}
 				}
 			}
 		}
@@ -333,7 +344,6 @@ public class PlayingState extends GameState {
 
 		// Check for dead player:
 		if (player.isDead()) {
-			bgMusic.stop();
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
 		}
 
@@ -415,7 +425,7 @@ public class PlayingState extends GameState {
 		}
 
 		if (paused) {
-			drawMenu(g);
+			drawPauseMenu(g);
 		}
 
 		if (frameCounter < 60)
@@ -425,9 +435,9 @@ public class PlayingState extends GameState {
 		}
 	}
 
-	public void drawMenu(Graphics2D g) {
+	public void drawPauseMenu(Graphics2D g) {
 		score = player.getScore() + "";
-		g.setColor(new Color(0, 0, 0, 70));
+		g.setColor(new Color(0, 0, 0, 100));
 		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
 		textLength = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
@@ -535,7 +545,6 @@ public class PlayingState extends GameState {
 
 			if (key == KeyEvent.VK_E && paused) {
 				soundFX.get("enter").play();
-				bgMusic.stop();
 				gsm.setState(GameStateManager.MENUSTATE);
 
 			}
@@ -543,21 +552,18 @@ public class PlayingState extends GameState {
 	}
 
 	private void setPowerups(LinkedList<PowerUp> powerups) {
-
 		savedPowerUps = powerUps;
 
 	}
 
 	public void keyReleased(int key) {
+
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(false);
-		
 		if (key == KeyEvent.VK_RIGHT)
 			player.setRight(false);
-		
 		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
-		
 		if (key == KeyEvent.VK_X) {
 		}
 

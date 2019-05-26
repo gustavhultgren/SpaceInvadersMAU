@@ -18,7 +18,6 @@ public class GameStateManager {
 
 	public GameStateManager() {
 		gameStates = new GameState[NUMGAMESTATES];
-
 		currentState = MENUSTATE;
 		loadState(currentState);
 

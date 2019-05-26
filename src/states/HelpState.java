@@ -26,6 +26,7 @@ public class HelpState extends GameState {
 	private MenuBackground menuBg;
 	private Font font;
 	private BufferedImage image;
+	private MenuBackground bg;
 
 	public HelpState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -42,7 +43,8 @@ public class HelpState extends GameState {
 	public void init() {
 
 		try {
-
+			bg = new MenuBackground("/images/background.png", 1);
+			bg.setVector(-0.4, 0);
 			// initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(15f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -56,7 +58,7 @@ public class HelpState extends GameState {
 
 		try {
 			// initializes the "gubbe" image
-			image = ImageIO.read(new File("resources/images/gubbe2.jpg"));
+			image = ImageIO.read(new File("resources/images/gubbe.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,17 +68,16 @@ public class HelpState extends GameState {
 	double vol;
 
 	public void update() {
-//		menuBg.update();
+		bg.update();
 
 	}
 
 	public void draw(Graphics2D g) {
+
+		bg.draw(g);
 		// Draws the first box with text
 		g.setFont(font);
-
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 700, 700); // draws a black background (will be changed to a gif soon)
-
+		
 		// Draws the green rectangle around the text as well as setting the stroke to 3
 		// (thickness of line)
 		g.setStroke(new BasicStroke(3));
@@ -102,12 +103,14 @@ public class HelpState extends GameState {
 
 		// Draws the second rectangle below the first one
 		g.setColor(Color.GREEN);
-		g.drawRect(80, 350, 540, 250);
+		g.drawRect(80, 350, 540, 260);
 
+		
 		// sets the color to white
 		g.setColor(Color.WHITE);
 		String aboutText2[] = { "* Use the arrow keys to move back", "and forth.", "* Press [Spacebar] to shoot.",
-				"* If you lose all lives you lose", "* Gather points by shooting", "enemies" };
+				"* If you lose all lives you lose", "* Gather points by shooting", "enemies",
+				"* Press m to mute, - to lower," , "and + increase the music." };
 
 		aboutTextY = 390;
 		for (int i = 0; i < aboutText2.length; i++) {
@@ -120,7 +123,7 @@ public class HelpState extends GameState {
 		String howToLeave = "> Press [Escape] to go back < ";
 		g.drawString(howToLeave, 130, 650);
 
-//		// adds gubbe.jpg in the window
+		// // adds gubbe.jpg in the window
 		g.drawImage(image, 600, 610, null);
 
 	}

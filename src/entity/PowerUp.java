@@ -33,10 +33,8 @@ public class PowerUp extends Entity {
 	}
 
 	/**
-	 * Type HEART = +1 life 
-	 * Type SCORE = +50 score
-	 * Type RAYGUN = Super weapon
-	 * Type SHIELD = shield that protects player
+	 * Type HEART = +1 life Type SCORE = +50 score Type RAYGUN = Super weapon Type
+	 * SHIELD = shield that protects player
 	 */
 	public void init(int type) {
 		if (type == HEART) {
@@ -51,13 +49,13 @@ public class PowerUp extends Entity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(type == RAYGUN) {
+		} else if (type == RAYGUN) {
 			try {
 				powerUpImage = ImageIO.read(new File("resources/images/raygun.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(type == SHIELD) {
+		} else if (type == SHIELD) {
 			try {
 				powerUpImage = ImageIO.read(new File("resources/images/powerUp_Shield_drop.png"));
 			} catch (IOException e) {
@@ -73,18 +71,26 @@ public class PowerUp extends Entity {
 	public Rectangle getBounds() {
 		return new Rectangle((int) x, (int) y, 2 * r, 2 * r);
 	}
+
 	public void update() {
 		y += speed;
 	}
 
-	//Draw method for different PowerUps.
+	// Draw method for different PowerUps.
 	public void draw(Graphics2D g) {
-			g.drawImage(powerUpImage, x, y, 50, 50, null);
+		if (type == RAYGUN) {
+			g.drawImage(powerUpImage, x, y, 50, 25, null);
+		} else {
+			g.drawImage(powerUpImage, x, y, 35, 35, null);
+		}
+
 	}
-	
-	//Draw method for RayGun and Shield.
+
+	// Draw method for RayGun.
 	public void draw(Graphics2D g, int x, int y, int width, int height) {
-			g.drawImage(powerUpImage, x, y, 50, 50, null);
+
+		g.drawImage(powerUpImage, x, y, 50, 25, null);
+
 	}
 
 }

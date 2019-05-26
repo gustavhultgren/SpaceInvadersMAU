@@ -16,6 +16,11 @@ import tileMap.MenuBackground;
 import audio.AudioPlayer;
 import main.GamePanel;
 
+/**
+ * 
+ * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
+ */
+
 public class MenuState extends GameState {
 
 	protected int currentChoice = 0;

@@ -76,13 +76,11 @@ public class ServerClient {
 		}
 		return list;
 	}
-	
-	
 
 	private synchronized LinkedList<PlayerScore> getList() {
 		return list;
 	}
-	
+
 	private synchronized LinkedList<PlayerScore> getMauList() {
 		return mauList;
 	}
@@ -92,7 +90,7 @@ public class ServerClient {
 		if (p.isMAUScore()) {
 			mauList.add(p);
 			Collections.sort(mauList);
-		}else {
+		} else {
 			list.add(p);
 			Collections.sort(list);
 		}

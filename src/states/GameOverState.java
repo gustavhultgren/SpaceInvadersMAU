@@ -13,8 +13,6 @@ import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
 
-
-
 public class GameOverState extends GameState {
 
 	private String[] options = { "YES", "NO" };
@@ -37,7 +35,7 @@ public class GameOverState extends GameState {
 
 	@Override
 	public void init() {
-		
+
 		// TODO Auto-generated method stub
 
 	}
@@ -55,10 +53,10 @@ public class GameOverState extends GameState {
 //		g.setColor(Color.BLACK);
 //		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
-		
+
 		printNameToShort(g);
 		String gameOver = "GAME OVER";
-		
+
 		int length;
 		try {
 			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
@@ -79,8 +77,8 @@ public class GameOverState extends GameState {
 
 		Font tempFont;
 		try {
-			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,
-					50);
+			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
+					.deriveFont(Font.PLAIN, 50);
 			g.setFont(tempFont);
 			g.setColor(Color.RED);
 			String name = "Name: ";
@@ -109,7 +107,8 @@ public class GameOverState extends GameState {
 		try {
 			g.setColor(Color.GREEN);
 
-			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(Font.PLAIN,35);
+			tempFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF"))
+					.deriveFont(Font.PLAIN, 35);
 			g.setFont(tempFont);
 			String submit = "SUBMIT SCORE";
 			length = (int) g.getFontMetrics().getStringBounds(submit, g).getWidth();
@@ -140,7 +139,7 @@ public class GameOverState extends GameState {
 			}
 		}
 	}
-	
+
 	private void printNameToShort(Graphics2D g) {
 		if (frameCounter < 30 && playerName.length() < 3) {
 			g.setColor(Color.WHITE);
@@ -159,7 +158,7 @@ public class GameOverState extends GameState {
 				if (ssid.equals("eduroam")) {
 					client.requestList(new PlayerScore(playerName, player.getScore(), true));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
-				}else {
+				} else {
 					client.requestList(new PlayerScore(playerName, player.getScore(), false));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				}
@@ -174,7 +173,7 @@ public class GameOverState extends GameState {
 //		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
 //		g.setColor(Color.GREEN);
 //		g.drawString("" + player.getScore(), 490, (700 / 2));
-		
+
 //		String exitMessage = "PRESS ESC TO GO BACK TO MENU";
 //		length = (int) g.getFontMetrics().getStringBounds(exitMessage, g).getWidth();
 //		g.drawString(exitMessage, (700 - length) / 2, 600);
@@ -275,24 +274,24 @@ public class GameOverState extends GameState {
 				playerName = playerName.substring(0, playerName.length() - 1);
 			}
 		}
-		if(k == KeyEvent.VK_ESCAPE) {
+		if (k == KeyEvent.VK_ESCAPE) {
 			gsm.setState(0);
 			soundFX.get("enter").play();
 		}
-	
-	if (k == KeyEvent.VK_MINUS) {
-		if (VOLUME <= 0.0) {
+
+		if (k == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
 				VOLUME = 0;
 
 			} else {
 				VOLUME = VOLUME - 0.25;
 			}
-		GamePanel.setVolume(VOLUME);
-		System.out.println("Volym nivå: " + VOLUME);
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
-			
+
 			if (VOLUME >= 1.0) {
 				VOLUME = 1;
 			} else {
@@ -311,8 +310,7 @@ public class GameOverState extends GameState {
 			GamePanel.setVolume(VOLUME);
 			System.out.println("Volym nivå: " + VOLUME);
 		}
-}
-
+	}
 
 	@Override
 	public void keyReleased(int k) {

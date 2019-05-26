@@ -18,9 +18,9 @@ public class Boss extends Enemy {
 	private long firingDelay;
 
 	private boolean slow;
-	
+
 	private BufferedImage rolf;
-	
+
 	/**
 	 * When a Enemy-object is created it gets a x-value and y-value. The firing
 	 * delay is also set.
@@ -38,12 +38,12 @@ public class Boss extends Enemy {
 		this.firingDelay = firingDelay;
 
 		try {
-		rolf = ImageIO.read(getClass().getResourceAsStream("/images/Rymdskepp.png"));
-		
+			rolf = ImageIO.read(getClass().getResourceAsStream("/images/Rymdskepp.png"));
+
 		} catch (Exception e) {
-			
+
 		}
-	}	
+	}
 
 	// FUNCTIONS
 	public int getX() {
@@ -68,7 +68,7 @@ public class Boss extends Enemy {
 
 	public void killed() {
 		dead = true;
-	
+
 	}
 
 	public void setSlow(boolean b) {
@@ -107,7 +107,7 @@ public class Boss extends Enemy {
 	}
 
 	public void draw(Graphics2D g) {
-		if(!isDead())
-		g.drawImage(rolf, null, x, y);
+		if (!isDead())
+			g.drawImage(rolf, null, x, y);
 	}
 }

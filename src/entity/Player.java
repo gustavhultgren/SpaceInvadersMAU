@@ -209,9 +209,8 @@ public class Player extends Entity {
 		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
 		}
-
-		g.drawImage(playerImage, x - 32, y - 32, 64, 64, null);
-
+		
+		g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
 	}
 
 }
