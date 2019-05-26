@@ -197,7 +197,6 @@ public class MenuState extends GameState {
 			gsm.setState(GameStateManager.HELPSTATE);
 		}
 		if (currentChoice == 2) {
-
 			gsm.setState(GameStateManager.LEADERBOARDSTATE);
 		}
 		if (currentChoice == 3) {

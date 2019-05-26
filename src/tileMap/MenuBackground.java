@@ -50,8 +50,6 @@ public class MenuBackground {
 	}
 
 	public void draw (Graphics2D g) {
-
-
 		g.drawImage(image, (int) x, (int) y, null);
 		if (x < 0) {
 

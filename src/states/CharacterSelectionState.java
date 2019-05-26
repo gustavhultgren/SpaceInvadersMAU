@@ -38,6 +38,7 @@ public class CharacterSelectionState extends MenuState {
 		}
 		
 		title = "CHOOSE CHARACTER";
+		currentChoice = 1;
 	}
 
 	@Override
@@ -63,11 +64,11 @@ public class CharacterSelectionState extends MenuState {
 		
 	}
 
-	private void select() throws IOException {
-		if (currentChoice == 0) {
+	private void select() {
+		if (currentChoice == 1) {
 			player.setPlayerImage(1);
 
-		} else if (currentChoice == 1) {
+		} else if (currentChoice == 2) {
 			player.setPlayerImage(2);
 
 		}
@@ -78,20 +79,14 @@ public class CharacterSelectionState extends MenuState {
 	@Override
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
-			try {
-				select();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			select();
 			soundFX.get("enter").play();
 		}
 
 		if (k == KeyEvent.VK_RIGHT) {
 			currentChoice++;
-			if (currentChoice == -1) {
-				currentChoice = 0;
-			}
+			
+			System.out.println(currentChoice);
 
 			// code that visualizes change
 
@@ -100,9 +95,8 @@ public class CharacterSelectionState extends MenuState {
 
 		if (k == KeyEvent.VK_LEFT) {
 			currentChoice--;
-			if (currentChoice == 2) {
-				currentChoice = 1;
-			}
+			
+			System.out.println(currentChoice);
 
 			//code that visualizes change
 

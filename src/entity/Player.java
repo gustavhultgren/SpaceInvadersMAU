@@ -135,12 +135,22 @@ public class Player extends Entity {
 		return lives <= 0;
 	}
 
-	public void setPlayerImage(int choice) throws IOException {
+	public void setPlayerImage(int choice) {
 		if (choice == 1) {
-			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
+			try {
+				playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		} else if (choice == 2) {
-			playerImage = ImageIO.read(new File("resources/images/playerImage2.png"));
+			try {
+				playerImage = ImageIO.read(new File("resources/images/playerImage2.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 	}
