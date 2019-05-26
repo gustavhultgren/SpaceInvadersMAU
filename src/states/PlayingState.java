@@ -2,8 +2,10 @@ package states;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
 import java.awt.Shape;
@@ -74,6 +76,10 @@ public class PlayingState extends GameState {
 		try {
 			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
+			
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
 			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 
@@ -83,8 +89,6 @@ public class PlayingState extends GameState {
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
-
-		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
 

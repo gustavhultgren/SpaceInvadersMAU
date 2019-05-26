@@ -37,7 +37,7 @@ public abstract class GameState {
 	protected static HashMap<String, AudioPlayer> soundFX = new HashMap<String, AudioPlayer>();
 
 	protected GameStateManager gsm;
-	protected static Player player;
+	protected static Player player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 	protected static AudioPlayer bgMusic;
 
 	public abstract void init();
