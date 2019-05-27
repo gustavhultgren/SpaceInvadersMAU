@@ -98,8 +98,7 @@ public class GameOverState extends GameState {
 		if (frameCounter < 30) {
 			g.setColor(Color.WHITE);
 			g.fillRect(330 + playerName.length() * 50, 395, 50, 6);
-		} else if (frameCounter >= 30 && frameCounter < 60) {
-		} else {
+		} else if (frameCounter >= 60) {
 			frameCounter = 0;
 		}
 		frameCounter++;

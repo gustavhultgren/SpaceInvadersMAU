@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -17,7 +18,7 @@ import tileMap.MenuBackground;
 
 public class CharacterSelectionState extends GameState {
 
-	private int currentChoice, textLength;
+	private int currentChoice, textLength, counter;
 
 	// private Player player;
 	private MenuBackground bg;
@@ -59,18 +60,17 @@ public class CharacterSelectionState extends GameState {
 		}
 
 		currentChoice = 1;
-		title = "CHOOSE CHARACTER";
+		counter = 0;
+		title = "CHOOSE YOUR CHARACTER";
 		char1Name = "CHAR 1";
 		char2Name = "CHAR 2";
 		char3Name = "CHAR 3";
 		message = "PRESS ENTER TO START";
-
 	}
 
 	@Override
 	public void update() {
 		bg.update();
-
 	}
 
 	@Override
@@ -80,19 +80,23 @@ public class CharacterSelectionState extends GameState {
 		g.setFont(font);
 
 		textLength = (int) g.getFontMetrics().getStringBounds(title, g).getWidth();
+		g.setColor(Color.YELLOW);
 		g.drawString(title, (700 - textLength) / 2, 100);
 
 		g.drawImage(playerImage, 130, 140, 200, 200, null);
 		g.drawImage(playerImage2, 370, 140, 200, 200, null);
 		g.drawImage(playerImage3, 130, 380, 180, 180, null);
 
+		g.setColor(Color.GREEN);
+		drawMessage(g);
 		writeCharacterNames(g);
 		drawLines(g);
+	}
 
+	public void drawMessage(Graphics2D g) {
 		g.setFont(font);
 		textLength = (int) g.getFontMetrics().getStringBounds(message, g).getWidth();
 		g.drawString(message, (700 - textLength) / 2, 650);
-
 	}
 
 	public void writeCharacterNames(Graphics2D g) {
@@ -105,13 +109,18 @@ public class CharacterSelectionState extends GameState {
 	public void drawLines(Graphics2D g) {
 		g.setStroke(new BasicStroke(3));
 
-		if (currentChoice == 1) {
-			g.drawLine(170, 335, 260, 335);
-		} else if (currentChoice == 2) {
-			g.drawLine(430, 335, 520, 335);
-		} else if (currentChoice == 3) {
-			g.drawLine(170, 575, 260, 575);
+		if(counter < 15) {
+			if (currentChoice == 1) {
+				g.drawLine(170, 335, 260, 335);
+			} else if (currentChoice == 2) {
+				g.drawLine(430, 335, 520, 335);
+			} else if (currentChoice == 3) {
+				g.drawLine(170, 575, 260, 575);
+			}
+		} else if (counter >= 30) {
+			counter = 0;
 		}
+		counter++;
 	}
 
 	private void select() {
@@ -149,7 +158,7 @@ public class CharacterSelectionState extends GameState {
 			currentChoice--;
 
 			if (currentChoice == 0) {
-				currentChoice = 1;
+				currentChoice = 3;
 			}
 
 			System.out.println(currentChoice);
