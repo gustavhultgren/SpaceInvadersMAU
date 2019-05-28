@@ -16,10 +16,15 @@ import com.sun.glass.events.KeyEvent;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
+/**
+ * This class represents a state in the game where the user can choose 
+ * what kind of character he or she wants to play the gmae with.
+ * @author Gustav Hultgren
+ */
 public class CharacterSelectionState extends GameState {
 
 	private int currentChoice, textLength, counter;
-	
+
 	private MenuBackground bg;
 
 	private String title, char1Name, char2Name, char3Name, char4Name, message;
@@ -112,7 +117,7 @@ public class CharacterSelectionState extends GameState {
 	public void drawLines(Graphics2D g) {
 		g.setStroke(new BasicStroke(3));
 
-		if(counter < 15) {
+		if (counter < 15) {
 			if (currentChoice == 1) {
 				g.drawLine(170, 335, 260, 335);
 			} else if (currentChoice == 2) {
