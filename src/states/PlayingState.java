@@ -87,7 +87,7 @@ public class PlayingState extends GameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
@@ -288,22 +288,14 @@ public class PlayingState extends GameState {
 				}
 
 			}
-			
-			
-			
+
 			/////////////////////////////
-			
-			
-			
-			
-			
+
 			if (player.getScore() == 100) {
 				gsm.setState(GameStateManager.BOSSTATE);
-		
-			
-			////////////////////////////////////
-			
-			
+
+				////////////////////////////////////
+
 			}
 
 		}
@@ -344,10 +336,10 @@ public class PlayingState extends GameState {
 					if (player.getLives() < 4) {
 						player.addLife(1);
 						powerUpTexts
-						.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
+								.add(new PowerUpText(player.getX() - 60, player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
 					} else {
 						powerUpTexts
-						.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
+								.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
 					}
 				} else if (type == PowerUp.SCORE) {
 					player.addScore(50);
@@ -359,7 +351,7 @@ public class PlayingState extends GameState {
 				} else if (type == PowerUp.SHIELD) {
 					savedPowerUps.add(powerUp);
 					powerUpTexts
-					.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
+							.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
 				}
 
 				powerUps.remove(i);
@@ -370,10 +362,8 @@ public class PlayingState extends GameState {
 		// Check for dead player:
 		if (player.isDead()) {
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
-			
+
 		}
-	
-		
 
 		if (nbr == 24) {
 			int score = player.getScore();
@@ -392,9 +382,6 @@ public class PlayingState extends GameState {
 		bg.draw(g);
 
 		player.draw(g);
-
-		
-
 
 		if (bossActive) {
 			purpleShip.draw(g);
@@ -425,16 +412,14 @@ public class PlayingState extends GameState {
 		for (int i = 0; i < bombs.size(); i++) {
 			bombs.get(i).draw(g);
 		}
-		
 
 		// Draw Score:
-		
-		
+
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
 		g.setStroke(new BasicStroke(1));
-		
+
 		g.setColor(Color.WHITE);
 		g.setFont(font);
 		g.drawString("SCORE:", GamePanel.WIDTH / 8, 50);
