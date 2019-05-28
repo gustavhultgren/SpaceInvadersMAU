@@ -37,6 +37,9 @@ public class CharacterSelectionState extends GameState {
 		init();
 	}
 
+	/**
+	 * This method initializes all the variables being used in the class.
+	 */
 	@Override
 	public void init() {
 		try {
@@ -100,12 +103,20 @@ public class CharacterSelectionState extends GameState {
 		drawLines(g);
 	}
 
+	/**
+	 * This method draws / writes a message to the user in the bottom of the window.
+	 * @param g
+	 */
 	public void drawMessage(Graphics2D g) {
 		g.setFont(font);
 		textLength = (int) g.getFontMetrics().getStringBounds(message, g).getWidth();
 		g.drawString(message, (700 - textLength) / 2, 650);
 	}
 
+	/**
+	 * This method draws / writes all the character names above the character image.
+	 * @param g
+	 */
 	public void writeCharacterNames(Graphics2D g) {
 		g.setFont(smallFont);
 		g.drawString(char1Name, 170, 150);
@@ -114,6 +125,11 @@ public class CharacterSelectionState extends GameState {
 		g.drawString(char4Name, 420, 380);
 	}
 
+	/**
+	 * This method draws the lines which visualizes what character is
+	 * being selected.
+	 * @param g
+	 */
 	public void drawLines(Graphics2D g) {
 		g.setStroke(new BasicStroke(3));
 
@@ -133,6 +149,10 @@ public class CharacterSelectionState extends GameState {
 		counter++;
 	}
 
+	/**
+	 * This method handles the selection. The setPlayerImage method sets
+	 * the playerImage in class Player.
+	 */
 	private void select() {
 		if (currentChoice == 1) {
 			player.setPlayerImage(1);
@@ -147,6 +167,9 @@ public class CharacterSelectionState extends GameState {
 		gsm.setState(1);
 	}
 
+	/**
+	 * This method handles key input.
+	 */
 	@Override
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
