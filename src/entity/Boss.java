@@ -32,7 +32,7 @@ public class Boss extends Enemy {
 		super(x, y, r, speed, firingDelay);
 
 		dead = false;
-
+		
 		firing = true;
 		firingTimer = System.nanoTime();
 		this.firingDelay = firingDelay;

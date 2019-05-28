@@ -1,7 +1,6 @@
 package states;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -13,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import com.sun.glass.events.KeyEvent;
 
+import main.GamePanel;
 import tileMap.MenuBackground;
 
 public class CharacterSelectionState extends GameState {
@@ -20,7 +20,6 @@ public class CharacterSelectionState extends GameState {
 	private int currentChoice;
 	private int textLength;
 
-//	private Player player;
 	private MenuBackground bg;
 
 	private String title;
@@ -46,11 +45,11 @@ public class CharacterSelectionState extends GameState {
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(34f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
-			
+
 			smallFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(17f);
 			GraphicsEnvironment ge2 = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,18 +61,17 @@ public class CharacterSelectionState extends GameState {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		currentChoice = 1;
 		title = "CHOOSE CHARACTER";
+
 		char1Name = "CHAR 1";
 		char2Name = "CHAR 2";
-		
 	}
 
 	@Override
 	public void update() {
 		bg.update();
-		System.out.println(currentChoice);
 
 	}
 
@@ -84,37 +82,35 @@ public class CharacterSelectionState extends GameState {
 		g.setFont(font);
 
 		textLength = (int) g.getFontMetrics().getStringBounds(title, g).getWidth();
-
 		g.drawString(title, (700 - textLength) / 2, 200);
 
 		g.drawImage(playerImage, 130, 300, 200, 200, null);
 		g.drawImage(playerImage2, 370, 300, 200, 200, null);
-		
+
 		writeCharacterNames(g);
 		drawLines(g);
 
 	}
-	
+
 	public void drawLines(Graphics2D g) {
 		g.setStroke(new BasicStroke(3));
-		
+
 		if(currentChoice == 1) {
 			g.drawLine(170, 495, 260, 495);
 		} else if (currentChoice == 2) {
 			g.drawLine(430, 495, 520, 495);
 		}
 	}
-	
+
 	public void writeCharacterNames(Graphics2D g) {
-			g.setFont(smallFont);
-			g.drawString(char1Name, 170, 300);
-			g.drawString(char2Name, 420, 300);
+		g.setFont(smallFont);
+		g.drawString(char1Name, 170, 300);
+		g.drawString(char2Name, 420, 300);
 	}
 
 	private void select() {
 		if (currentChoice == 1) {
 			player.setPlayerImage(1);
-
 		} else if (currentChoice == 2) {
 			player.setPlayerImage(2);
 
@@ -133,8 +129,6 @@ public class CharacterSelectionState extends GameState {
 		if (k == KeyEvent.VK_RIGHT) {
 			currentChoice++;
 
-			System.out.println(currentChoice);
-
 			// code that visualizes change
 
 			soundFX.get("click").play();
@@ -142,12 +136,41 @@ public class CharacterSelectionState extends GameState {
 
 		if (k == KeyEvent.VK_LEFT) {
 			currentChoice--;
-
-			System.out.println(currentChoice);
-
 			// code that visualizes change
 
 			soundFX.get("click").play();
+		}
+
+		if (k == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
+				VOLUME = 0;
+
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_PLUS) {
+
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
 		}
 
 	}
