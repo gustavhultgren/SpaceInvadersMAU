@@ -112,7 +112,7 @@ public class CharacterSelectionState extends GameState {
 		textLength = (int) g.getFontMetrics().getStringBounds(message, g).getWidth();
 		g.drawString(message, (700 - textLength) / 2, 650);
 	}
-
+	
 	/**
 	 * This method draws / writes all the character names above the character image.
 	 * @param g
@@ -179,7 +179,7 @@ public class CharacterSelectionState extends GameState {
 
 		if (k == KeyEvent.VK_RIGHT) {
 			currentChoice++;
-
+			
 			if (currentChoice == 5) {
 				currentChoice = 1;
 			}

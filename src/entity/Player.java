@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -10,8 +11,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.ietf.jgss.GSSManager;
+import org.omg.CORBA.Current;
+
 import main.GamePanel;
+import states.BossState;
+import states.GameStateManager;
 import states.PlayingState;
+import sun.util.resources.cldr.ts.CurrencyNames_ts;
 
 /**
  * This class represents a player. A player can move left and right. A player
@@ -48,7 +55,7 @@ public class Player extends Entity {
 	 */
 	public Player(int x, int y, int r, double speed) {
 		super(x, y, r, speed);
-
+		
 		dx = 0;
 
 		firing = false;
@@ -203,8 +210,14 @@ public class Player extends Entity {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
-
+				
+				if(GameStateManager.CURRENTSTATE == GameStateManager.PLAYINGSTATE) {
 				PlayingState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
+			}
+				else {
+					BossState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
+					
+				}
 			}
 		}
 

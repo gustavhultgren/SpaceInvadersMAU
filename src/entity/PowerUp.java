@@ -24,7 +24,7 @@ public class PowerUp extends Entity {
 	public static int SCORE = 2;
 	public static int RAYGUN = 3;
 	public static int SHIELD = 4;
-
+	
 	public PowerUp(int x, int y, int r, double speed, int type) {
 		super(x, y, r, speed);
 		this.type = type;

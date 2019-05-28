@@ -23,6 +23,13 @@ public class GameOverState extends GameState {
 	private MenuBackground bg;
 
 	public GameOverState(GameStateManager gsm) {
+
+		init();
+		this.gsm = gsm;
+	}
+
+	@Override
+	public void init() {
 		try {
 			bg = new MenuBackground("/images/background.png", 1);
 			bg.setVector(-0.4, 0);
@@ -30,28 +37,18 @@ public class GameOverState extends GameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		this.gsm = gsm;
-	}
-
-	@Override
-	public void init() {
-
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void update() {
 		bg.update();
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-//		g.setColor(Color.BLACK);
-//		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
 
 		printNameToShort(g);
@@ -162,6 +159,10 @@ public class GameOverState extends GameState {
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				}
 			}
+		}
+		if (currentChoice == 1) {
+			gsm.setState(GameStateManager.MENUSTATE);
+		
 		}
 //		
 //		int length = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
