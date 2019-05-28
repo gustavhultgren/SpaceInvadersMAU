@@ -12,11 +12,9 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import tileMap.*;
 import tileMap.MenuBackground;
 import audio.AudioPlayer;
 import main.GamePanel;
-import sun.java2d.pipe.DrawImage;
 
 /**
  * 
@@ -25,8 +23,8 @@ import sun.java2d.pipe.DrawImage;
 
 public class MenuState extends GameState {
 
-	private int currentChoice = 0;
-	private int textLength;
+	protected int currentChoice = 0;
+	protected int textLength;
 	private String[] options = { "Play", "Help", "Leaderboards", "Quit" };
 
 	// arrow locations
@@ -40,14 +38,11 @@ public class MenuState extends GameState {
 	private BufferedImage rightArrow;
 
 	// Background of the menu
-	private MenuBackground bg;
-	private BufferedImage image;
+	protected MenuBackground bg;
+	protected BufferedImage image;
 
 	public MenuState(GameStateManager gsm) {
 		this.gsm = gsm;
-
-		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
-		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 
 		// Initializing variables.
 		init();
@@ -84,7 +79,11 @@ public class MenuState extends GameState {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
+			
 		}
+
+		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
+		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
 	}
 
 	@Override
@@ -197,13 +196,12 @@ public class MenuState extends GameState {
 
 	private void select() {
 		if (currentChoice == 0) {
-			gsm.setState(GameStateManager.PLAYINGSTATE);
+			gsm.setState(GameStateManager.CHARACTERSELECTIONSTATE);
 		}
 		if (currentChoice == 1) {
 			gsm.setState(GameStateManager.HELPSTATE);
 		}
 		if (currentChoice == 2) {
-
 			gsm.setState(GameStateManager.LEADERBOARDSTATE);
 		}
 		if (currentChoice == 3) {

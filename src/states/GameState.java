@@ -30,6 +30,7 @@ public abstract class GameState {
 	protected static int ENEMY_DIRECTION = -1;
 	protected static int GROUND = 650;
 	protected static Font font;
+	protected static Font smallFont;
 	protected static Client client = new Client("127.0.0.1", 3500);
 
 	protected static double VOLUME = 1;
@@ -37,9 +38,9 @@ public abstract class GameState {
 	protected static HashMap<String, AudioPlayer> soundFX = new HashMap<String, AudioPlayer>();
 
 	protected GameStateManager gsm;
-	protected static Player player;
+	protected Player player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 	protected static AudioPlayer bgMusic;
-
+	
 	public abstract void init();
 
 	public abstract void update();

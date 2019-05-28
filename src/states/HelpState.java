@@ -65,6 +65,8 @@ public class HelpState extends GameState {
 
 	}
 
+	double vol;
+
 	public void update() {
 		bg.update();
 
@@ -75,7 +77,7 @@ public class HelpState extends GameState {
 		bg.draw(g);
 		// Draws the first box with text
 		g.setFont(font);
-
+		
 		// Draws the green rectangle around the text as well as setting the stroke to 3
 		// (thickness of line)
 		g.setStroke(new BasicStroke(3));

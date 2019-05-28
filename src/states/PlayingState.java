@@ -1,9 +1,12 @@
 package states;
 
 import java.awt.BasicStroke;
+
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
 import java.awt.Shape;
@@ -38,10 +41,10 @@ import tileMap.MenuBackground;
 public class PlayingState extends GameState {
 
 	private BufferedImage image;
-	private Graphics2D g;
 	private Random rand = new Random();
 	private int nbr = 0;
 	private boolean paused;
+	private Graphics2D g;
 
 	private String score;
 	private String instruction = "Press ESC to resume";
@@ -75,6 +78,10 @@ public class PlayingState extends GameState {
 			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
 
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
+
 			heartImage = ImageIO.read(new File("resources/images/heart.png"));
 
 		} catch (Exception e) {
@@ -83,8 +90,6 @@ public class PlayingState extends GameState {
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
-
-		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
 		enemies = new LinkedList<LinkedList<Enemy>>();
 
@@ -128,7 +133,9 @@ public class PlayingState extends GameState {
 				e.printStackTrace();
 			}
 		}
+
 		bg.update();
+
 		// Updating player:
 		player.update();
 
@@ -140,6 +147,7 @@ public class PlayingState extends GameState {
 			if (remove) {
 				missiles.remove(i);
 				i--;
+				System.out.println("Funkar 1");
 			}
 		}
 
@@ -246,7 +254,9 @@ public class PlayingState extends GameState {
 				purpleShip.killed();
 
 				powerUps.add(new PowerUp(purpleShip.getX(), purpleShip.getY(), 25, 3.0, PowerUp.RAYGUN)); // Type 3
+
 			}
+
 			for (int j = 0; j < enemies.size(); j++) {
 				for (int h = 0; h < enemies.get(j).size(); h++) {
 					Enemy e = enemies.get(j).get(h);
@@ -276,6 +286,15 @@ public class PlayingState extends GameState {
 					}
 
 				}
+
+			}
+
+			/////////////////////////////
+
+			if (player.getScore() == 100) {
+				gsm.setState(GameStateManager.BOSSTATE);
+
+				////////////////////////////////////
 
 			}
 
@@ -343,6 +362,7 @@ public class PlayingState extends GameState {
 		// Check for dead player:
 		if (player.isDead()) {
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
+
 		}
 
 		if (nbr == 24) {
@@ -362,18 +382,6 @@ public class PlayingState extends GameState {
 		bg.draw(g);
 
 		player.draw(g);
-
-		g.setColor(Color.GRAY.darker());
-		g.setStroke(new BasicStroke(2));
-		g.drawLine(10, 75, WIDTH - 10, 75);
-		g.setStroke(new BasicStroke(1));
-		//
-		// g.setColor(Color.GREEN);
-		// g.setStroke(new BasicStroke(3));
-		// g.drawLine(10, GROUND, WIDTH - 10, GROUND);
-		// g.setStroke(new BasicStroke(1));
-		//
-		// player.draw(g);
 
 		if (bossActive) {
 			purpleShip.draw(g);
@@ -406,6 +414,12 @@ public class PlayingState extends GameState {
 		}
 
 		// Draw Score:
+
+		g.setColor(Color.GRAY.darker());
+		g.setStroke(new BasicStroke(2));
+		g.drawLine(10, 75, WIDTH - 10, 75);
+		g.setStroke(new BasicStroke(1));
+
 		g.setColor(Color.WHITE);
 		g.setFont(font);
 		g.drawString("SCORE:", GamePanel.WIDTH / 8, 50);
@@ -550,7 +564,6 @@ public class PlayingState extends GameState {
 	}
 
 	private void setPowerups(LinkedList<PowerUp> powerups) {
-
 		savedPowerUps = powerUps;
 
 	}
