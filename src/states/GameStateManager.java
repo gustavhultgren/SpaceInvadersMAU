@@ -1,5 +1,7 @@
 package states;
 
+import main.GamePanel;
+
 public class GameStateManager {
 
 	private GameState[] gameStates;
@@ -14,9 +16,12 @@ public class GameStateManager {
 	public static final int GAMEOVERSTATE = 2;
 	public static final int LEADERBOARDSTATE = 3;
 	public static final int HELPSTATE = 4;
+	
+	private GamePanel gp;
 
-	public GameStateManager() {
-
+	public GameStateManager(GamePanel gp) {
+		this.gp = gp;
+		
 		gameStates = new GameState[NUMGAMESTATES];
 
 		currentState = MENUSTATE;
@@ -25,7 +30,7 @@ public class GameStateManager {
 	}
 
 	public void setHigherDifficulty() {
-		difficulty -= 200;
+		difficulty *= 0.7;
 	}
 
 	public int getDifficulty() {
@@ -75,6 +80,10 @@ public class GameStateManager {
 
 	public void keyReleased(int k) {
 		gameStates[currentState].keyReleased(k);
+	}
+	
+	public void setRunning(boolean b) {
+		gp.setRunning(b);
 	}
 
 }

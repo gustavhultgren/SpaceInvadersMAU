@@ -1,12 +1,14 @@
 package entity;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -30,14 +32,14 @@ public class Player extends Entity {
 	private boolean firing;
 	private long firingTimer;
 	private long firingDelay;
-	private boolean firingRaygun;
+	private boolean raygunActivated = false;
 	private boolean shieldActivated = false;
 
 	private Color playerColor;
 
 	private int score;
 	private int lives;
-	
+
 	private BufferedImage playerImage;
 	private BufferedImage shieldImage;
 
@@ -61,7 +63,7 @@ public class Player extends Entity {
 
 		score = 0;
 		lives = 3;
-		
+
 		try {
 			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			shieldImage = ImageIO.read(new File("resources/images/playerShield.png"));
@@ -69,6 +71,34 @@ public class Player extends Entity {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void activateShield(LinkedList<PowerUp> list, int element) {
+		if (shieldActivated == false) {
+			shieldActivated = true;
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					shieldActivated = false;
+					list.remove(element);
+				}
+			};
+			timer.schedule(task, 7000);
+		}
+	}
+	
+	public void activateRaygun(LinkedList<PowerUp> list, int element) {
+		if (raygunActivated == false) {
+			raygunActivated = true;
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					raygunActivated = false;
+					list.remove(element);
+				}
+			};
+			timer.schedule(task, 3000);
+		}
 	}
 
 	public int getX() {
@@ -95,14 +125,14 @@ public class Player extends Entity {
 		firing = b;
 	}
 
-	public void setFiringRaygun(boolean b) {
-		firingRaygun = b;
-	}
-	
 	public void shieldActivated(boolean b) {
 		shieldActivated = b;
 	}
 	
+	public void raygunActivated(boolean b) {
+		shieldActivated = b;
+	}
+
 	public boolean getShieldStatus() {
 		return shieldActivated;
 	}
@@ -122,7 +152,7 @@ public class Player extends Entity {
 	public int getLives() {
 		return lives;
 	}
-	
+
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
@@ -141,7 +171,7 @@ public class Player extends Entity {
 
 	// This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
-		if(shieldActivated) {
+		if (shieldActivated) {
 			return new Rectangle(x - 64, y - 64, 128, 128);
 		}
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
@@ -178,7 +208,7 @@ public class Player extends Entity {
 			}
 		}
 
-		if (firingRaygun) {
+		if (raygunActivated) {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay / 8) {
 				firingTimer = System.nanoTime();
@@ -190,12 +220,13 @@ public class Player extends Entity {
 
 	// This method is called in the class GamePanel. It draws the player.
 	public void draw(Graphics2D g) {
-		if(shieldActivated) {
+		
+		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
 		}
-		
+
 		g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
-		
+
 	}
 
 }

@@ -52,6 +52,7 @@ public class PlayingState extends GameState {
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
+	private LinkedList<LinkedList<Enemy>> newEnemies;
 	public static Boss purpleShip;
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
@@ -86,12 +87,11 @@ public class PlayingState extends GameState {
 
 		player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
-		enemies = new LinkedList<LinkedList<Enemy>>();
-
 		/**
 		 * Adding enemies to the list and sets each enemies X and Y-value so it looks
 		 * good.
 		 */
+		enemies = new LinkedList<LinkedList<Enemy>>();
 		for (int i = 0; i < 3; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
@@ -100,6 +100,8 @@ public class PlayingState extends GameState {
 				row.add(enemy);
 			}
 		}
+
+		newEnemies = repopulateEnemies();
 
 		purpleShip = new Boss(ENEMY_INIT_X, ENEMY_INIT_Y, 1, 1, gsm.getDifficulty());
 
@@ -346,14 +348,12 @@ public class PlayingState extends GameState {
 		}
 
 		if (nbr == 24) {
-			int score = player.getScore();
-			int lifes = player.getLives();
-			gsm.setHigherDifficulty();
-			gsm.setState(GameStateManager.PLAYINGSTATE);
-			player.setScore(score);
-			player.setLives(lifes);
+			gsm.setRunning(false);
+			enemies = newEnemies;
+			newEnemies = repopulateEnemies();
+			gsm.setRunning(true);
+			nbr = 0;
 		}
-
 	}
 
 	@Override
@@ -367,13 +367,6 @@ public class PlayingState extends GameState {
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
 		g.setStroke(new BasicStroke(1));
-		//
-		// g.setColor(Color.GREEN);
-		// g.setStroke(new BasicStroke(3));
-		// g.drawLine(10, GROUND, WIDTH - 10, GROUND);
-		// g.setStroke(new BasicStroke(1));
-		//
-		// player.draw(g);
 
 		if (bossActive) {
 			purpleShip.draw(g);
@@ -473,7 +466,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -484,7 +477,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -494,7 +487,7 @@ public class PlayingState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_LEFT)
@@ -509,50 +502,47 @@ public class PlayingState extends GameState {
 		}
 		// To activate PowerUp Ray gun:
 		if (key == KeyEvent.VK_X) {
-			for (PowerUp elem : savedPowerUps) {
-				if (elem.getType() == PowerUp.RAYGUN) {
-					player.setFiringRaygun(true);
-					Timer timer = new Timer();
-					TimerTask task = new TimerTask() {
-						public void run() {
-							player.setFiringRaygun(false);
-							savedPowerUps.remove(elem);
-						}
-					};
-					timer.schedule(task, 3000, 1);
+			for (int i = 0; i < savedPowerUps.size(); i++) {
 
+				if (savedPowerUps.get(i).getType() == PowerUp.RAYGUN) {
+
+					player.activateRaygun(savedPowerUps, i);
+					break;
 				}
 			}
 		}
 		// To activate PowerUp Shield:
 		if (key == KeyEvent.VK_S) {
+
 			for (int i = 0; i < savedPowerUps.size(); i++) {
+
 				if (savedPowerUps.get(i).getType() == PowerUp.SHIELD) {
-					System.out.println("Shield activated.");
-					player.shieldActivated(true);
-					Timer timer = new Timer();
-					TimerTask task = new TimerTask() {
-						public void run() {
-							player.shieldActivated(false);
-						}
-					};
-					timer.schedule(task, 8000, 1);
-					savedPowerUps.remove(i);
+
+					player.activateShield(savedPowerUps, i);
+					break;
 				}
 			}
+		}
 
-			if (key == KeyEvent.VK_E && paused) {
-				soundFX.get("enter").play();
-				gsm.setState(GameStateManager.MENUSTATE);
+		if (key == KeyEvent.VK_E && paused) {
+			soundFX.get("enter").play();
+			gsm.setState(GameStateManager.MENUSTATE);
 
-			}
 		}
 	}
 
-	private void setPowerups(LinkedList<PowerUp> powerups) {
-
-		savedPowerUps = powerUps;
-
+	private LinkedList<LinkedList<Enemy>> repopulateEnemies() {
+		gsm.setHigherDifficulty();
+		LinkedList<LinkedList<Enemy>> temp = new LinkedList<LinkedList<Enemy>>();
+		for (int i = 0; i < 3; i++) {
+			LinkedList<Enemy> row;
+			temp.add(row = new LinkedList<Enemy>());
+			for (int j = 0; j < 8; j++) {
+				Enemy enemy = new Enemy(ENEMY_INIT_X + 60 * j, ENEMY_INIT_Y + 50 * i, 1, 1, gsm.getDifficulty());
+				row.add(enemy);
+			}
+		}
+		return temp;
 	}
 
 	public void keyReleased(int key) {
