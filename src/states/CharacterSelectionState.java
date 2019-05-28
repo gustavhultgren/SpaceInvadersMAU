@@ -19,13 +19,12 @@ import tileMap.MenuBackground;
 public class CharacterSelectionState extends GameState {
 
 	private int currentChoice, textLength, counter;
-
-	// private Player player;
+	
 	private MenuBackground bg;
 
-	private String title, char1Name, char2Name, char3Name, message;
+	private String title, char1Name, char2Name, char3Name, char4Name, message;
 
-	private BufferedImage playerImage, playerImage2, playerImage3;
+	private BufferedImage playerImage, player2Image, player3Image, player4Image;
 
 	public CharacterSelectionState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -53,8 +52,9 @@ public class CharacterSelectionState extends GameState {
 
 		try {
 			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
-			playerImage2 = ImageIO.read(new File("resources/images/playerImage2.png"));
-			playerImage3 = ImageIO.read(new File("resources/images/player3Image.png"));
+			player2Image = ImageIO.read(new File("resources/images/playerImage2.png"));
+			player3Image = ImageIO.read(new File("resources/images/player3Image.png"));
+			player4Image = ImageIO.read(new File("resources/images/player4Image.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,6 +65,7 @@ public class CharacterSelectionState extends GameState {
 		char1Name = "CHAR 1";
 		char2Name = "CHAR 2";
 		char3Name = "CHAR 3";
+		char4Name = "CHAR 4";
 		message = "PRESS ENTER TO START";
 	}
 
@@ -84,8 +85,9 @@ public class CharacterSelectionState extends GameState {
 		g.drawString(title, (700 - textLength) / 2, 100);
 
 		g.drawImage(playerImage, 130, 140, 200, 200, null);
-		g.drawImage(playerImage2, 370, 140, 200, 200, null);
-		g.drawImage(playerImage3, 130, 380, 180, 180, null);
+		g.drawImage(player2Image, 370, 140, 200, 200, null);
+		g.drawImage(player3Image, 130, 380, 180, 180, null);
+		g.drawImage(player4Image, 385, 390, 170, 170, null);
 
 		g.setColor(Color.GREEN);
 		drawMessage(g);
@@ -104,6 +106,7 @@ public class CharacterSelectionState extends GameState {
 		g.drawString(char1Name, 170, 150);
 		g.drawString(char2Name, 420, 150);
 		g.drawString(char3Name, 170, 380);
+		g.drawString(char4Name, 420, 380);
 	}
 
 	public void drawLines(Graphics2D g) {
@@ -116,6 +119,8 @@ public class CharacterSelectionState extends GameState {
 				g.drawLine(430, 335, 520, 335);
 			} else if (currentChoice == 3) {
 				g.drawLine(170, 575, 260, 575);
+			} else if (currentChoice == 4) {
+				g.drawLine(430, 575, 520, 575);
 			}
 		} else if (counter >= 30) {
 			counter = 0;
@@ -130,6 +135,8 @@ public class CharacterSelectionState extends GameState {
 			player.setPlayerImage(2);
 		} else if (currentChoice == 3) {
 			player.setPlayerImage(3);
+		} else if (currentChoice == 4) {
+			player.setPlayerImage(4);
 		}
 
 		gsm.setState(1);
@@ -145,7 +152,7 @@ public class CharacterSelectionState extends GameState {
 		if (k == KeyEvent.VK_RIGHT) {
 			currentChoice++;
 
-			if (currentChoice == 4) {
+			if (currentChoice == 5) {
 				currentChoice = 1;
 			}
 
@@ -158,7 +165,7 @@ public class CharacterSelectionState extends GameState {
 			currentChoice--;
 
 			if (currentChoice == 0) {
-				currentChoice = 3;
+				currentChoice = 4;
 			}
 
 			System.out.println(currentChoice);

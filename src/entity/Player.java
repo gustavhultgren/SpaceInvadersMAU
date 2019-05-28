@@ -159,6 +159,13 @@ public class Player extends Entity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (choice == 4) {
+			try {
+				playerImage = ImageIO.read(new File("resources/images/player4Image.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
