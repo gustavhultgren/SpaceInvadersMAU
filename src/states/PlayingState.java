@@ -327,14 +327,23 @@ public class PlayingState extends GameState {
 				} else if (type == PowerUp.SCORE) {
 					player.addScore(50);
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
-				} else if (type == PowerUp.RAYGUN) {
-					savedPowerUps.add(powerUp);
-					powerUpTexts.add(
-							new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
-				} else if (type == PowerUp.SHIELD) {
-					savedPowerUps.add(powerUp);
+				}
+
+				if (savedPowerUps.size() < 8) {
+
+					if (type == PowerUp.RAYGUN) {
+						savedPowerUps.add(powerUp);
+						powerUpTexts.add(
+								new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
+					} else if (type == PowerUp.SHIELD) {
+						savedPowerUps.add(powerUp);
+						powerUpTexts.add(
+								new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
+					}
+
+				} else {
 					powerUpTexts
-							.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
+							.add(new PowerUpText(player.getX() - 70, player.getY() - 30, 0, 0, 1000, "FULL POWERUP"));
 				}
 
 				powerUps.remove(i);
