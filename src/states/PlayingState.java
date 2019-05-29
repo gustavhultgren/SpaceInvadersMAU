@@ -329,7 +329,7 @@ public class PlayingState extends GameState {
 					powerUpTexts.add(new PowerUpText(player.getX() - 78, player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				}
 
-				if (savedPowerUps.size() < 8) {
+				if (savedPowerUps.size() < 6) {
 
 					if (type == PowerUp.RAYGUN) {
 						savedPowerUps.add(powerUp);
