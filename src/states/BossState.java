@@ -89,7 +89,7 @@ public class BossState extends PlayingState {
 		player.update();
 
 		// Updating Boss
-		rolfBoss.update(ENEMY_DIRECTION, true);
+		rolfBoss.update(ENEMY_DIRECTION, true, player);
 
 		int x = rolfBoss.getX();
 

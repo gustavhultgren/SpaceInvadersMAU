@@ -1,7 +1,5 @@
 package entity;
 
-import java.awt.BasicStroke;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -11,14 +9,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.ietf.jgss.GSSManager;
-import org.omg.CORBA.Current;
-
 import main.GamePanel;
 import states.BossState;
 import states.GameStateManager;
 import states.PlayingState;
-import sun.util.resources.cldr.ts.CurrencyNames_ts;
 
 /**
  * This class represents a player. A player can move left and right. A player
@@ -55,7 +49,7 @@ public class Player extends Entity {
 	 */
 	public Player(int x, int y, int r, double speed) {
 		super(x, y, r, speed);
-		
+
 		dx = 0;
 
 		firing = false;
@@ -147,30 +141,26 @@ public class Player extends Entity {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		} else if (choice == 2) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/playerImage2.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		} else if (choice == 3) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/player3Image.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (choice == 4) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/player4Image.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -210,13 +200,12 @@ public class Player extends Entity {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
-				
-				if(GameStateManager.CURRENTSTATE == GameStateManager.PLAYINGSTATE) {
-				PlayingState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
-			}
-				else {
+
+				if (GameStateManager.CURRENTSTATE == GameStateManager.PLAYINGSTATE) {
+					PlayingState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
+				} else {
 					BossState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
-					
+
 				}
 			}
 		}
@@ -235,9 +224,9 @@ public class Player extends Entity {
 	public void draw(Graphics2D g) {
 		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
+		} else {
+			g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
 		}
-		
-		g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
 	}
 
 }

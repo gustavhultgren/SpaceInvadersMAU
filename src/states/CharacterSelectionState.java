@@ -18,7 +18,7 @@ import tileMap.MenuBackground;
 
 /**
  * This class represents a state in the game where the user can choose 
- * what kind of character he or she wants to play the gmae with.
+ * what kind of character he or she wants to play the game with.
  * @author Gustav Hultgren
  */
 public class CharacterSelectionState extends GameState {

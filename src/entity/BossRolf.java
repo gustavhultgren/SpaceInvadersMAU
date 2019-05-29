@@ -17,18 +17,15 @@ public class BossRolf extends Entity {
 
 	private boolean dead;
 	private boolean firing;
-	
+
 	private int health = 30;
 	private int frameCounter = 0;
-	
+
 	private long firingTimer;
 	private long firingDelay;
-	
+
 	private BufferedImage boss1Image;
 	private Rectangle rectangle;
-	
-	private Player Player;
-	
 
 	/**
 	 * When a Boss1-object is created it gets a x-value and y-value. The firing
@@ -69,7 +66,7 @@ public class BossRolf extends Entity {
 	public void setY(int y) {
 		this.firingDelay = y;
 	}
-	
+
 	public int getLives() {
 		return health;
 	}
@@ -85,13 +82,13 @@ public class BossRolf extends Entity {
 		return dead;
 	}
 
-	 public void hit() {
-		 health--;
-	 }
+	public void hit() {
+		health--;
+	}
 
 	// Handles Player-Enemy Collision
 	public Rectangle getBounds() {
-		return new Rectangle((int)x, (int)y, 200, 200);
+		return new Rectangle((int) x, (int) y, 200, 200);
 	}
 
 	/**
@@ -101,7 +98,7 @@ public class BossRolf extends Entity {
 	 *                  left.
 	 * @param isShooter
 	 */
-	public void update(int direction, boolean isShooter) {
+	public void update(int direction, boolean isShooter, Player player) {
 		this.x += direction;
 		rectangle.setBounds(x, y, boss1Image.getWidth() - 80, 165);
 
@@ -111,13 +108,18 @@ public class BossRolf extends Entity {
 
 				firingTimer = System.nanoTime();
 				if (isShooter) {
-					BossState.bombs.add(new EnemyBomb(285, (int) rectangle.getCenterX(), y + 150, 3, 6));
-					BossState.bombs.add(new EnemyBomb(275, (int) rectangle.getCenterX(), y + 150, 3, 6));
-					BossState.bombs.add(new EnemyBomb(265, (int) rectangle.getCenterX() + 20, y + 150, 3, 6));
-					
-					//Bomb aimed against player
-					if(frameCounter >= 200) {
-						BossState.bombs.add(new EnemyBomb(275, (int) rectangle.getCenterX(), y + 150, 3, 6));
+
+					// Bomb aimed against player. Written by Gustav Hultgren and Tom Eriksson.
+					if (frameCounter >= 150) {
+						double diffX = x - player.getX();
+						double diffY = y - player.getY();
+						double result = diffX / diffY;
+						
+						double angle = 360 - (90 + Math.toDegrees(Math.atan(result)));
+						
+						BossState.bombs.add(new EnemyBomb(angle, (int) rectangle.getCenterX(), y + 150, 3, 6));
+						BossState.bombs.add(new EnemyBomb(angle + 5, (int) rectangle.getCenterX(), y + 150, 3, 6));
+						BossState.bombs.add(new EnemyBomb(angle - 10, (int) rectangle.getCenterX(), y + 150, 3, 6));
 						frameCounter = 0;
 					}
 				}
