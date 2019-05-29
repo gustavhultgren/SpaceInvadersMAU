@@ -4,17 +4,12 @@ import java.awt.BasicStroke;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-
-import java.awt.Shape;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -24,11 +19,10 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 
 import audio.AudioPlayer;
-import entity.Boss;
+import entity.PurpleShip;
 import entity.Enemy;
 import entity.EnemyBomb;
 import entity.Missile;
-import entity.Player;
 import entity.PowerUp;
 import entity.PowerUpText;
 import main.GamePanel;
@@ -55,7 +49,7 @@ public class PlayingState extends GameState {
 
 	// Entity
 	public static LinkedList<LinkedList<Enemy>> enemies;
-	public static Boss purpleShip;
+	public static PurpleShip purpleShip;
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
@@ -106,7 +100,7 @@ public class PlayingState extends GameState {
 			}
 		}
 
-		purpleShip = new Boss(ENEMY_INIT_X, ENEMY_INIT_Y, 1, 1, gsm.getDifficulty());
+		purpleShip = new PurpleShip(ENEMY_INIT_X, ENEMY_INIT_Y, 1, 1, gsm.getDifficulty());
 
 		missiles = new LinkedList<Missile>();
 		bombs = new LinkedList<EnemyBomb>();
@@ -238,10 +232,10 @@ public class PlayingState extends GameState {
 							e.setY(e.getY() + 30);
 						}
 					}
-
 				}
 			}
 		}
+		
 		// ----------------------------------------------------
 		// checks if enemies touch player
 
@@ -284,9 +278,7 @@ public class PlayingState extends GameState {
 						enemies.set(j, temp);
 						nbr++;
 					}
-
 				}
-
 			}
 
 			/////////////////////////////
@@ -295,10 +287,9 @@ public class PlayingState extends GameState {
 				gsm.setState(GameStateManager.BOSSTATE);
 
 				////////////////////////////////////
-
 			}
-
 		}
+		
 		for (int i = 0; i < enemies.size(); i++) {
 			for (int j = 0; j < enemies.get(i).size(); j++) {
 				Enemy e = enemies.get(i).get(j);
@@ -565,7 +556,6 @@ public class PlayingState extends GameState {
 
 	private void setPowerups(LinkedList<PowerUp> powerups) {
 		savedPowerUps = powerUps;
-
 	}
 
 	public void keyReleased(int key) {
