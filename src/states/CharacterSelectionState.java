@@ -164,13 +164,14 @@ public class CharacterSelectionState extends GameState {
 			player.setPlayerImage(4);
 		}
 
-		gsm.setState(1);
+		gsm.setState(GameStateManager.INTERMISSIONSTATE);
 	}
 
 	/**
 	 * This method handles key input.
 	 */
 	@Override
+	
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
 			select();

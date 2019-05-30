@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		setFocusable(true);
 		requestFocus();
-		bgMusic = new AudioPlayer("/music/si.mp3");
+		bgMusic = new AudioPlayer("/music/Mega.mp3");
 
 		bgMusic.loop();
 	}

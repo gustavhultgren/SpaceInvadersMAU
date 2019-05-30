@@ -9,7 +9,7 @@ public class GameStateManager {
 	private int difficulty = 1000;
 
 	// States
-	public static final int NUMGAMESTATES = 7;
+	public static final int NUMGAMESTATES = 8;
 
 	public static final int MENUSTATE = 0;
 	public static final int PLAYINGSTATE = 1;
@@ -18,6 +18,7 @@ public class GameStateManager {
 	public static final int HELPSTATE = 4;
 	public static final int CHARACTERSELECTIONSTATE = 5;
 	public static final int BOSSTATE = 6;
+	public static final int INTERMISSIONSTATE = 7;
 	
 	private GamePanel gp;
 
@@ -58,6 +59,10 @@ public class GameStateManager {
 		
 		if (state == BOSSTATE)
 			gameStates[state] = new BossState(this);
+		
+	
+		if (state == INTERMISSIONSTATE)
+				gameStates[state] =new IntermissionState (this);
 		
 	}
 

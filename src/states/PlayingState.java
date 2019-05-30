@@ -287,11 +287,9 @@ public class PlayingState extends GameState {
 
 			/////////////////////////////
 
-			if (player.getScore() == 100) {
-				gsm.setState(GameStateManager.BOSSTATE);
+			
 
 				////////////////////////////////////
-			}
 		}
 
 		for (int i = 0; i < enemies.size(); i++) {
@@ -370,10 +368,12 @@ public class PlayingState extends GameState {
 		}
 
 		if (nbr == 24) {
-			gsm.setRunning(false);
+			gsm.setState(GameStateManager.INTERMISSIONSTATE);
+//			gsm.setRunning(false);
+			powerUps = savedPowerUps;
 			enemies = newEnemies;
 			newEnemies = repopulateEnemies();
-			gsm.setRunning(true);
+//			gsm.setRunning(true);
 			nbr = 0;
 		}
 	}

@@ -31,6 +31,8 @@ public abstract class GameState {
 	protected static int GROUND = 650;
 	protected static Font font;
 	protected static Font smallFont;
+	protected static int STATECOUNTER = 0;
+	
 	protected static Client client = new Client("127.0.0.1", 3500);
 
 	protected static double VOLUME = 1;
