@@ -6,6 +6,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -31,7 +34,7 @@ public class Player extends Entity {
 	private boolean firing;
 	private long firingTimer;
 	private long firingDelay;
-	private boolean firingRaygun;
+	private boolean raygunActivated = false;
 	private boolean shieldActivated = false;
 
 	private int score;
@@ -68,6 +71,34 @@ public class Player extends Entity {
 
 	}
 
+	public void activateShield(LinkedList<PowerUp> list, int element) {
+		if (shieldActivated == false) {
+			shieldActivated = true;
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					shieldActivated = false;
+					list.remove(element);
+				}
+			};
+			timer.schedule(task, 7000);
+		}
+	}
+	
+	public void activateRaygun(LinkedList<PowerUp> list, int element) {
+		if (raygunActivated == false) {
+			raygunActivated = true;
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					raygunActivated = false;
+					list.remove(element);
+				}
+			};
+			timer.schedule(task, 3000);
+		}
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -91,12 +122,11 @@ public class Player extends Entity {
 	public void setFiring(boolean b) {
 		firing = b;
 	}
-
-	public void setFiringRaygun(boolean b) {
-		firingRaygun = b;
-	}
-
 	public void shieldActivated(boolean b) {
+		shieldActivated = b;
+	}
+	
+	public void raygunActivated(boolean b) {
 		shieldActivated = b;
 	}
 
@@ -210,7 +240,7 @@ public class Player extends Entity {
 			}
 		}
 
-		if (firingRaygun) {
+		if (raygunActivated) {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay / 8) {
 				firingTimer = System.nanoTime();
