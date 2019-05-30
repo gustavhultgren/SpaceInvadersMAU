@@ -1,24 +1,21 @@
 package entity;
 
-import java.awt.BasicStroke;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
-
-import org.ietf.jgss.GSSManager;
-import org.omg.CORBA.Current;
 
 import main.GamePanel;
 import states.BossState;
 import states.GameStateManager;
 import states.PlayingState;
-import sun.util.resources.cldr.ts.CurrencyNames_ts;
 
 /**
  * This class represents a player. A player can move left and right. A player
@@ -37,14 +34,13 @@ public class Player extends Entity {
 	private boolean firing;
 	private long firingTimer;
 	private long firingDelay;
-	private boolean firingRaygun;
+	private boolean raygunActivated = false;
 	private boolean shieldActivated = false;
 
 	private int score;
 	private int lives;
 
-	private BufferedImage playerImage;
-	private BufferedImage shieldImage;
+	private BufferedImage playerImage, shieldImage;
 
 	/**
 	 * Creates a player object. Sets the players speed to 3, firing delay to 700
@@ -55,7 +51,7 @@ public class Player extends Entity {
 	 */
 	public Player(int x, int y, int r, double speed) {
 		super(x, y, r, speed);
-		
+
 		dx = 0;
 
 		firing = false;
@@ -66,12 +62,39 @@ public class Player extends Entity {
 		lives = 3;
 
 		try {
-			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			shieldImage = ImageIO.read(new File("resources/images/playerShield.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void activateShield(LinkedList<PowerUp> list, int element) {
+		if (shieldActivated == false) {
+			shieldActivated = true;
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					shieldActivated = false;
+					list.remove(element);
+				}
+			};
+			timer.schedule(task, 7000);
+		}
+	}
+	
+	public void activateRaygun(LinkedList<PowerUp> list, int element) {
+		if (raygunActivated == false) {
+			raygunActivated = true;
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					raygunActivated = false;
+					list.remove(element);
+				}
+			};
+			timer.schedule(task, 3000);
+		}
 	}
 
 	public int getX() {
@@ -97,12 +120,11 @@ public class Player extends Entity {
 	public void setFiring(boolean b) {
 		firing = b;
 	}
-
-	public void setFiringRaygun(boolean b) {
-		firingRaygun = b;
-	}
-
 	public void shieldActivated(boolean b) {
+		shieldActivated = b;
+	}
+	
+	public void raygunActivated(boolean b) {
 		shieldActivated = b;
 	}
 
@@ -147,30 +169,24 @@ public class Player extends Entity {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		} else if (choice == 2) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/playerImage2.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		} else if (choice == 3) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/player3Image.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (choice == 4) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/player4Image.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -179,7 +195,7 @@ public class Player extends Entity {
 	// This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
 		if (shieldActivated) {
-			return new Rectangle(x - 64, y - 64, 128, 128);
+			return new Rectangle(x - 64, y - 64, 128, 60);
 		}
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
 	}
@@ -210,18 +226,17 @@ public class Player extends Entity {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay) {
 				firingTimer = System.nanoTime();
-				
-				if(GameStateManager.CURRENTSTATE == GameStateManager.PLAYINGSTATE) {
-				PlayingState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
-			}
-				else {
+
+				if (GameStateManager.CURRENTSTATE == GameStateManager.PLAYINGSTATE) {
+					PlayingState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
+				} else {
 					BossState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
-					
+
 				}
 			}
 		}
 
-		if (firingRaygun) {
+		if (raygunActivated) {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay / 8) {
 				firingTimer = System.nanoTime();

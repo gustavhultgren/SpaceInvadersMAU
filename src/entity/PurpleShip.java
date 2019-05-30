@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 import states.PlayingState;
 
-public class Boss extends Enemy {
+public class PurpleShip extends Enemy {
 
 	private boolean dead;
 
@@ -28,7 +28,7 @@ public class Boss extends Enemy {
 	 * @param x - where the Enemy is created on x-axis.
 	 * @param y - where the Enemy is created on x-axis.
 	 */
-	public Boss(int x, int y, int r, double speed, int firingDelay) {
+	public PurpleShip(int x, int y, int r, double speed, int firingDelay) {
 		super(x, y, r, speed, firingDelay);
 
 		dead = false;

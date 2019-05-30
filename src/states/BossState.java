@@ -12,8 +12,8 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import audio.AudioPlayer;
-import entity.Boss;
-import entity.Boss1;
+import entity.PurpleShip;
+import entity.BossRolf;
 import entity.EnemyBomb;
 import entity.Missile;
 import main.GamePanel;
@@ -32,7 +32,7 @@ public class BossState extends PlayingState {
 	private MenuBackground bg;
 	private int frameCounter = 0;
 	// Entities
-	public static Boss1 rolfBoss;
+	public static BossRolf rolfBoss;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<Missile> missiles;
 
@@ -50,7 +50,7 @@ public class BossState extends PlayingState {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 
-		rolfBoss = new Boss1(ENEMY_INIT_X, ENEMY_INIT_Y, 1, 1, gsm.getDifficulty());
+		rolfBoss = new BossRolf(ENEMY_INIT_X, ENEMY_INIT_Y, 1, 1, gsm.getDifficulty());
 
 		missiles = new LinkedList<Missile>();
 		bombs = new LinkedList<EnemyBomb>();
@@ -82,12 +82,14 @@ public class BossState extends PlayingState {
 				e.printStackTrace();
 			}
 		}
+
 		bg.update();
+
 		// Updating player.
 		player.update();
 
 		// Updating Boss
-		rolfBoss.update(ENEMY_DIRECTION, true);
+		rolfBoss.update(ENEMY_DIRECTION, true, player);
 
 		int x = rolfBoss.getX();
 
@@ -101,7 +103,6 @@ public class BossState extends PlayingState {
 		}
 
 		// Updating missiles.
-
 		for (int i = 0; i < missiles.size(); i++) {
 			boolean remove = missiles.get(i).update();
 			if (remove) {
@@ -124,19 +125,19 @@ public class BossState extends PlayingState {
 			gsm.setState(2);
 		}
 
-		// If player dies gamestate changes to gameoverstate.
+		// If player dies GameState changes to GameOverState.
 		if (nbr == 1) {
 			gsm.setHigherDifficulty();
 			gsm.setState(2);
 		}
 
-		// Checks for player missiles - enemy collision.
+		// Checks for player missiles - BossRolf collision.
 		for (int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
 			if (m.getBounds().intersects(rolfBoss.getBounds())) {
 				missiles.remove(i);
+				rolfBoss.hit();
 				rolfBoss.isDead();
-				player.addScore(200);
 			}
 		}
 
@@ -152,14 +153,14 @@ public class BossState extends PlayingState {
 
 	@Override
 	public void draw(Graphics2D g) {
-
 		bg.draw(g);
+
 		player.draw(g);
+
 		rolfBoss.draw(g);
 
 		for (int i = 0; i < missiles.size(); i++) {
 			missiles.get(i).draw(g);
-
 		}
 
 		for (int i = 0; i < bombs.size(); i++) {
@@ -167,7 +168,6 @@ public class BossState extends PlayingState {
 		}
 
 		// Draw Score:
-
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
@@ -187,6 +187,26 @@ public class BossState extends PlayingState {
 
 		for (int i = 0; i < player.getLives(); i++) {
 			g.drawImage(heartImage, 545 + (40 * i), 25, 32, 32, null);
+		}
+
+		// Draw BossRolf Health bar:
+		g.drawRect(rolfBoss.getX() + 30, rolfBoss.getY() - 10, 150, 15);
+		for (int i = 0; i < rolfBoss.getLives(); i++) {
+			if (rolfBoss.getLives() >= 20) {
+				g.fillRect(rolfBoss.getX() + 32 + (5 * i), rolfBoss.getY() - 8, 2, 10);
+			} else if (rolfBoss.getLives() < 20 && rolfBoss.getLives() >= 15) {
+				g.setColor(Color.YELLOW);
+				g.fillRect(rolfBoss.getX() + 32 + (5 * i), rolfBoss.getY() - 8, 2, 10);
+			} else if (rolfBoss.getLives() <= 14 & rolfBoss.getLives() >= 10) {
+				g.setColor(Color.YELLOW.darker());
+				g.fillRect(rolfBoss.getX() + 32 + (5 * i), rolfBoss.getY() - 8, 2, 10);
+			} else if (rolfBoss.getLives() < 10 && rolfBoss.getLives() >= 5) {
+				g.setColor(Color.RED);
+				g.fillRect(rolfBoss.getX() + 32 + (5 * i), rolfBoss.getY() - 8, 2, 10);
+			} else if (rolfBoss.getLives() < 5) {
+				g.setColor(Color.RED.darker());
+				g.fillRect(rolfBoss.getX() + 32 + (5 * i), rolfBoss.getY() - 8, 2, 10);
+			}
 		}
 
 		if (paused) {
@@ -233,7 +253,6 @@ public class BossState extends PlayingState {
 		if (key == KeyEvent.VK_E && paused)
 			gsm.setState(GameStateManager.MENUSTATE);
 
-
 		if (key == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
 				VOLUME = 0;
@@ -266,6 +285,7 @@ public class BossState extends PlayingState {
 			System.out.println("Volym nivå: " + VOLUME);
 		}
 	}
+
 	@Override
 	public void keyReleased(int key) {
 		if (key == KeyEvent.VK_LEFT)

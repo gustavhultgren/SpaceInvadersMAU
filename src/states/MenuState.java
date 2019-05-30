@@ -217,7 +217,7 @@ public class MenuState extends GameState {
 
 		if (k == KeyEvent.VK_ENTER) {
 			select();
-			soundFX.get("enter").play();
+//			soundFX.get("enter").play();
 		}
 
 		/**
