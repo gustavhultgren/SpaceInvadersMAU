@@ -102,6 +102,8 @@ public class BossRolf extends Entity {
 		this.x += direction;
 		rectangle.setBounds(x, y, boss1Image.getWidth() - 80, 165);
 
+
+
 		if (firing) {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay) {
@@ -114,12 +116,12 @@ public class BossRolf extends Entity {
 						double diffX = x - player.getX();
 						double diffY = y - player.getY();
 						double result = diffX / diffY;
-						
+
 						double angle = 360 - (90 + Math.toDegrees(Math.atan(result)));
-						
+
 						BossState.bombs.add(new EnemyBomb(angle, (int) rectangle.getCenterX(), y + 150, 3, 6));
 						BossState.bombs.add(new EnemyBomb(angle + 5, (int) rectangle.getCenterX(), y + 150, 3, 6));
-						BossState.bombs.add(new EnemyBomb(angle - 10, (int) rectangle.getCenterX(), y + 150, 3, 6));
+						BossState.bombs.add(new EnemyBomb(angle - 5, (int) rectangle.getCenterX(), y + 150, 3, 6));
 						frameCounter = 0;
 					}
 				}
@@ -131,8 +133,5 @@ public class BossRolf extends Entity {
 	public void draw(Graphics2D g) {
 		if (!isDead())
 			g.drawImage(boss1Image, null, (int) rectangle.getX() - 20, 10);
-		// System.out.println("IMG x: " + this.getX() + ", y: " + this.getY());
-		// System.out.println("Rect x: " + rectangle.getCenterX() + " y: " +
-		// rectangle.getCenterY());
 	}
 }

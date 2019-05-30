@@ -37,8 +37,7 @@ public class Player extends Entity {
 	private int score;
 	private int lives;
 
-	private BufferedImage playerImage;
-	private BufferedImage shieldImage;
+	private BufferedImage playerImage, shieldImage;
 
 	/**
 	 * Creates a player object. Sets the players speed to 3, firing delay to 700
@@ -60,7 +59,6 @@ public class Player extends Entity {
 		lives = 3;
 
 		try {
-			playerImage = ImageIO.read(new File("resources/images/playerImage.png"));
 			shieldImage = ImageIO.read(new File("resources/images/playerShield.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,14 +141,12 @@ public class Player extends Entity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		} else if (choice == 2) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/playerImage2.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		} else if (choice == 3) {
 			try {
 				playerImage = ImageIO.read(new File("resources/images/player3Image.png"));
@@ -169,7 +165,7 @@ public class Player extends Entity {
 	// This method is used to handle enemy bombs - player collision.
 	public Rectangle getBounds() {
 		if (shieldActivated) {
-			return new Rectangle(x - 64, y - 64, 128, 128);
+			return new Rectangle(x - 64, y - 64, 128, 60);
 		}
 		return new Rectangle(x - r, y - r, 2 * r, 2 * r);
 	}
@@ -224,9 +220,9 @@ public class Player extends Entity {
 	public void draw(Graphics2D g) {
 		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
-		} else {
-			g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
 		}
+		
+		g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
 	}
 
 }

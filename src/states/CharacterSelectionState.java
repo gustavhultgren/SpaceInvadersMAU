@@ -174,7 +174,7 @@ public class CharacterSelectionState extends GameState {
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
 			select();
-//			soundFX.get("enter").play();
+			soundFX.get("enter").play();
 		}
 
 		if (k == KeyEvent.VK_RIGHT) {
