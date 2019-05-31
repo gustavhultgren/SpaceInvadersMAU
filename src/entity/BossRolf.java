@@ -15,10 +15,10 @@ import states.BossState;
 
 public class BossRolf extends Entity {
 
-	private boolean dead;
+	private boolean dead = true;
 	private boolean firing;
 
-	private int health = 30;
+	private int health = 2;
 	private int frameCounter = 0;
 
 	private long firingTimer;
@@ -71,16 +71,13 @@ public class BossRolf extends Entity {
 		return health;
 	}
 
-	// public void killed() {
-	// dead = true;
-	// }
-
+	
 	public boolean isDead() {
-		if (health <= 0) {
-
-		}
+		if(health < 1 ||health == 0 );
 		return dead;
-	}
+		}
+		
+
 
 	public void hit() {
 		health--;

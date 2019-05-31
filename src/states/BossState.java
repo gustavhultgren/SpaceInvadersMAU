@@ -2,7 +2,10 @@ package states;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -61,9 +64,15 @@ public class BossState extends PlayingState {
 			heartImage = ImageIO.read(new File("resources/images/Heart.png"));
 			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
@@ -137,8 +146,14 @@ public class BossState extends PlayingState {
 			if (m.getBounds().intersects(rolfBoss.getBounds())) {
 				missiles.remove(i);
 				rolfBoss.hit();
-				rolfBoss.isDead();
+				// rolfBoss.isDead();
 			}
+		}
+		if (rolfBoss.getLives() < 1) {
+			player.addScore(1000);
+			rolfBoss.isDead();
+			gsm.setState(7);
+
 		}
 
 		// Check for enemy bombs - player collision.
@@ -154,20 +169,10 @@ public class BossState extends PlayingState {
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-
 		player.draw(g);
-
 		rolfBoss.draw(g);
 
-		for (int i = 0; i < missiles.size(); i++) {
-			missiles.get(i).draw(g);
-		}
-
-		for (int i = 0; i < bombs.size(); i++) {
-			bombs.get(i).draw(g);
-		}
-
-		// Draw Score:
+		// Draw Score
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
@@ -209,6 +214,14 @@ public class BossState extends PlayingState {
 			}
 		}
 
+		for (int i = 0; i < missiles.size(); i++) {
+			missiles.get(i).draw(g);
+		}
+
+		for (int i = 0; i < bombs.size(); i++) {
+			bombs.get(i).draw(g);
+		}
+
 		if (paused) {
 			drawPauseMenu(g);
 		}
@@ -242,6 +255,7 @@ public class BossState extends PlayingState {
 	 */
 	@Override
 	public void keyPressed(int key) {
+
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
@@ -288,12 +302,14 @@ public class BossState extends PlayingState {
 
 	@Override
 	public void keyReleased(int key) {
+
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
 			player.setRight(false);
 		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
+
 	}
 
 	public void pause() {

@@ -93,10 +93,10 @@ public class PlayingState extends GameState {
 		 * good.
 		 */
 		enemies = new LinkedList<LinkedList<Enemy>>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
-			for (int j = 0; j < 8; j++) {
+			for (int j = 0; j < 3; j++) {
 				Enemy enemy = new Enemy(ENEMY_INIT_X + 60 * j, ENEMY_INIT_Y + 50 * i, 1, 1, gsm.getDifficulty());
 				row.add(enemy);
 			}
@@ -285,11 +285,6 @@ public class PlayingState extends GameState {
 				}
 			}
 
-			/////////////////////////////
-
-			
-
-				////////////////////////////////////
 		}
 
 		for (int i = 0; i < enemies.size(); i++) {
@@ -367,13 +362,13 @@ public class PlayingState extends GameState {
 
 		}
 
-		if (nbr == 24) {
+		if (nbr == 6) {
 			gsm.setState(GameStateManager.INTERMISSIONSTATE);
-//			gsm.setRunning(false);
+			gsm.setRunning(false);
 			powerUps = savedPowerUps;
 			enemies = newEnemies;
 			newEnemies = repopulateEnemies();
-//			gsm.setRunning(true);
+			gsm.setRunning(true);
 			nbr = 0;
 		}
 	}
@@ -485,7 +480,18 @@ public class PlayingState extends GameState {
 	 */
 
 	public void keyPressed(int key) {
-
+		
+		if (key == KeyEvent.VK_LEFT)
+			player.setLeft(true);
+		if (key == KeyEvent.VK_RIGHT)
+			player.setRight(true);
+		if (key == KeyEvent.VK_SPACE)
+			player.setFiring(true);
+		if (key == KeyEvent.VK_ESCAPE) {
+			pause();
+			soundFX.get("click").play();
+	
+		}
 		if (key == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
 				VOLUME = 0;
@@ -518,16 +524,7 @@ public class PlayingState extends GameState {
 			System.out.println("Volym niv�: " + VOLUME);
 		}
 
-		if (key == KeyEvent.VK_LEFT)
-			player.setLeft(true);
-		if (key == KeyEvent.VK_RIGHT)
-			player.setRight(true);
-		if (key == KeyEvent.VK_SPACE)
-			player.setFiring(true);
-		if (key == KeyEvent.VK_ESCAPE) {
-			pause();
-			soundFX.get("click").play();
-		}
+		
 		// To activate PowerUp Ray gun:
 		if (key == KeyEvent.VK_X) {
 			for (int i = 0; i < savedPowerUps.size(); i++) {
@@ -574,7 +571,7 @@ public class PlayingState extends GameState {
 	}
 
 	public void keyReleased(int key) {
-
+		
 		if (key == KeyEvent.VK_LEFT)
 			player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
@@ -582,7 +579,9 @@ public class PlayingState extends GameState {
 		if (key == KeyEvent.VK_SPACE)
 			player.setFiring(false);
 		if (key == KeyEvent.VK_X) {
+		
+		}
 		}
 
 	}
-}
+

@@ -5,9 +5,13 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+
+import main.GamePanel;
 import tileMap.MenuBackground;
+
 /**
  * Klass som fungerar som ett intermission mellan varje ny nivå som börjar.
  * 
@@ -19,16 +23,11 @@ public class IntermissionState extends GameState {
 
 	private GameStateManager gsm;
 
-	
-	private int difficulty = 20;
-
 	private int textLength;
-
 	private int fontAlpha = 255;
-
 	private int pause = 255;
 	private MenuBackground bg;
-	
+
 	public IntermissionState(GameStateManager gsm) {
 		this.gsm = gsm;
 
@@ -39,6 +38,9 @@ public class IntermissionState extends GameState {
 	public void init() {
 
 		try {
+			PLAYER_INIT_X = 0;
+			player.setFiring(false);
+
 			// initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(30f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -51,7 +53,7 @@ public class IntermissionState extends GameState {
 			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
 			STATECOUNTER++;
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -62,57 +64,136 @@ public class IntermissionState extends GameState {
 
 	public void update() {
 		bg.update();
-		
+
 		// TODO Auto-generated method stub
 
 	}
 
 	public void draw(Graphics2D g) {
-		String stringCounter = String.valueOf(STATECOUNTER);
-		String[] text = { "Level " + stringCounter, "Prepare yourself"};
-
 		bg.draw(g);
-		g.setFont(font );
+		g.setFont(font);
+		String stringCounter = String.valueOf(STATECOUNTER);
 
 
-		for (int i = 0; i < text.length; i++) {
 
-			if (i == 0) {
-				g.setColor(new Color(0, 255, 0, fontAlpha));
-			} else {
-				g.setFont(smallFont);
-				g.setColor(new Color(255, 0, 0, fontAlpha));
-			}
+		String[] text = { "Level " + stringCounter,"Arrow Keys to move, space to shoot", "Use X and S for Power-ups" };
+		String[] text2 = { "Level " + stringCounter,"Prepare yourself" };
+		String[] text3 = { "Boss Level", "Prepare yourself" };
 
-			textLength = (int) g.getFontMetrics().getStringBounds(text[i], g).getWidth();
-			g.drawString(text[i], (WIDTH - textLength) / 2, (700 / 2) - 30 + 60 * i);
+		if (STATECOUNTER == 1) {
 
+			for (int i = 0; i < text.length; i++) {
+
+				if (i == 0) {
+					g.setColor(new Color(0, 255, 0, fontAlpha));
+				} else {
+					g.setFont(smallFont);
+					g.setColor(new Color(255, 0, 0, fontAlpha));
+				}
+
+				textLength = (int) g.getFontMetrics().getStringBounds(text[i], g).getWidth();
+				g.drawString(text[i], (WIDTH - textLength) / 2, (700 / 2) - 30 + 60 * i);
+
+			}	
+			lowerValue();
 		}
 
-		lowerValue();
 
+		if (STATECOUNTER == 2 ||STATECOUNTER == 5) {
+
+
+
+			for (int i = 0; i < text3.length; i++) {
+
+				if (i == 0) {
+					g.setColor(new Color(0, 255, 0, fontAlpha));
+				} else {
+					g.setFont(smallFont);
+					g.setColor(new Color(255, 0, 0, fontAlpha));
+				}
+
+				textLength = (int) g.getFontMetrics().getStringBounds(text3[i], g).getWidth();
+				g.drawString(text3[i], (WIDTH - textLength) / 2, (700 / 2) - 30 + 60 * i);
+
+			}
+
+			lowerValue();
+
+		} else  if (STATECOUNTER > 1){
+
+			for (int i = 0; i < text2.length; i++) {
+
+				if (i == 0) {
+					g.setColor(new Color(0, 255, 0, fontAlpha));
+				} else {
+					g.setFont(smallFont);
+					g.setColor(new Color(255, 0, 0, fontAlpha));
+				}
+
+				textLength = (int) g.getFontMetrics().getStringBounds(text2[i], g).getWidth();
+				g.drawString(text2[i], (WIDTH - textLength) / 2, (700 / 2) - 30 + 60 * i);
+
+			}
+			lowerValue();
+		}
 	}
 
+
+
 	private void lowerValue() {
+
 		pause -= 2;
 		if (pause < 0) {
 			fontAlpha -= 3;
-			if (fontAlpha < 0) {
-				changeToPlaying();
-				
+			if (fontAlpha < 0 && pause < 0) {
+				if (STATECOUNTER == 2 || STATECOUNTER == 5)
+					gsm.setState(6);
+				else {
+					gsm.setState(1);
+				}
+
 			}
 		}
 	}
 
-	private void changeToPlaying() {
-		gsm.setState(GameStateManager.PLAYINGSTATE);
-	}
-
 	public void keyPressed(int k) {
-		// TODO Auto-generated method stub
+
+
+		if (k == KeyEvent.VK_MINUS) {
+			if (VOLUME <= 0.0) {
+				VOLUME = 0;
+
+			} else {
+				VOLUME = VOLUME - 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_PLUS) {
+
+			if (VOLUME >= 1.0) {
+				VOLUME = 1;
+			} else {
+				VOLUME = VOLUME + 0.25;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
+
+		if (k == KeyEvent.VK_M) {
+			if (VOLUME != 0) {
+				VOLUME = 0;
+			} else {
+				VOLUME = 1;
+			}
+			GamePanel.setVolume(VOLUME);
+			System.out.println("Volym nivå: " + VOLUME);
+		}
 
 	}
 
+	@Override
 	public void keyReleased(int k) {
 		// TODO Auto-generated method stub
 
