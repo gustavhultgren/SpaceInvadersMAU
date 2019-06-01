@@ -38,8 +38,6 @@ public class IntermissionState extends GameState {
 	public void init() {
 
 		try {
-			PLAYER_INIT_X = 0;
-			player.setFiring(false);
 
 			// initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(30f);
