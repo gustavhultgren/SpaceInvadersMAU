@@ -8,22 +8,13 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.Collections;
-import java.util.LinkedList;
 
-import gameClient.Client;
+import audio.AudioPlayer;
+import entity.Player;
 import main.GamePanel;
-import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
 import tileMap.MenuBackground;
-import audio.AudioPlayer;
 
 public class LeaderBoardState extends GameState {
 
@@ -250,7 +241,7 @@ public class LeaderBoardState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -261,7 +252,7 @@ public class LeaderBoardState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -271,7 +262,7 @@ public class LeaderBoardState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 	}
 

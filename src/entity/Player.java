@@ -36,6 +36,7 @@ public class Player extends Entity {
 	private long firingDelay;
 	private boolean raygunActivated = false;
 	private boolean shieldActivated = false;
+	public static LinkedList<PowerUp> savedPowerUps;
 
 	private int score;
 	private int lives;
@@ -51,6 +52,7 @@ public class Player extends Entity {
 	 */
 	public Player(int x, int y, int r, double speed) {
 		super(x, y, r, speed);
+		savedPowerUps = new LinkedList<PowerUp>();
 
 		dx = 0;
 
@@ -82,9 +84,10 @@ public class Player extends Entity {
 			timer.schedule(task, 7000);
 		}
 	}
-	
+
 	public void activateRaygun(LinkedList<PowerUp> list, int element) {
 		if (raygunActivated == false) {
+			System.out.println("Kör raygun");
 			raygunActivated = true;
 			Timer timer = new Timer();
 			TimerTask task = new TimerTask() {
@@ -120,10 +123,11 @@ public class Player extends Entity {
 	public void setFiring(boolean b) {
 		firing = b;
 	}
+
 	public void shieldActivated(boolean b) {
 		shieldActivated = b;
 	}
-	
+
 	public void raygunActivated(boolean b) {
 		shieldActivated = b;
 	}
@@ -240,8 +244,13 @@ public class Player extends Entity {
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if (elapsed > firingDelay / 8) {
 				firingTimer = System.nanoTime();
+				if (GameStateManager.CURRENTSTATE == GameStateManager.PLAYINGSTATE) {
 
-				PlayingState.missiles.add(new Missile(270, x, y, 5, 24, true, Color.GREEN));
+					PlayingState.missiles.add(new Missile(270, x, y, 3, 24, true, Color.GREEN));
+				} else {
+					BossState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
+
+				}
 			}
 		}
 	}
@@ -251,7 +260,7 @@ public class Player extends Entity {
 		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);
 		}
-		
+
 		g.drawImage(playerImage, x - 32, y - 32, 80, 80, null);
 	}
 

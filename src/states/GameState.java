@@ -21,8 +21,7 @@ public abstract class GameState {
 	protected static int WIDTH = 700;
 	protected static int HEIGHT = 700;
 
-	protected static int PLAYER_INIT_X = WIDTH / 2 - 20;
-	protected static int PLAYER_INIT_Y = 652;
+
 	protected static int PLAYER_WIDTH = 30;
 	protected static int PLAYER_HEIGHT = 30;
 	protected static int ENEMY_INIT_X = 100;
@@ -40,7 +39,7 @@ public abstract class GameState {
 	protected static HashMap<String, AudioPlayer> soundFX = new HashMap<String, AudioPlayer>();
 
 	protected GameStateManager gsm;
-	protected static Player player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
+
 	protected static AudioPlayer bgMusic;
 	
 	public abstract void init();

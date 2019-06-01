@@ -1,7 +1,6 @@
 package states;
 
 import java.awt.Color;
-
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -9,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import entity.Player;
 import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
@@ -110,7 +110,7 @@ public class GameOverState extends GameState {
 			length = (int) g.getFontMetrics().getStringBounds(submit, g).getWidth();
 
 			g.drawString(submit, (700 - length) / 2, (700 / 2) + 150);
-			g.drawString("" + player.getScore(), 490, (700 / 2) - 50);
+			g.drawString("" + GameStateManager.player.getScore(), 490, (700 / 2) - 50);
 
 		} catch (FontFormatException | IOException e1) {
 			// TODO Auto-generated catch block
@@ -152,10 +152,10 @@ public class GameOverState extends GameState {
 				String os = client.getOS();
 				String ssid = client.getSSID(os);
 				if (ssid.equals("eduroam")) {
-					client.requestList(new PlayerScore(playerName, player.getScore(), true));
+					client.requestList(new PlayerScore(playerName, GameStateManager.player.getScore(), true));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				} else {
-					client.requestList(new PlayerScore(playerName, player.getScore(), false));
+					client.requestList(new PlayerScore(playerName, GameStateManager.player.getScore(), false));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				}
 			}
@@ -287,7 +287,7 @@ public class GameOverState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -298,7 +298,7 @@ public class GameOverState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -308,7 +308,7 @@ public class GameOverState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 	}
 
