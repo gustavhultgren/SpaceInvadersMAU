@@ -8,14 +8,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Random;
 import javax.imageio.ImageIO;
 
 import audio.AudioPlayer;
-import entity.PurpleShip;
 import entity.BossRolf;
 import entity.EnemyBomb;
 import entity.Missile;
+import entity.Player;
+import entity.PowerUp;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
@@ -86,10 +86,10 @@ public class BossState extends PlayingState {
 		bg.update();
 
 		// Updating player.
-		player.update();
+		GameStateManager.player.update();
 
 		// Updating Boss
-		rolfBoss.update(ENEMY_DIRECTION, true, player);
+		rolfBoss.update(ENEMY_DIRECTION, true, GameStateManager.player);
 
 		int x = rolfBoss.getX();
 
@@ -121,7 +121,7 @@ public class BossState extends PlayingState {
 		}
 
 		// Checking for dead player.
-		if (player.isDead()) {
+		if (GameStateManager.player.isDead()) {
 			gsm.setState(2);
 		}
 
@@ -144,9 +144,9 @@ public class BossState extends PlayingState {
 		// Check for enemy bombs - player collision.
 		for (int i = 0; i < bombs.size(); i++) {
 			EnemyBomb eb = bombs.get(i);
-			if (eb.getBounds().intersects(player.getBounds())) {
+			if (eb.getBounds().intersects(GameStateManager.player.getBounds())) {
 				bombs.remove(i);
-				player.loseLife();
+				GameStateManager.player.loseLife();
 			}
 		}
 	}
@@ -155,7 +155,7 @@ public class BossState extends PlayingState {
 	public void draw(Graphics2D g) {
 		bg.draw(g);
 
-		player.draw(g);
+		GameStateManager.player.draw(g);
 
 		rolfBoss.draw(g);
 
@@ -177,7 +177,7 @@ public class BossState extends PlayingState {
 		g.setFont(font);
 		g.drawString("SCORE:", GamePanel.WIDTH / 8, 50);
 		g.setColor(Color.GREEN);
-		g.drawString("" + player.getScore(), 230, 50);
+		g.drawString("" + GameStateManager.player.getScore(), 230, 50);
 
 		// Draw Lives:
 		g.setColor(Color.WHITE);
@@ -185,7 +185,7 @@ public class BossState extends PlayingState {
 
 		g.setColor(Color.GREEN);
 
-		for (int i = 0; i < player.getLives(); i++) {
+		for (int i = 0; i < GameStateManager.player.getLives(); i++) {
 			g.drawImage(heartImage, 545 + (40 * i), 25, 32, 32, null);
 		}
 
@@ -218,10 +218,14 @@ public class BossState extends PlayingState {
 		else {
 			frameCounter = 0;
 		}
+		
+		for (int i = 0; i < Player.savedPowerUps.size(); i++) {
+			Player.savedPowerUps.get(i).draw(g, 20 + i * 55, 660, 50, 26);
+		}
 	}
 
 	public void drawMenu(Graphics2D g) {
-		score = player.getScore() + "";
+		score = GameStateManager.player.getScore() + "";
 		g.setColor(new Color(0, 0, 0, 70));
 		g.fillRect(0, 0, 700, 700);
 		g.setColor(Color.WHITE);
@@ -242,16 +246,6 @@ public class BossState extends PlayingState {
 	 */
 	@Override
 	public void keyPressed(int key) {
-		if (key == KeyEvent.VK_LEFT)
-			player.setLeft(true);
-		if (key == KeyEvent.VK_RIGHT)
-			player.setRight(true);
-		if (key == KeyEvent.VK_SPACE)
-			player.setFiring(true);
-		if (key == KeyEvent.VK_ESCAPE)
-			pause();
-		if (key == KeyEvent.VK_E && paused)
-			gsm.setState(GameStateManager.MENUSTATE);
 
 		if (key == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
@@ -261,7 +255,7 @@ public class BossState extends PlayingState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -272,7 +266,7 @@ public class BossState extends PlayingState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -282,18 +276,62 @@ public class BossState extends PlayingState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
+		}
+
+		if (key == KeyEvent.VK_LEFT)
+			GameStateManager.player.setLeft(true);
+		if (key == KeyEvent.VK_RIGHT)
+			GameStateManager.player.setRight(true);
+		if (key == KeyEvent.VK_SPACE)
+			GameStateManager.player.setFiring(true);
+		if (key == KeyEvent.VK_ESCAPE) {
+			pause();
+			soundFX.get("click").play();
+		}
+		// To activate PowerUp Ray gun:
+		if (key == KeyEvent.VK_X) {
+			for (int i = 0; i < Player.savedPowerUps.size(); i++) {
+
+				if (Player.savedPowerUps.get(i).getType() == PowerUp.RAYGUN) {
+
+					GameStateManager.player.activateRaygun(Player.savedPowerUps, i);
+					break;
+				}
+			}
+		}
+		// To activate PowerUp Shield:
+		if (key == KeyEvent.VK_S) {
+
+			for (int i = 0; i < Player.savedPowerUps.size(); i++) {
+
+				if (Player.savedPowerUps.get(i).getType() == PowerUp.SHIELD) {
+
+					GameStateManager.player.activateShield(Player.savedPowerUps, i);
+					break;
+				}
+			}
+		}
+
+		if (key == KeyEvent.VK_E && paused) {
+			soundFX.get("enter").play();
+			gsm.setState(GameStateManager.MENUSTATE);
+
 		}
 	}
 
 	@Override
 	public void keyReleased(int key) {
+
 		if (key == KeyEvent.VK_LEFT)
-			player.setLeft(false);
+			GameStateManager.player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
-			player.setRight(false);
+			GameStateManager.player.setRight(false);
 		if (key == KeyEvent.VK_SPACE)
-			player.setFiring(false);
+			GameStateManager.player.setFiring(false);
+		if (key == KeyEvent.VK_X) {
+		}
+
 	}
 
 	public void pause() {

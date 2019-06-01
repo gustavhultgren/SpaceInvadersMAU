@@ -1,7 +1,6 @@
 package states;
 
 import java.awt.Color;
-
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -12,9 +11,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import tileMap.MenuBackground;
+
 import audio.AudioPlayer;
+import entity.Player;
 import main.GamePanel;
+import tileMap.MenuBackground;
 
 /**
  * 
@@ -273,7 +274,7 @@ public class MenuState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -284,7 +285,7 @@ public class MenuState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -294,7 +295,7 @@ public class MenuState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 	}
 

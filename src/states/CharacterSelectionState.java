@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import com.sun.glass.events.KeyEvent;
 
+import entity.Player;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
@@ -155,13 +156,13 @@ public class CharacterSelectionState extends GameState {
 	 */
 	private void select() {
 		if (currentChoice == 1) {
-			player.setPlayerImage(1);
+			GameStateManager.player.setPlayerImage(1);
 		} else if (currentChoice == 2) {
-			player.setPlayerImage(2);
+			GameStateManager.player.setPlayerImage(2);
 		} else if (currentChoice == 3) {
-			player.setPlayerImage(3);
+			GameStateManager.player.setPlayerImage(3);
 		} else if (currentChoice == 4) {
-			player.setPlayerImage(4);
+			GameStateManager.player.setPlayerImage(4);
 		}
 
 		gsm.setState(1);
@@ -209,7 +210,7 @@ public class CharacterSelectionState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -220,7 +221,7 @@ public class CharacterSelectionState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -230,7 +231,7 @@ public class CharacterSelectionState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym nivï¿½: " + VOLUME);
 		}
 
 	}

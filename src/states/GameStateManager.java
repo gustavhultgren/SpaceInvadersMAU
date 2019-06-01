@@ -1,5 +1,6 @@
 package states;
 
+import entity.Player;
 import main.GamePanel;
 
 public class GameStateManager {
@@ -7,6 +8,10 @@ public class GameStateManager {
 	private GameState[] gameStates;
 	public static int CURRENTSTATE;
 	private int difficulty = 1000;
+	protected static int WIDTH = 700;
+	protected static int HEIGHT = 700;
+	protected static int PLAYER_INIT_X = WIDTH / 2 - 20;
+	protected static int PLAYER_INIT_Y = 652;
 
 	// States
 	public static final int NUMGAMESTATES = 7;
@@ -20,6 +25,7 @@ public class GameStateManager {
 	public static final int BOSSTATE = 6;
 	
 	private GamePanel gp;
+	public static Player player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
 
 	public GameStateManager(GamePanel gp) {
 		this.gp = gp;
@@ -95,6 +101,10 @@ public class GameStateManager {
 	
 	public void setRunning(boolean b) {
 		gp.setRunning(b);
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 
 }
