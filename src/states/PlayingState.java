@@ -91,10 +91,10 @@ public class PlayingState extends GameState {
 		 * good.
 		 */
 		enemies = new LinkedList<LinkedList<Enemy>>();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 8; j++) {
 				Enemy enemy = new Enemy(ENEMY_INIT_X + 60 * j, ENEMY_INIT_Y + 50 * i, 1, 1, gsm.getDifficulty());
 				row.add(enemy);
 			}
@@ -496,7 +496,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -507,7 +507,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -517,7 +517,7 @@ public class PlayingState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 	
 		if (key == KeyEvent.VK_LEFT)
