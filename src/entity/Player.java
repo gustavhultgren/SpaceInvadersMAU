@@ -136,7 +136,9 @@ public class Player extends Entity {
 	}
 
 	public int getScore() {
+		System.out.println(score);
 		return score;
+		
 	}
 
 	public void setScore(int score) {

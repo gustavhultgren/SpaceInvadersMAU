@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import entity.Player;
 import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
@@ -116,6 +117,7 @@ public class GameOverState extends GameState {
 			g.drawString(submit, (700 - length) / 2, (700 / 2) + 150);
 			g.drawString("" + GameStateManager.player.getScore(), 490, (700 / 2) - 50);
 
+//			GameStateManager.player.getScore()+
 		} catch (FontFormatException | IOException e1) {
 			e1.printStackTrace();
 		}
@@ -153,17 +155,22 @@ public class GameOverState extends GameState {
 			} else {
 				String os = client.getOS();
 				String ssid = client.getSSID(os);
+				
 				if (ssid.equals("eduroam")) {
 					client.requestList(new PlayerScore(playerName, GameStateManager.player.getScore(), true));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
 				} else {
 					client.requestList(new PlayerScore(playerName, GameStateManager.player.getScore(), false));
 					gsm.setState(GameStateManager.LEADERBOARDSTATE);
+					
 				}
+				
 			}
+			GameStateManager.player = new Player(GameStateManager.PLAYER_INIT_X, GameStateManager.PLAYER_INIT_Y, 18, 3);
 		}
 		if (currentChoice == 1) {
 			gsm.setState(GameStateManager.MENUSTATE);
+			GameStateManager.player = new Player(GameStateManager.PLAYER_INIT_X, GameStateManager.PLAYER_INIT_Y, 18, 3);
 		
 		}
 	}
@@ -172,6 +179,7 @@ public class GameOverState extends GameState {
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
 			select();
+			
 
 		} else if (k == KeyEvent.VK_LEFT) {
 			currentChoice--;

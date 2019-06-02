@@ -357,7 +357,7 @@ public class PlayingState extends GameState {
 		// Check for dead player:
 		if (GameStateManager.player.isDead()) {
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
-			GameStateManager.player = new Player(GameStateManager.PLAYER_INIT_X, GameStateManager.PLAYER_INIT_Y, 18, 3);
+			
 			STATECOUNTER = 0;
 
 		}
