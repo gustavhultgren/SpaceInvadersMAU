@@ -150,6 +150,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		gsm.keyReleased(e.getKeyCode());
 	}
 
+	
 	public static void setVolume(double vol) {
 
 		bgMusic.setVolume(vol);

@@ -1,8 +1,12 @@
 package audio;
 
 /**
+ *  This class makes is possible to play music and 
+ *  other sounds. Uses the Jar files in libs-folder 
+ *  as decoders. Gives the developer the possibility
+ *  to adjust volume, stop, play-back and other methods.
+ *  
  * @author Gustav Georgsson
-
  */
 
 import javax.sound.sampled.*;
@@ -12,6 +16,11 @@ public class AudioPlayer {
 	private Clip clip;
 	private BooleanControl bc;
 
+	/**
+	 * Takes parameter String as source.
+	 * 
+	 * @param s
+	 */
 	public AudioPlayer(String s) {
 
 		try {
@@ -29,6 +38,7 @@ public class AudioPlayer {
 
 	}
 
+	
 	public void play() {
 		if (clip == null)
 			return;
@@ -52,6 +62,11 @@ public class AudioPlayer {
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
+	/**
+	 * Adjusts the volume of the music playing.
+	 * 
+	 * @param vol
+	 */
 	public void setVolume(double vol) {
 
 		FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

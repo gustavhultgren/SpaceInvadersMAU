@@ -26,8 +26,9 @@ import main.GamePanel;
 import tileMap.MenuBackground;
 
 /**
- * This class represents the state where the actual game is running.
- * It is in this class that most game logic take place.
+ * This class represents the state where the actual game is running. It is in
+ * this class that most game logic take place.
+ * 
  * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
  */
 public class PlayingState extends GameState {
@@ -35,7 +36,6 @@ public class PlayingState extends GameState {
 	private BufferedImage image;
 	private Random rand = new Random();
 	private int nbr = 0;
-	private int nbrLevels = 0;
 	private boolean paused;
 	private Graphics2D g;
 
@@ -107,7 +107,7 @@ public class PlayingState extends GameState {
 		missiles = new LinkedList<Missile>();
 		bombs = new LinkedList<EnemyBomb>();
 		powerUps = new LinkedList<PowerUp>();
-		
+
 		powerUpTexts = new LinkedList<PowerUpText>();
 
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
@@ -143,7 +143,6 @@ public class PlayingState extends GameState {
 			if (remove) {
 				missiles.remove(i);
 				i--;
-				System.out.println("Funkar 1");
 			}
 		}
 
@@ -283,14 +282,6 @@ public class PlayingState extends GameState {
 				}
 			}
 
-			/////////////////////////////
-
-			if (nbrLevels == 2) {
-				gsm.setState(GameStateManager.BOSSTATE);
-
-				nbrLevels = 0;
-				////////////////////////////////////
-			}
 		}
 
 		for (int i = 0; i < enemies.size(); i++) {
@@ -329,32 +320,33 @@ public class PlayingState extends GameState {
 				if (type == PowerUp.HEART) {
 					if (GameStateManager.player.getLives() < 4) {
 						GameStateManager.player.addLife(1);
-						powerUpTexts
-								.add(new PowerUpText(GameStateManager.player.getX() - 60, GameStateManager.player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
+						powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 60,
+								GameStateManager.player.getY() - 30, 0, 0, 1000, "+1 LIFE"));
 					} else {
-						powerUpTexts
-								.add(new PowerUpText(GameStateManager.player.getX() - 70, GameStateManager.player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
+						powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 70,
+								GameStateManager.player.getY() - 30, 0, 0, 1000, "FULL LIFE"));
 					}
 				} else if (type == PowerUp.SCORE) {
 					GameStateManager.player.addScore(50);
-					powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 78, GameStateManager.player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
+					powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 78,
+							GameStateManager.player.getY() - 30, 0, 0, 1000, "+50 SCORE"));
 				}
 
 				if (Player.savedPowerUps.size() < 6) {
 
 					if (type == PowerUp.RAYGUN) {
 						Player.savedPowerUps.add(powerUp);
-						powerUpTexts.add(
-								new PowerUpText(GameStateManager.player.getX() - 70, GameStateManager.player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
+						powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 70,
+								GameStateManager.player.getY() - 30, 0, 0, 1000, "RAY GUN ACUIRED"));
 					} else if (type == PowerUp.SHIELD) {
 						Player.savedPowerUps.add(powerUp);
-						powerUpTexts.add(
-								new PowerUpText(GameStateManager.player.getX() - 70, GameStateManager.player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
+						powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 70,
+								GameStateManager.player.getY() - 30, 0, 0, 1000, "SHIELD AQUIRED"));
 					}
 
 				} else {
-					powerUpTexts
-							.add(new PowerUpText(GameStateManager.player.getX() - 70, GameStateManager.player.getY() - 30, 0, 0, 1000, "FULL POWERUP"));
+					powerUpTexts.add(new PowerUpText(GameStateManager.player.getX() - 70,
+							GameStateManager.player.getY() - 30, 0, 0, 1000, "FULL POWERUP"));
 				}
 
 				powerUps.remove(i);
@@ -365,7 +357,7 @@ public class PlayingState extends GameState {
 		// Check for dead player:
 		if (GameStateManager.player.isDead()) {
 			gsm.setState(GameStateManager.GAMEOVERSTATE);
-			GameStateManager.player = new Player();
+			STATECOUNTER = 0;
 
 		}
 
@@ -376,7 +368,6 @@ public class PlayingState extends GameState {
 			newEnemies = repopulateEnemies();
 			gsm.setRunning(true);
 			nbr = 0;
-			nbrLevels++;
 		}
 	}
 
@@ -487,8 +478,7 @@ public class PlayingState extends GameState {
 	 */
 
 	public void keyPressed(int key) {
-		
-	
+
 		if (key == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
 				VOLUME = 0;
@@ -520,7 +510,7 @@ public class PlayingState extends GameState {
 			GamePanel.setVolume(VOLUME);
 			System.out.println("Volume: " + VOLUME);
 		}
-	
+
 		if (key == KeyEvent.VK_LEFT)
 			GameStateManager.player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
@@ -577,7 +567,7 @@ public class PlayingState extends GameState {
 	}
 
 	public void keyReleased(int key) {
-		
+
 		if (key == KeyEvent.VK_LEFT)
 			GameStateManager.player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
@@ -585,8 +575,8 @@ public class PlayingState extends GameState {
 		if (key == KeyEvent.VK_SPACE)
 			GameStateManager.player.setFiring(false);
 		if (key == KeyEvent.VK_X) {
-		
+
 		}
-		}
+	}
 
 }
