@@ -45,7 +45,7 @@ public class Enemy extends Entity {
 
 		dead = false;
 
-		firing = false;
+		firing = true;
 		firingTimer = System.nanoTime();
 		this.firingDelay = firingDelay;
 

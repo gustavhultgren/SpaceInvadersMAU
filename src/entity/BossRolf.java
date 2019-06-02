@@ -10,7 +10,7 @@ import states.BossState;
 
 /**
  * 
- * @author Joakim Thiman
+ * @author Joakim Thiman & Gustav Georgsson
  */
 
 public class BossRolf extends Entity {
@@ -18,7 +18,7 @@ public class BossRolf extends Entity {
 	private boolean dead = true;
 	private boolean firing;
 
-	private int health = 2;
+	private int health = 30;
 	private int frameCounter = 0;
 
 	private long firingTimer;
@@ -109,7 +109,7 @@ public class BossRolf extends Entity {
 				if (isShooter) {
 
 					// Bomb aimed against player. Written by Gustav Hultgren and Tom Eriksson.
-					if (frameCounter >= 150) {
+					if (frameCounter >= 120) {
 						double diffX = x - player.getX();
 						double diffY = y - player.getY();
 						double result = diffX / diffY;
@@ -117,8 +117,8 @@ public class BossRolf extends Entity {
 						double angle = 360 - (90 + Math.toDegrees(Math.atan(result)));
 
 						BossState.bombs.add(new EnemyBomb(angle, (int) rectangle.getCenterX(), y + 150, 3, 6));
-						BossState.bombs.add(new EnemyBomb(angle + 5, (int) rectangle.getCenterX(), y + 150, 3, 6));
-						BossState.bombs.add(new EnemyBomb(angle - 5, (int) rectangle.getCenterX(), y + 150, 3, 6));
+						BossState.bombs.add(new EnemyBomb(angle + 10, (int) rectangle.getCenterX(), y + 150, 3, 6));
+						BossState.bombs.add(new EnemyBomb(angle - 10, (int) rectangle.getCenterX(), y + 150, 3, 6));
 						frameCounter = 0;
 					}
 				}

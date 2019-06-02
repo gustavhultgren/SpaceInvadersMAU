@@ -15,7 +15,7 @@ import tileMap.MenuBackground;
 /**
  * Klass som fungerar som ett intermission mellan varje ny nivå som börjar.
  * 
- * @author hannesgranberg
+ * @author hannesgranberg & Gustav Georgsson
  *
  */
 
@@ -39,6 +39,7 @@ public class IntermissionState extends GameState {
 
 		try {
 
+			
 			// initializes the font
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(30f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -165,7 +166,7 @@ public class IntermissionState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -176,7 +177,7 @@ public class IntermissionState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -186,7 +187,7 @@ public class IntermissionState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym nivå: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 	}

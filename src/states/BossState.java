@@ -270,7 +270,7 @@ public class BossState extends PlayingState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -281,7 +281,7 @@ public class BossState extends PlayingState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -291,7 +291,7 @@ public class BossState extends PlayingState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_LEFT)
