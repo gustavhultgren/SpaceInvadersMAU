@@ -63,8 +63,6 @@ public class IntermissionState extends GameState {
 	public void update() {
 		bg.update();
 
-		// TODO Auto-generated method stub
-
 	}
 
 	public void draw(Graphics2D g) {

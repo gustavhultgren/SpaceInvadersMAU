@@ -2,11 +2,9 @@ package states;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import java.util.HashMap;
 
 import audio.AudioPlayer;
-import entity.Player;
 import gameClient.Client;
 
 /**
@@ -21,7 +19,6 @@ public abstract class GameState {
 	protected static int WIDTH = 700;
 	protected static int HEIGHT = 700;
 
-
 	protected static int PLAYER_WIDTH = 30;
 	protected static int PLAYER_HEIGHT = 30;
 	protected static int ENEMY_INIT_X = 100;
@@ -31,7 +28,7 @@ public abstract class GameState {
 	protected static Font font;
 	protected static Font smallFont;
 	protected static int STATECOUNTER = 0;
-	
+
 	protected static Client client = new Client("127.0.0.1", 3500);
 
 	protected static double VOLUME = 1;
@@ -41,7 +38,7 @@ public abstract class GameState {
 	protected GameStateManager gsm;
 
 	protected static AudioPlayer bgMusic;
-	
+
 	public abstract void init();
 
 	public abstract void update();

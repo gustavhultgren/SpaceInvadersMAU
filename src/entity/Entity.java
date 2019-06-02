@@ -1,8 +1,5 @@
 package entity;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
 /**
  * This class is used as a Superclass. It contains some common variables and
  * methods that is used in most subclasses.
@@ -45,14 +42,6 @@ public class Entity {
 
 	public void setR(int r) {
 		this.r = r;
-	}
-
-	public double getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(double speed) {
-		this.speed = speed;
 	}
 
 }

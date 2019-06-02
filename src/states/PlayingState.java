@@ -53,7 +53,6 @@ public class PlayingState extends GameState {
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
-	
 	public static LinkedList<PowerUpText> powerUpTexts;
 
 	// Images
@@ -589,5 +588,4 @@ public class PlayingState extends GameState {
 		}
 		}
 
-	}
-
+}

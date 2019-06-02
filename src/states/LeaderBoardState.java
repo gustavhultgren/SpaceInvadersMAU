@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 
 import audio.AudioPlayer;
-import entity.Player;
 import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
@@ -20,7 +19,6 @@ public class LeaderBoardState extends GameState {
 
 	private int currentChoiceOfTable = 0;
 	private int currentChoiceInTable = 0;
-	private Thread readingThread;
 
 	private String header = "HIGHSCORE TOP 100";
 	private String[] subHeader = { "RANK", "NAME", "SCORE" };
@@ -268,7 +266,6 @@ public class LeaderBoardState extends GameState {
 
 	@Override
 	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
 
 	}
 

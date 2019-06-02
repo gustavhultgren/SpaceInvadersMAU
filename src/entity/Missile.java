@@ -45,7 +45,6 @@ public class Missile extends Entity {
 		try {
 			missileImage = ImageIO.read(new File("resources/images/player_Missile.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

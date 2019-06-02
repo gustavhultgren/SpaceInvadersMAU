@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
-import entity.Player;
 import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
@@ -85,10 +84,8 @@ public class GameOverState extends GameState {
 
 			g.drawString(playerName, (700) / 2 - 15, (700 / 2) + 50);
 		} catch (FontFormatException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
@@ -113,7 +110,6 @@ public class GameOverState extends GameState {
 			g.drawString("" + GameStateManager.player.getScore(), 490, (700 / 2) - 50);
 
 		} catch (FontFormatException | IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -130,7 +126,6 @@ public class GameOverState extends GameState {
 				length = (int) g.getFontMetrics().getStringBounds(options[i], g).getWidth();
 				g.drawString(options[i], 200 + 200 * i, (700 / 2) + 250);
 			} catch (FontFormatException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -314,7 +309,6 @@ public class GameOverState extends GameState {
 
 	@Override
 	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
 
 	}
 

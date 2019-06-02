@@ -13,14 +13,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entity.Player;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
 public class HelpState extends GameState {
 
 	private GameStateManager gsm;
-	private MenuBackground menuBg;
 	private Font font;
 	private BufferedImage image;
 	private MenuBackground bg;
