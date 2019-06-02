@@ -13,13 +13,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import audio.AudioPlayer;
-import entity.Player;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
 /**
  * 
- * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
+ * @author Hannes Granberg, Tom Eriksson, Gustav Georgsson
  */
 
 public class MenuState extends GameState {

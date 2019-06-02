@@ -59,7 +59,7 @@ public class PowerUp extends Entity {
 			try {
 				powerUpImage = ImageIO.read(new File("resources/images/powerUp_Shield_drop.png"));
 			} catch (IOException e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 	}

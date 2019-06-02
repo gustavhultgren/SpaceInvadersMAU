@@ -26,7 +26,8 @@ import main.GamePanel;
 import tileMap.MenuBackground;
 
 /**
- * 
+ * This class represents the state where the actual game is running.
+ * It is in this class that most game logic take place.
  * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
  */
 public class PlayingState extends GameState {
@@ -52,7 +53,6 @@ public class PlayingState extends GameState {
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
-	
 	public static LinkedList<PowerUpText> powerUpTexts;
 
 	// Images
@@ -496,7 +496,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -507,7 +507,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -517,7 +517,7 @@ public class PlayingState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 	
 		if (key == KeyEvent.VK_LEFT)
@@ -588,5 +588,4 @@ public class PlayingState extends GameState {
 		}
 		}
 
-	}
-
+}

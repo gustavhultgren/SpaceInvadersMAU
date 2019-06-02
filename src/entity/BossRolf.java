@@ -89,7 +89,7 @@ public class BossRolf extends Entity {
 	}
 
 	/**
-	 * This method is called in class GamePanel to update the Boss.
+	 * This method is called in class BossState to update the Boss.
 	 * 
 	 * @param direction - sets the direction of the Boss. + for right and - for
 	 *                  left.

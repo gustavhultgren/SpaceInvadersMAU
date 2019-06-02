@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 
 import com.sun.glass.events.KeyEvent;
 
-import entity.Player;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
