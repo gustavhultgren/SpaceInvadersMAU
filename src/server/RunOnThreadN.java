@@ -1,7 +1,13 @@
 package server;
 
 import java.util.LinkedList;
-//gdgd
+/**
+ * 
+ * Thread pool that executes tasks in the form of a request for the topp 100 score lists.
+ * Starts with n Threads.
+ * @author Tom Eriksson
+ *
+ */
 
 public class RunOnThreadN extends Thread {
 	private Buffer<Runnable> buffer = new Buffer<Runnable>();
@@ -12,6 +18,7 @@ public class RunOnThreadN extends Thread {
 		nbrOfThreads = n;
 	}
 
+	//Starts all threads and adds them to the worker list.
 	public synchronized void start() {
 		Worker worker;
 		if (workers == null) {
@@ -24,6 +31,7 @@ public class RunOnThreadN extends Thread {
 		}
 	}
 
+	// Removes all threads from list.
 	public synchronized void stopp() {
 		if (workers != null) {
 			buffer.clear();
@@ -34,10 +42,12 @@ public class RunOnThreadN extends Thread {
 		}
 	}
 
+	// Puts a Runnable into the task buffer to be executed.
 	public synchronized void execute(Runnable runnable) {
 		buffer.put(runnable);
 	}
 
+	// Thread class that executes Runnables from the task buffer.
 	private class Worker extends Thread {
 		public void run() {
 			try {

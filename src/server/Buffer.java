@@ -2,6 +2,12 @@ package server;
 
 import java.util.LinkedList;
 
+/**
+ * Synchronized buffer with methods to put and retreive elements from the buffer. Acts acording to FIFO. 
+ * @author Tom Eriksson
+ *
+ * @param <T>
+ */
 public class Buffer<T> {
 	private LinkedList<T> buffer = new LinkedList<T>();
 

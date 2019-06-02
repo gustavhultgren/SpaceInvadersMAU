@@ -18,6 +18,12 @@ import javax.swing.JTextArea;
 import server.LeaderboardUpdateResponse;
 import server.PlayerScore;
 
+/**
+ * 
+ * Client used in the game to connect to the server and request lists.
+ * @author Tom Eriksson
+ *
+ */
 public class Client extends Thread {
 
 	private JFrame frame;
@@ -35,6 +41,7 @@ public class Client extends Thread {
 		start();
 	}
 
+	// Request lists without playerScore.
 	public synchronized void requestList() {
 		try (Socket socket = new Socket(ip, port);
 				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
@@ -52,7 +59,7 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-
+	// Request lists with playerScore.
 	public synchronized void requestList(PlayerScore ps) {
 		try (Socket socket = new Socket(ip, port);
 				ObjectOutputStream oos = new ObjectOutputStream((socket.getOutputStream()));
@@ -100,6 +107,7 @@ public class Client extends Thread {
 		return scoreListMau;
 	}
 
+	// Returns wifi-name on mac os.
 	public String getSSID(String os) {
 		String ssid = "";
 		if (os.substring(0, 3).equals("mac")) {
