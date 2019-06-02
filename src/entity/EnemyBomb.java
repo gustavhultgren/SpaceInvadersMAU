@@ -45,7 +45,7 @@ public class EnemyBomb extends Entity {
 		return new Rectangle((int)x, (int)y, 2 * r, 6 * r);
 	}
 	
-	//This method is called in class GamePanel. It makes the bomb move.
+	//This method is called in class PlayingState. It makes the bomb move.
 	public boolean update() {
 		x -= dx;
 		y -= dy;
@@ -57,7 +57,7 @@ public class EnemyBomb extends Entity {
 
 	}
 	
-	//This method is called in class GamePanel. It draws the bomb.
+	//This method is called in class PlayingState. It draws the bomb.
 	public void draw(Graphics2D g) {
 		g.setColor(bulletColor);
 		g.fillOval((int)(x-r) + 10, (int)(y-r) + 10, 2 * r, 6 * r);

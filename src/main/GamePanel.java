@@ -1,25 +1,17 @@
 package main;
 
-import tileMap.MenuBackground;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
-import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 import audio.AudioPlayer;
-import entity.Player;
-import javafx.scene.transform.Scale;
 import states.GameStateManager;
-import states.PlayingState;
 
 /**
  * This class represents a GamePanel. The GamePanel is responsible to update,
@@ -46,14 +38,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// Image.
 	private BufferedImage image;
 	private Graphics2D g;
-	private Font HUD_FONT;
-	private Random rand = new Random();
+	
+	private static AudioPlayer bgMusic;
 
-	private Player player;
-
-	private MenuBackground bg;
-//	private static AudioPlayer bgMusic;
-	// Game state manager.
 	private GameStateManager gsm;
 
 	/**
@@ -65,9 +52,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		setFocusable(true);
 		requestFocus();
-//		bgMusic = new AudioPlayer("/music/si.mp3");
+		bgMusic = new AudioPlayer("/music/Mega.mp3");
 
-//		bgMusic.loop();
+		bgMusic.loop();
 	}
 
 	// FUNCTIONS
@@ -165,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	public static void setVolume(double vol) {
 
-//		bgMusic.setVolume(vol);
+		bgMusic.setVolume(vol);
 
 	}
 }

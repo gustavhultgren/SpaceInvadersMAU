@@ -45,7 +45,6 @@ public class Missile extends Entity {
 		try {
 			missileImage = ImageIO.read(new File("resources/images/player_Missile.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -74,7 +73,7 @@ public class Missile extends Entity {
 		return new Rectangle(x, y, 32, 40);
 	}
 
-	// This method is called in class GamePanel. It makes the missile move.
+	// This method is called in class PlayingState. It makes the missile move.
 	public boolean update() {
 		x += dx;
 		y += dy;
@@ -86,7 +85,7 @@ public class Missile extends Entity {
 
 	}
 
-	// This method is called in class GamePanel. It draws the missile.
+	// This method is called in class PlayingState. It draws the missile.
 	public void draw(Graphics2D g) {
 		if (firingRaygun) {
 			g.setColor(bulletColor);

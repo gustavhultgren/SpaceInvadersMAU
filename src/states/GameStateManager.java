@@ -3,6 +3,12 @@ package states;
 import entity.Player;
 import main.GamePanel;
 
+/**
+ * This class represents a manager which handles which state the user is in.
+ * The GameStateManager updates and draw the current active state in GamePanel.
+ * @author Gustav Georgsson, Gustav Hultgren, Tom Eriksson
+ * 
+ */
 public class GameStateManager {
 
 	private GameState[] gameStates;
@@ -14,7 +20,7 @@ public class GameStateManager {
 	protected static int PLAYER_INIT_Y = 652;
 
 	// States
-	public static final int NUMGAMESTATES = 7;
+	public static final int NUMGAMESTATES = 8;
 
 	public static final int MENUSTATE = 0;
 	public static final int PLAYINGSTATE = 1;
@@ -23,6 +29,7 @@ public class GameStateManager {
 	public static final int HELPSTATE = 4;
 	public static final int CHARACTERSELECTIONSTATE = 5;
 	public static final int BOSSTATE = 6;
+	public static final int INTERMISSIONSTATE = 7;
 	
 	private GamePanel gp;
 	public static Player player = new Player(PLAYER_INIT_X, PLAYER_INIT_Y, 18, 3);
@@ -64,6 +71,10 @@ public class GameStateManager {
 		
 		if (state == BOSSTATE)
 			gameStates[state] = new BossState(this);
+		
+	
+		if (state == INTERMISSIONSTATE)
+				gameStates[state] =new IntermissionState (this);
 		
 	}
 

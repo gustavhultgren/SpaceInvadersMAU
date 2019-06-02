@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 
 import com.sun.glass.events.KeyEvent;
 
-import entity.Player;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
@@ -165,13 +164,14 @@ public class CharacterSelectionState extends GameState {
 			GameStateManager.player.setPlayerImage(4);
 		}
 
-		gsm.setState(1);
+		gsm.setState(GameStateManager.INTERMISSIONSTATE);
 	}
 
 	/**
 	 * This method handles key input.
 	 */
 	@Override
+	
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_ENTER) {
 			select();
@@ -210,7 +210,7 @@ public class CharacterSelectionState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -221,7 +221,7 @@ public class CharacterSelectionState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -231,7 +231,7 @@ public class CharacterSelectionState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 	}

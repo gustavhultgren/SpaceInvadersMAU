@@ -1,17 +1,12 @@
 package entity;
 
-import java.awt.BasicStroke;
-
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import states.PlayingState;
-import sun.java2d.pipe.DrawImage;
 
 /**
  * This class represents a enemy. A enemy moves left and right. Each time one
@@ -59,7 +54,7 @@ public class Enemy extends Entity {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
@@ -99,7 +94,7 @@ public class Enemy extends Entity {
 	}
 
 	/**
-	 * This method is called in class GamePanel to update the enemy.
+	 * This method is called in class PlayingState to update the enemy.
 	 * 
 	 * @param direction - sets the direction of enemy. + for right and - for left.
 	 * @param isShooter

@@ -26,7 +26,8 @@ import main.GamePanel;
 import tileMap.MenuBackground;
 
 /**
- * 
+ * This class represents the state where the actual game is running.
+ * It is in this class that most game logic take place.
  * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
  */
 public class PlayingState extends GameState {
@@ -52,7 +53,6 @@ public class PlayingState extends GameState {
 	public static LinkedList<Missile> missiles;
 	public static LinkedList<EnemyBomb> bombs;
 	public static LinkedList<PowerUp> powerUps;
-	
 	public static LinkedList<PowerUpText> powerUpTexts;
 
 	// Images
@@ -285,7 +285,7 @@ public class PlayingState extends GameState {
 
 			/////////////////////////////
 
-			if (nbrLevels == 1) {
+			if (nbrLevels == 2) {
 				gsm.setState(GameStateManager.BOSSTATE);
 
 				nbrLevels = 0;
@@ -369,6 +369,7 @@ public class PlayingState extends GameState {
 		}
 
 		if (nbr == 24) {
+			gsm.setState(GameStateManager.INTERMISSIONSTATE);
 			gsm.setRunning(false);
 			enemies = newEnemies;
 			newEnemies = repopulateEnemies();
@@ -485,7 +486,8 @@ public class PlayingState extends GameState {
 	 */
 
 	public void keyPressed(int key) {
-
+		
+	
 		if (key == KeyEvent.VK_MINUS) {
 			if (VOLUME <= 0.0) {
 				VOLUME = 0;
@@ -494,7 +496,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -505,7 +507,7 @@ public class PlayingState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -515,9 +517,9 @@ public class PlayingState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volume: " + VOLUME);
 		}
-
+	
 		if (key == KeyEvent.VK_LEFT)
 			GameStateManager.player.setLeft(true);
 		if (key == KeyEvent.VK_RIGHT)
@@ -574,7 +576,7 @@ public class PlayingState extends GameState {
 	}
 
 	public void keyReleased(int key) {
-
+		
 		if (key == KeyEvent.VK_LEFT)
 			GameStateManager.player.setLeft(false);
 		if (key == KeyEvent.VK_RIGHT)
@@ -582,7 +584,8 @@ public class PlayingState extends GameState {
 		if (key == KeyEvent.VK_SPACE)
 			GameStateManager.player.setFiring(false);
 		if (key == KeyEvent.VK_X) {
+		
+		}
 		}
 
-	}
 }

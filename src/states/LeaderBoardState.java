@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 
 import audio.AudioPlayer;
-import entity.Player;
 import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
@@ -252,7 +251,7 @@ public class LeaderBoardState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -263,7 +262,7 @@ public class LeaderBoardState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -273,13 +272,12 @@ public class LeaderBoardState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 	}
 
 	@Override
 	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
 
 	}
 

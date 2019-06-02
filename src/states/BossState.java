@@ -2,7 +2,10 @@ package states;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -61,9 +64,15 @@ public class BossState extends PlayingState {
 			heartImage = ImageIO.read(new File("resources/images/Heart.png"));
 			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")).deriveFont(25f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/ARCADE_I.TTF")));
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		soundFX.put("click", new AudioPlayer("/music/sfx_click.mp3"));
 		soundFX.put("enter", new AudioPlayer("/music/sfx_enter.mp3"));
@@ -137,8 +146,14 @@ public class BossState extends PlayingState {
 			if (m.getBounds().intersects(rolfBoss.getBounds())) {
 				missiles.remove(i);
 				rolfBoss.hit();
-				rolfBoss.isDead();
+				// rolfBoss.isDead();
 			}
+		}
+		if (rolfBoss.getLives() < 1) {
+			GameStateManager.player.addScore(1000);
+			rolfBoss.isDead();
+			gsm.setState(7);
+
 		}
 
 		// Check for enemy bombs - player collision.
@@ -159,15 +174,7 @@ public class BossState extends PlayingState {
 
 		rolfBoss.draw(g);
 
-		for (int i = 0; i < missiles.size(); i++) {
-			missiles.get(i).draw(g);
-		}
-
-		for (int i = 0; i < bombs.size(); i++) {
-			bombs.get(i).draw(g);
-		}
-
-		// Draw Score:
+		// Draw Score
 		g.setColor(Color.GRAY.darker());
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(10, 75, WIDTH - 10, 75);
@@ -207,6 +214,14 @@ public class BossState extends PlayingState {
 				g.setColor(Color.RED.darker());
 				g.fillRect(rolfBoss.getX() + 32 + (5 * i), rolfBoss.getY() - 8, 2, 10);
 			}
+		}
+
+		for (int i = 0; i < missiles.size(); i++) {
+			missiles.get(i).draw(g);
+		}
+
+		for (int i = 0; i < bombs.size(); i++) {
+			bombs.get(i).draw(g);
 		}
 
 		if (paused) {
@@ -255,7 +270,7 @@ public class BossState extends PlayingState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_PLUS) {
@@ -266,7 +281,7 @@ public class BossState extends PlayingState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_M) {
@@ -276,7 +291,7 @@ public class BossState extends PlayingState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (key == KeyEvent.VK_LEFT)

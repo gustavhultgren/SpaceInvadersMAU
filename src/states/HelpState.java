@@ -13,14 +13,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entity.Player;
 import main.GamePanel;
 import tileMap.MenuBackground;
 
 public class HelpState extends GameState {
 
 	private GameStateManager gsm;
-	private MenuBackground menuBg;
 	private Font font;
 	private BufferedImage image;
 	private MenuBackground bg;
@@ -139,7 +137,7 @@ public class HelpState extends GameState {
 				VOLUME = VOLUME - 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_PLUS) {
@@ -150,7 +148,7 @@ public class HelpState extends GameState {
 				VOLUME = VOLUME + 0.25;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 
 		if (k == KeyEvent.VK_M) {
@@ -160,7 +158,7 @@ public class HelpState extends GameState {
 				VOLUME = 1;
 			}
 			GamePanel.setVolume(VOLUME);
-			System.out.println("Volym niv�: " + VOLUME);
+			System.out.println("Volym: " + VOLUME);
 		}
 	}
 
