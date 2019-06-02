@@ -12,6 +12,13 @@ import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
 
+/**
+ * Game state reached when game is over and the player can submit their high score to the server. 
+ * Limits the user to 6 character names.
+ * 
+ * @author Tom Eriksson
+ *
+ */
 public class GameOverState extends GameState {
 
 	private String[] options = { "YES", "NO" };
@@ -159,19 +166,6 @@ public class GameOverState extends GameState {
 			gsm.setState(GameStateManager.MENUSTATE);
 		
 		}
-//		
-//		int length = (int) g.getFontMetrics().getStringBounds(gameOver, g).getWidth();
-//		g.drawString(gameOver, (700 - length) / 2, (700 / 2) - 150);
-//		
-//		String finalScore = "FINAL SCORE: ";
-//		length = (int) g.getFontMetrics().getStringBounds(finalScore, g).getWidth();
-//		g.drawString(finalScore, (700 - length) / 2, (700 / 2));
-//		g.setColor(Color.GREEN);
-//		g.drawString("" + player.getScore(), 490, (700 / 2));
-
-//		String exitMessage = "PRESS ESC TO GO BACK TO MENU";
-//		length = (int) g.getFontMetrics().getStringBounds(exitMessage, g).getWidth();
-//		g.drawString(exitMessage, (700 - length) / 2, 600);
 	}
 
 	@Override

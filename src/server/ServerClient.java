@@ -16,7 +16,12 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-// FFJFJ
+/**
+ * Server that takes requests from games and sends back a LeaderBoard response object containing the lists.
+ * 
+ * @author Tom Eriksson
+ *
+ */
 public class ServerClient {
 	private Connection connection = new Connection();
 	private ServerSocket serverSocket;
@@ -25,6 +30,7 @@ public class ServerClient {
 	private LinkedList<PlayerScore> mauList;
 	private JFrame frame;
 
+	//Initiates variables and reads saved lists from files.
 	public ServerClient(int port, int nbrOfThreads) throws IOException {
 		pool = new RunOnThreadN(nbrOfThreads);
 		list = readScoreFromFile("savedScores.dat");
@@ -34,6 +40,8 @@ public class ServerClient {
 		connection.start();
 	}
 
+	// Starts UI and adds a listener for the closing of the window. If the window is closing then the current lists
+	// gets writen to the files. 
 	public void start() {
 		frame = new JFrame();
 		frame.setBounds(0, 0, 400, 400);
@@ -52,6 +60,7 @@ public class ServerClient {
 		});
 	}
 
+	// Writes the list to file.
 	private synchronized void writeListToFile(String filename, LinkedList<PlayerScore> list) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serverFiles/" + filename));) {
 			oos.writeObject(list);
@@ -60,7 +69,7 @@ public class ServerClient {
 			e.printStackTrace();
 		}
 	}
-
+	//Reads list from file.
 	private synchronized LinkedList<PlayerScore> readScoreFromFile(String filename) {
 		LinkedList<PlayerScore> list = null;
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serverFiles/" + filename));) {
@@ -85,6 +94,7 @@ public class ServerClient {
 		return mauList;
 	}
 
+	// Adds a PlayerScore object to the correct list and sorts the list using the playerScore comparable.
 	private synchronized void addAndSort(PlayerScore p) {
 
 		if (p.isMAUScore()) {
@@ -96,6 +106,7 @@ public class ServerClient {
 		}
 	}
 
+	// Adds a connected user to the pool to handle. 
 	private class Connection extends Thread {
 		public void run() {
 			System.out.println("Server running, port: " + serverSocket.getLocalPort());
@@ -110,6 +121,8 @@ public class ServerClient {
 		}
 	}
 
+	// Runnable that reads for a playerScore object, and sends a response back. 
+	// If name is empty, then send only the lists.
 	private class ClientHandler implements Runnable {
 		private Socket socket;
 

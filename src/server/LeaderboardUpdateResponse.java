@@ -3,8 +3,16 @@ package server;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+/**
+ * Object sent from server to client with sorted lists of PlayerScore elements.
+ * @author Tom Eriksson
+ *
+ */
 public class LeaderboardUpdateResponse implements Serializable {
+	// List of scores not recorded on school wifi.
 	private PlayerScore[] scoreList = new PlayerScore[100];
+	
+	// List of scores recorded on school wifi.
 	private PlayerScore[] scoreListMAU = new PlayerScore[100];
 
 	public LeaderboardUpdateResponse(LinkedList<PlayerScore> list, LinkedList<PlayerScore> mauList) {

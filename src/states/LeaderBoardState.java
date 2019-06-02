@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -14,6 +15,12 @@ import audio.AudioPlayer;
 import main.GamePanel;
 import server.PlayerScore;
 import tileMap.MenuBackground;
+/**
+ * Game state displaying high scores requested from the server. Using arrow keys 
+ * the user can navigate between high scores globaly and in school.
+ * @author Tom Eriksson
+ *
+ */
 
 public class LeaderBoardState extends GameState {
 
@@ -36,6 +43,7 @@ public class LeaderBoardState extends GameState {
 		init();
 	}
 
+	// Request the latest scores registered on the server.
 	public synchronized void getScore() {
 		client.requestList();
 		scoreList = client.getScoreList();
@@ -79,7 +87,9 @@ public class LeaderBoardState extends GameState {
 			System.exit(0);
 		}
 	}
-
+	
+	// If the  y-coordinate of the selected highscore superseeds the lowest 
+	// part of the game window (currently displaying) return true.
 	private boolean isLastSelectionInFrame(int currentChoiceInTable, int yViewCord) {
 		if ((-yViewCord + 220 + currentChoiceInTable * 40 - 20) >= -yViewCord + HEIGHT) {
 			return true;
@@ -88,6 +98,8 @@ public class LeaderBoardState extends GameState {
 		}
 	}
 
+	// If the  y-coordinate of the selected highscore is less then highest 
+	// part of the game window (currently displaying) return true.
 	private boolean isFirstSelectionInFrame(int currentChoiceInTable, int yViewCord) {
 		if ((currentChoiceInTable * 40) <= -yViewCord - 20) {
 			return true;

@@ -18,7 +18,7 @@ import tileMap.MenuBackground;
 
 /**
  * 
- * @author Hannes Granberg, Tom Eriksson, Gustav Georgsson
+ * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson, Hannes Granberg.
  */
 
 public class MenuState extends GameState {
