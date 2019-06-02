@@ -3,6 +3,12 @@ package states;
 import entity.Player;
 import main.GamePanel;
 
+/**
+ * This class represents a manager which handles which state the user is in.
+ * The GameStateManager updates and draw the current active state in GamePanel.
+ * @author Gustav Georgsson, Gustav Hultgren, Tom Eriksson
+ *
+ */
 public class GameStateManager {
 
 	private GameState[] gameStates;

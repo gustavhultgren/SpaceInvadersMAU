@@ -26,7 +26,8 @@ import main.GamePanel;
 import tileMap.MenuBackground;
 
 /**
- * 
+ * This class represents the state where the actual game is running.
+ * It is in this class that most game logic take place.
  * @author Gustav Hultgren, Tom Eriksson, Gustav Georgsson
  */
 public class PlayingState extends GameState {

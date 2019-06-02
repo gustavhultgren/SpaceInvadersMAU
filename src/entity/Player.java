@@ -205,7 +205,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * This method is called in class GamePanel. It makes the player move and adding
+	 * This method is called in class PlayingState. It makes the player move and adding
 	 * missiles to the list every time the player fires.
 	 */
 	public void update() {
@@ -255,7 +255,7 @@ public class Player extends Entity {
 		}
 	}
 
-	// This method is called in the class GamePanel. It draws the player.
+	// This method is called in the class PlayingState. It draws the player.
 	public void draw(Graphics2D g) {
 		if (shieldActivated) {
 			g.drawImage(shieldImage, null, x - 64, y - 64);

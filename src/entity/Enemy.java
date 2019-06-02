@@ -99,7 +99,7 @@ public class Enemy extends Entity {
 	}
 
 	/**
-	 * This method is called in class GamePanel to update the enemy.
+	 * This method is called in class PlayingState to update the enemy.
 	 * 
 	 * @param direction - sets the direction of enemy. + for right and - for left.
 	 * @param isShooter
