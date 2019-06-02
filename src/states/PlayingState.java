@@ -91,7 +91,7 @@ public class PlayingState extends GameState {
 		 * good.
 		 */
 		enemies = new LinkedList<LinkedList<Enemy>>();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			LinkedList<Enemy> row;
 			enemies.add(row = new LinkedList<Enemy>());
 			for (int j = 0; j < 8; j++) {
@@ -285,7 +285,7 @@ public class PlayingState extends GameState {
 
 			/////////////////////////////
 
-			if (nbrLevels == 1) {
+			if (nbrLevels == 2) {
 				gsm.setState(GameStateManager.BOSSTATE);
 
 				nbrLevels = 0;
@@ -368,7 +368,7 @@ public class PlayingState extends GameState {
 
 		}
 
-		if (nbr == 6) {
+		if (nbr == 24) {
 			gsm.setState(GameStateManager.INTERMISSIONSTATE);
 			gsm.setRunning(false);
 			enemies = newEnemies;

@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Graphics2D g;
 	
 	private static AudioPlayer bgMusic;
+
 	private GameStateManager gsm;
 
 	/**
@@ -51,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		setFocusable(true);
 		requestFocus();
-		bgMusic = new AudioPlayer("/music/si.mp3");
+		bgMusic = new AudioPlayer("/music/Mega.mp3");
 
 		bgMusic.loop();
 	}
@@ -151,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	public static void setVolume(double vol) {
 
-//		bgMusic.setVolume(vol);
+		bgMusic.setVolume(vol);
 
 	}
 }

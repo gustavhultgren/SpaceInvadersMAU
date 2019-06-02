@@ -248,7 +248,7 @@ public class Player extends Entity {
 
 					PlayingState.missiles.add(new Missile(270, x, y, 3, 24, true, Color.GREEN));
 				} else {
-					BossState.missiles.add(new Missile(270, x, y, 3, 12, false, Color.GREEN));
+					BossState.missiles.add(new Missile(270, x, y, 3, 12, true, Color.GREEN));
 
 				}
 			}
