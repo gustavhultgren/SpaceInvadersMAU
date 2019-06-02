@@ -13,9 +13,11 @@ import main.GamePanel;
 import tileMap.MenuBackground;
 
 /**
- * Klass som fungerar som ett intermission mellan varje ny nivå som börjar.
+ * Class works as an information state between 
+ * each state. Tells the player the level 
+ * they're on and other information. 
  * 
- * @author hannesgranberg & Gustav Georgsson
+ * @author Hannes Granberg & Gustav Georgsson
  *
  */
 
@@ -51,6 +53,7 @@ public class IntermissionState extends GameState {
 
 			bg = new MenuBackground("/images/playingBG.png", 1);
 			bg.setVector(-0.4, 0);
+			
 			STATECOUNTER++;
 
 		} catch (IOException e) {

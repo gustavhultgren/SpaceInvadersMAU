@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * @author Gustav Georgsson & Tom Eriksson
+ */
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -20,7 +23,7 @@ public class PurpleShip extends Enemy {
 
 	private boolean slow;
 
-	private BufferedImage rolf;
+	private BufferedImage spaceShip;
 
 	/**
 	 * When a Enemy-object is created it gets a x-value and y-value. The firing
@@ -39,7 +42,7 @@ public class PurpleShip extends Enemy {
 		this.firingDelay = firingDelay;
 
 		try {
-			rolf = ImageIO.read(getClass().getResourceAsStream("/images/Rymdskepp.png"));
+			spaceShip = ImageIO.read(getClass().getResourceAsStream("/images/Rymdskepp.png"));
 
 		} catch (Exception e) {
 
@@ -109,6 +112,6 @@ public class PurpleShip extends Enemy {
 
 	public void draw(Graphics2D g) {
 		if (!isDead())
-			g.drawImage(rolf, null, x, y);
+			g.drawImage(spaceShip, null, x, y);
 	}
 }

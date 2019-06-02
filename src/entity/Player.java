@@ -87,7 +87,6 @@ public class Player extends Entity {
 
 	public void activateRaygun(LinkedList<PowerUp> list, int element) {
 		if (raygunActivated == false) {
-			System.out.println("Kör raygun");
 			raygunActivated = true;
 			Timer timer = new Timer();
 			TimerTask task = new TimerTask() {

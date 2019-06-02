@@ -1,6 +1,17 @@
 package states;
 
+/**
+ *  class that handles when player enters
+ *  the boss level. Class is similar to 
+ *  playingState. But with key differences
+ *  to the firing, drawing of enemy.
+ *  
+ *  @author Joakim Thiman, Gustav Georgsson, Tom Eriksson & Gustav Hultgren
+ * 
+ */
+
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -233,7 +244,7 @@ public class BossState extends PlayingState {
 		else {
 			frameCounter = 0;
 		}
-		
+
 		for (int i = 0; i < Player.savedPowerUps.size(); i++) {
 			Player.savedPowerUps.get(i).draw(g, 20 + i * 55, 660, 50, 26);
 		}
@@ -258,6 +269,8 @@ public class BossState extends PlayingState {
 	/**
 	 * The keyPressed and keyReleased-method is responsible to handle key events to
 	 * make the player move and fire missiles.
+	 * 
+	 * Key pressed also adjust the volume.
 	 */
 	@Override
 	public void keyPressed(int key) {
